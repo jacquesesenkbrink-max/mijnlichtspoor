@@ -1,0 +1,467 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Mijn Lichtspoor - Vind rust, richting en inspiratie door middel van christelijke meditaties, gebed en overdenkingen.">
+    <title>Mijn Lichtspoor - Christelijke Meditaties</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Lato:wght@300;400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <style>
+        :root {
+            --bg-color: #fdfdfb;
+            --text-main: #2d3436;
+            --accent-gold: #ffcf40;
+            --accent-soft: #fbf7e6;
+            --dark-blue: #1e272e;
+            
+            /* Thema kleuren voor de reizen */
+            --highlight-purple: #9b59b6; 
+            --highlight-blue: #3498db;   
+            --highlight-green: #27ae60;
+        }
+
+        body {
+            margin: 0;
+            font-family: 'Lato', sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            line-height: 1.7;
+        }
+
+        h1, h2, h3 {
+            font-family: 'Playfair Display', serif;
+            color: var(--dark-blue);
+        }
+
+        /* --- HERO SECTIE --- */
+        header {
+            background: linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.2)), url('https://images.unsplash.com/photo-1500322969630-a26ab6eb64cc?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=80');
+            background-size: cover;
+            background-position: center;
+            height: 85vh;
+            height: 85dvh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            color: white;
+            padding: 20px;
+        }
+
+        .hero-logo {
+            font-size: clamp(2.5rem, 5vw, 4rem);
+            font-weight: 700;
+            margin-bottom: 10px;
+            text-shadow: 0 4px 20px rgba(0,0,0,0.5);
+            border-bottom: 3px solid var(--accent-gold);
+            padding-bottom: 15px;
+        }
+
+        .hero-sub {
+            font-size: 1.4rem;
+            max-width: 700px;
+            font-style: italic;
+            margin-bottom: 30px;
+            text-shadow: 0 2px 10px rgba(0,0,0,0.6);
+        }
+
+        .verse-box {
+            background: rgba(255, 255, 255, 0.85);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            color: var(--dark-blue);
+            padding: 25px 35px;
+            border-radius: 8px;
+            max-width: 550px;
+            border-left: 5px solid var(--accent-gold);
+            margin-top: 30px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+        }
+
+        .verse-text {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.2rem;
+            font-style: italic;
+            line-height: 1.6;
+        }
+
+        .verse-ref {
+            display: block;
+            margin-top: 15px;
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            font-weight: bold;
+            color: #b58912;
+        }
+
+        /* --- CONTENT --- */
+        .content-section {
+            padding: 80px 20px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .section-title {
+            text-align: center;
+            font-size: 2.2rem;
+            margin-bottom: 40px;
+            position: relative;
+        }
+        
+        .section-title::after {
+            content: '';
+            display: block;
+            width: 80px;
+            height: 4px;
+            background: var(--accent-gold);
+            margin: 15px auto 0;
+            border-radius: 2px;
+        }
+
+        .journeys-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 40px;
+        }
+
+        .card {
+            background: white;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.06);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            border-top: 5px solid transparent;
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+        }
+
+        .card:hover, .card:focus-within {
+            transform: translateY(-8px);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.12);
+            border-top: 5px solid var(--accent-gold);
+        }
+
+        .card.purple-theme:hover { border-top-color: var(--highlight-purple); }
+        .card.blue-theme:hover { border-top-color: var(--highlight-blue); }
+        .card.green-theme:hover { border-top-color: var(--highlight-green); }
+
+        .card-img {
+            height: 240px;
+            background-color: #eee;
+            background-size: cover;
+            background-position: center;
+            position: relative;
+        }
+
+        .card-body {
+            padding: 30px;
+            display: flex;
+            flex-direction: column;
+            flex-grow: 1;
+        }
+
+        .card-tag {
+            background-color: var(--accent-soft);
+            color: #bfa028;
+            padding: 6px 14px;
+            border-radius: 50px;
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            font-weight: 800;
+            letter-spacing: 1px;
+            align-self: flex-start;
+            margin-bottom: 15px;
+        }
+
+        .card.purple-theme .card-tag { background-color: #f4ecf7; color: #8e44ad; }
+        .card.blue-theme .card-tag { background-color: #eaf2f8; color: #2980b9; }
+        .card.green-theme .card-tag { background-color: #e9f7ef; color: #27ae60; }
+
+        .card h3 {
+            margin: 0 0 15px;
+            font-size: 1.6rem;
+            line-height: 1.3;
+        }
+
+        .card p {
+            font-size: 1rem;
+            color: #636e72;
+            margin-bottom: 25px;
+            line-height: 1.6;
+            flex-grow: 1;
+        }
+
+        .read-btn {
+            display: inline-block;
+            text-decoration: none;
+            color: var(--dark-blue);
+            font-weight: 700;
+            font-size: 0.95rem;
+            border-bottom: 2px solid var(--accent-gold);
+            padding-bottom: 4px;
+            transition: 0.3s;
+            align-self: flex-start;
+        }
+        
+        .read-btn:hover { color: #d4a017; border-color: #d4a017; }
+        .card.purple-theme .read-btn:hover { color: #8e44ad; border-color: #8e44ad; }
+        .card.blue-theme .read-btn:hover { color: #2980b9; border-color: #2980b9; }
+        .card.green-theme .read-btn:hover { color: #27ae60; border-color: #27ae60; }
+
+        /* --- MEEGEVER SECTIE --- */
+        .quote-section {
+            background-color: var(--accent-soft);
+            padding: 100px 20px;
+            text-align: center;
+            border-top: 1px solid #f0e6d2;
+            position: relative;
+        }
+
+        .quote-icon {
+            font-size: 2rem;
+            color: var(--accent-gold);
+            margin-bottom: 25px;
+            opacity: 0.8;
+        }
+
+        .quote-text {
+            font-family: 'Playfair Display', serif;
+            font-size: clamp(1.5rem, 4vw, 2.2rem);
+            color: var(--dark-blue);
+            max-width: 900px;
+            margin: 0 auto;
+            line-height: 1.5;
+            font-style: italic;
+        }
+
+        .quote-ref {
+            margin-top: 30px;
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            font-weight: 800;
+            color: #bfa028;
+            letter-spacing: 2px;
+        }
+
+        /* --- FOOTER --- */
+        footer {
+            background-color: var(--dark-blue);
+            color: white;
+            text-align: center;
+            padding: 60px 20px 40px; /* Iets minder padding onderkant */
+            margin-top: 0; /* Sluit direct aan op de quote sectie */
+        }
+        
+        .footer-logo { font-family: 'Playfair Display', serif; font-size: 1.5rem; color: var(--accent-gold); margin-bottom: 30px; }
+        .footer-text { opacity: 0.5; font-size: 0.85rem; margin-top: 30px; }
+
+        /* Privacy Box Styles */
+        .privacy-box {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 8px;
+            padding: 20px;
+            max-width: 600px;
+            margin: 0 auto;
+            font-size: 0.9rem;
+            color: rgba(255, 255, 255, 0.9);
+            line-height: 1.6;
+        }
+        
+        .privacy-box i { color: var(--accent-gold); margin-right: 8px; }
+        .privacy-warning { color: #aaa; font-size: 0.85rem; margin-top: 5px; display: block; font-style: italic; }
+
+        @media (max-width: 600px) {
+            .hero-logo { font-size: 2.5rem; }
+            .section-title { font-size: 1.8rem; }
+            .journeys-grid { grid-template-columns: 1fr; }
+            .quote-section { padding: 60px 20px; }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="hero-logo">Mijn Lichtspoor</div>
+        <div class="hero-sub">Vind rust, richting en inspiratie in Gods nabijheid</div>
+        
+        <div class="verse-box">
+            <span class="verse-text">"Uw woord is een lamp voor mijn voet en een licht op mijn pad."</span>
+            <span class="verse-ref">Psalm 119:105</span>
+        </div>
+    </header>
+
+    <section class="content-section">
+        <h2 class="section-title">Kies jouw Reis</h2>
+        <p style="text-align: center; margin-bottom: 60px; color: #777; max-width: 600px; margin-left:auto; margin-right:auto;">
+            Deze uitgebreide trajecten helpen je om de diepte in te gaan. Elke dag een nieuwe stap, elke dag een nieuw inzicht.
+        </p>
+
+        <div class="journeys-grid">
+            
+            <article class="card purple-theme">
+                <div class="card-img" role="img" aria-label="Zachte zonsopkomst in paarse tinten" 
+                     style="background-image: url('https://images.unsplash.com/photo-1495539406979-bf61750d38ad?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80');">
+                </div>
+                <div class="card-body">
+                    <span class="card-tag">31 Dagen</span>
+                    <h3>Licht & Toekomst</h3>
+                    <p>Een maand van vernieuwing. Laat het oude los en wandel in Gods licht naar de toekomst. Met dagboekfunctie.</p>
+                    <a href="licht-toekomst.html" class="read-btn">Start deze Reis &rarr;</a>
+                </div>
+            </article>
+
+            <article class="card green-theme">
+                <div class="card-img" role="img" aria-label="Zonovergoten bospad" 
+                     style="background-image: url('https://images.unsplash.com/photo-1502082553048-f009c37129b9?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80');">
+                </div>
+                <div class="card-body">
+                    <span class="card-tag">31 Dagen</span>
+                    <h3>De Innerlijke Reis</h3>
+                    <p>Een reis van 'weten' naar 'kennen'. Ontdek rust in een wereld vol ruis en leer luisteren naar wat je hart fluistert.</p>
+                    <a href="innerlijke-reis.html" class="read-btn">Start deze Reis &rarr;</a>
+                </div>
+            </article>
+
+            <article class="card blue-theme">
+                <div class="card-img" role="img" aria-label="Persoon kijkend over weids landschap" 
+                     style="background-image: url('https://images.unsplash.com/photo-1518173946687-a4c8892bbd9f?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80');">
+                </div>
+                <div class="card-body">
+                    <span class="card-tag">30 Dagen</span>
+                    <h3>Je bent Waardevol</h3>
+                    <p>Ontdek hoe God naar je kijkt. Over genade, imperfectie en onvoorwaardelijke liefde. Wissel tussen thema's.</p>
+                    <a href="waardevol.html" class="read-btn">Start deze Reis &rarr;</a>
+                </div>
+            </article>
+
+        </div>
+    </section>
+
+    <section class="quote-section">
+        <i class="fas fa-dove quote-icon"></i>
+        <blockquote class="quote-text">
+            "Vrede laat Ik u, Mijn vrede geef Ik u; niet zoals de wereld die geeft, geef Ik die u. Laat uw hart niet ontroerd worden en niet bevreesd zijn."
+        </blockquote>
+        <div class="quote-ref">Johannes 14:27</div>
+    </section>
+
+    <section class="feedback-section">
+        <div class="feedback-container">
+            <h3><i class="far fa-comment-dots"></i> Deel je ervaring</h3>
+            <p>Heb je iets gehad aan deze reizen? Of heb je een tip ter verbetering? <br>Ik hoor het graag. Je mag dit anoniem versturen.</p>
+            
+            <form action="https://formsubmit.co/JOUW@EMAIL.ADRES" method="POST" class="feedback-form">
+                
+                <input type="hidden" name="_subject" value="Nieuwe feedback via Mijn Lichtspoor">
+                <input type="hidden" name="_captcha" value="false">
+                <input type="hidden" name="_next" value="https://mijnlichtspoor.nl/index.html"> <textarea name="bericht" placeholder="Schrijf hier je bericht..." required></textarea>
+                
+                <div class="form-row">
+                    <input type="email" name="email" placeholder="Je e-mail (optioneel)">
+                    <button type="submit">Verstuur Feedback</button>
+                </div>
+            </form>
+        </div>
+    </section>
+
+    <style>
+        .feedback-section {
+            background-color: white;
+            padding: 60px 20px;
+            border-top: 1px solid #eee;
+        }
+
+        .feedback-container {
+            max-width: 600px;
+            margin: 0 auto;
+            text-align: center;
+        }
+
+        .feedback-container h3 {
+            font-size: 1.8rem;
+            color: var(--dark-blue);
+            margin-bottom: 10px;
+        }
+
+        .feedback-container p {
+            color: #666;
+            margin-bottom: 30px;
+            font-size: 0.95rem;
+        }
+
+        .feedback-form textarea {
+            width: 100%;
+            height: 100px;
+            padding: 15px;
+            border: 2px solid #eee;
+            border-radius: 8px;
+            font-family: 'Lato', sans-serif;
+            font-size: 1rem;
+            margin-bottom: 15px;
+            box-sizing: border-box; /* Zorgt dat padding binnen de breedte valt */
+            resize: vertical;
+        }
+
+        .feedback-form textarea:focus, 
+        .feedback-form input:focus {
+            outline: none;
+            border-color: var(--accent-gold);
+        }
+
+        .form-row {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .feedback-form input[type="email"] {
+            flex: 1;
+            padding: 12px;
+            border: 2px solid #eee;
+            border-radius: 8px;
+            font-family: 'Lato', sans-serif;
+            min-width: 200px;
+        }
+
+        .feedback-form button {
+            background-color: var(--dark-blue);
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: 0.3s;
+            white-space: nowrap;
+        }
+
+        .feedback-form button:hover {
+            background-color: var(--accent-gold);
+            color: var(--dark-blue);
+        }
+    </style>
+
+    <footer>
+        <div class="footer-logo">Mijn Lichtspoor</div>
+        
+        <div class="privacy-box">
+            <div><i class="fas fa-user-shield"></i> <strong>Privacy & Veiligheid</strong></div>
+            <p style="margin: 5px 0;">
+                Alles wat je schrijft, wordt veilig <strong>lokaal op dit apparaat</strong> opgeslagen. Wij kunnen niets inzien, lezen of bewaren. Jouw gedachten zijn alleen van jou.
+            </p>
+            <span class="privacy-warning">Let op: Als je je browsergeschiedenis of cache wist, kunnen je notities verloren gaan.</span>
+        </div>
+
+        <p class="footer-text">&copy; 2024 - Meditaties op Christelijke grondslag.<br>Gemaakt met liefde en toewijding.</p>
+    </footer>
+
+</body>
+</html>
