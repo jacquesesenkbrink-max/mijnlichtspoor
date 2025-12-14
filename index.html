@@ -23,6 +23,8 @@
             --highlight-purple: #9b59b6; 
             --highlight-blue: #3498db;   
             --highlight-green: #27ae60;
+            /* Nieuw: Kleur voor Erfenis van Hoop (Leisteenblauw uit sub-pagina) */
+            --highlight-slate: #2e4053; 
         }
 
         body {
@@ -148,9 +150,11 @@
             border-top: 5px solid var(--accent-gold);
         }
 
+        /* Thema hover borders */
         .card.purple-theme:hover { border-top-color: var(--highlight-purple); }
         .card.blue-theme:hover { border-top-color: var(--highlight-blue); }
         .card.green-theme:hover { border-top-color: var(--highlight-green); }
+        .card.slate-theme:hover { border-top-color: var(--highlight-slate); }
 
         .card-img {
             height: 240px;
@@ -180,9 +184,12 @@
             margin-bottom: 15px;
         }
 
+        /* Thema Tags */
         .card.purple-theme .card-tag { background-color: #f4ecf7; color: #8e44ad; }
         .card.blue-theme .card-tag { background-color: #eaf2f8; color: #2980b9; }
         .card.green-theme .card-tag { background-color: #e9f7ef; color: #27ae60; }
+        /* Nieuw Slate Thema: gebruikt crème achtergrond en slate tekst */
+        .card.slate-theme .card-tag { background-color: #fdf2e9; color: #2e4053; }
 
         .card h3 {
             margin: 0 0 15px;
@@ -214,6 +221,7 @@
         .card.purple-theme .read-btn:hover { color: #8e44ad; border-color: #8e44ad; }
         .card.blue-theme .read-btn:hover { color: #2980b9; border-color: #2980b9; }
         .card.green-theme .read-btn:hover { color: #27ae60; border-color: #27ae60; }
+        .card.slate-theme .read-btn:hover { color: #2e4053; border-color: #2e4053; }
 
         /* --- MEEGEVER SECTIE --- */
         .quote-section {
@@ -306,6 +314,18 @@
 
         <div class="journeys-grid">
             
+            <article class="card slate-theme">
+                <div class="card-img" role="img" aria-label="Klassiek landschap met lichtval over bergen" 
+                     style="background-image: url('https://images.unsplash.com/photo-1506744038136-46273834b3fb?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80');">
+                </div>
+                <div class="card-body">
+                    <span class="card-tag">31 Dagen</span>
+                    <h3>Erfenis van Hoop</h3>
+                    <p>Een klassieke reis langs diepe geestelijke wortels. Put kracht uit het verleden voor een hoopvolle toekomst.</p>
+                    <a href="maand-van-hoop.html" class="read-btn">Start deze Reis &rarr;</a>
+                </div>
+            </article>
+
             <article class="card purple-theme">
                 <div class="card-img" role="img" aria-label="Zachte zonsopkomst in paarse tinten" 
                      style="background-image: url('https://images.unsplash.com/photo-1495539406979-bf61750d38ad?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80');">

@@ -1,0 +1,633 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>31 Dagen: Erfenis van Hoop</title>
+    <style>
+        :root {
+            /* Heritage & Hope Kleurenpalet (ZDA Pioniers Stijl) */
+            --primary-color: #2e4053; /* Diep Leisteenblauw / Donkergrijs */
+            --primary-light: #5d6d7e; /* Staalblauw */
+            --accent-color: #d68910;  /* Oud Goud / Amber */
+            --paper-bg: #fdf2e9;      /* Zacht crème / Oud papier */
+            --glass-bg: rgba(255, 255, 255, 0.96); 
+            
+            /* Gradients */
+            --btn-gradient: linear-gradient(135deg, #34495e 0%, #212f3c 100%);
+            --btn-hover: linear-gradient(135deg, #5d6d7e 0%, #2e4053 100%);
+            
+            --text-color: #17202a;    /* Bijna zwart */
+            --radius: 6px;            /* Klassieke, licht afgeronde hoeken */
+            --transition: all 0.4s ease;
+        }
+
+        body, html {
+            margin: 0;
+            padding: 0;
+            height: 100%;
+            /* Klassiek lettertype voor een statige uitstraling */
+            font-family: 'Merriweather', 'Times New Roman', serif; 
+            color: var(--text-color);
+            background-color: var(--paper-bg);
+            overflow-x: hidden;
+            transition: background 1s ease;
+        }
+
+        /* Achtergrondlaag voor foto's */
+        #bg-image {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -2;
+            background-size: cover;
+            background-position: center;
+            opacity: 0; 
+            transition: opacity 1s ease-in-out;
+            /* Filter voor een iets warmere, historische sfeer */
+            filter: sepia(15%) contrast(95%) brightness(90%); 
+        }
+        
+        #bg-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            background: rgba(253, 242, 233, 0.6); /* Crème overlay */
+            backdrop-filter: blur(0px);
+            transition: backdrop-filter 1s ease;
+        }
+
+        .container {
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .card {
+            background: var(--glass-bg);
+            border-radius: var(--radius);
+            padding: 50px 40px;
+            max-width: 650px;
+            width: 100%;
+            /* Klassieke schaduw, als een boek op tafel */
+            box-shadow: 0 15px 35px rgba(23, 32, 42, 0.2); 
+            border: 1px solid rgba(46, 64, 83, 0.1);
+            position: relative;
+            animation: floatUp 0.8s ease-out;
+            border-top: 5px solid var(--primary-color); /* Boekband effect */
+        }
+
+        @keyframes floatUp {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .top-nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+            gap: 10px;
+            border-bottom: 1px solid rgba(0,0,0,0.1);
+            padding-bottom: 15px;
+        }
+
+        .nav-tools {
+            display: flex;
+            gap: 10px;
+        }
+
+        .tool-btn {
+            background: white;
+            border: 1px solid var(--primary-color);
+            color: var(--primary-color);
+            padding: 6px 15px;
+            border-radius: 4px;
+            font-size: 0.75rem;
+            cursor: pointer;
+            font-family: 'Helvetica Neue', sans-serif;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-weight: bold;
+            transition: var(--transition);
+        }
+
+        .tool-btn:hover {
+            background: var(--primary-color);
+            color: white;
+        }
+
+        .tool-btn.active {
+            background: var(--primary-color);
+            color: white;
+        }
+
+        h1 {
+            color: var(--primary-color);
+            font-size: 2rem;
+            margin: 10px 0;
+            font-weight: normal;
+            font-style: italic;
+            border-bottom: 2px solid var(--accent-color); /* Gouden onderstreping */
+            display: inline-block;
+            padding-bottom: 8px;
+        }
+
+        .day-counter {
+            font-family: 'Helvetica Neue', sans-serif;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            font-size: 0.75rem;
+            color: #fff;
+            background: var(--accent-color);
+            padding: 5px 12px;
+            border-radius: 2px;
+            display: inline-block;
+            font-weight: bold;
+        }
+
+        .quote-box {
+            font-size: 1.3rem;
+            line-height: 1.6;
+            text-align: center;
+            margin-bottom: 25px;
+            color: #17202a;
+            font-style: italic;
+            padding: 0 10px;
+            font-family: 'Georgia', serif;
+        }
+
+        .reference {
+            display: block;
+            margin-top: 15px;
+            font-size: 0.85rem;
+            color: var(--primary-light); 
+            text-transform: uppercase;
+            font-family: sans-serif;
+            font-style: normal;
+            font-weight: bold;
+            letter-spacing: 1px;
+        }
+
+        .action-box {
+            background-color: #f4f6f6;
+            border-left: 4px solid var(--primary-color);
+            border-radius: 4px;
+            padding: 20px;
+            margin-bottom: 25px;
+            box-shadow: inset 0 0 10px rgba(0,0,0,0.02);
+        }
+
+        .action-title {
+            font-weight: bold;
+            color: var(--primary-color);
+            display: block;
+            margin-bottom: 8px;
+            font-family: sans-serif;
+            text-transform: uppercase;
+            font-size: 0.75rem;
+            letter-spacing: 1px;
+        }
+
+        textarea {
+            width: 100%;
+            height: 140px;
+            padding: 15px;
+            border-radius: 4px;
+            border: 1px solid #d5d8dc;
+            background-color: #fff;
+            font-family: 'Merriweather', serif;
+            font-size: 1rem;
+            color: var(--text-color);
+            margin-bottom: 20px;
+            resize: vertical;
+            box-sizing: border-box;
+            transition: var(--transition);
+        }
+
+        textarea:focus {
+            outline: none;
+            border-color: var(--accent-color);
+            box-shadow: 0 0 8px rgba(214, 137, 16, 0.2);
+        }
+
+        .btn-primary {
+            background: var(--btn-gradient);
+            color: white;
+            border: none;
+            padding: 12px 30px;
+            font-size: 1rem;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: var(--transition);
+            width: 100%;
+            font-family: 'Helvetica Neue', sans-serif;
+            font-weight: 600;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 12px rgba(0,0,0,0.2);
+        }
+        
+        .btn-success {
+            background: linear-gradient(135deg, #27ae60 0%, #1e8449 100%) !important;
+            pointer-events: none;
+        }
+
+        .night-thought {
+            margin-top: 25px;
+            background: #1c2833; /* Donker nachtblauw */
+            color: #fad7a0;       /* Zacht goud */
+            padding: 25px;
+            border-radius: 4px;
+            text-align: center;
+            display: none;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.3);
+            animation: fadeIn 0.5s;
+            border: 1px solid var(--accent-color);
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; } to { opacity: 1; }
+        }
+
+        .nav-buttons {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 30px;
+            border-top: 1px solid rgba(0,0,0,0.1);
+            padding-top: 15px;
+        }
+
+        .nav-btn {
+            background: transparent;
+            border: none;
+            color: #999;
+            font-weight: bold;
+            cursor: pointer;
+            font-family: sans-serif;
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            transition: 0.3s;
+        }
+        
+        .nav-btn:hover:not(:disabled) {
+            color: var(--primary-color);
+            letter-spacing: 1px;
+        }
+
+        .nav-btn:disabled {
+            opacity: 0.3;
+            cursor: default;
+        }
+
+        .export-section {
+            text-align: center;
+            margin-top: 30px;
+        }
+        .btn-export {
+            background: white;
+            color: var(--primary-color);
+            border: 1px solid var(--primary-color);
+            padding: 8px 20px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 0.75rem;
+            font-family: sans-serif;
+            text-transform: uppercase;
+            font-weight: bold;
+            transition: var(--transition);
+        }
+        .btn-export:hover {
+            background: var(--primary-color);
+            color: white;
+        }
+
+        /* Print Stijlen */
+        @media print {
+            body * { visibility: hidden; }
+            #printable-journal, #printable-journal * { visibility: visible; }
+            #printable-journal {
+                position: absolute;
+                left: 0;
+                top: 0;
+                width: 100%;
+                background: white;
+                padding: 40px;
+                color: black;
+                font-family: 'Times New Roman', serif;
+            }
+            .print-entry {
+                page-break-inside: avoid;
+                margin-bottom: 40px;
+                border-bottom: 1px solid #ddd;
+                padding-bottom: 20px;
+            }
+            .print-header { font-size: 1.4em; color: #000; margin-bottom: 5px; font-weight: bold; border-bottom: 2px solid #333; display:inline-block;}
+            .print-verse { font-style: italic; color: #333; margin-bottom: 5px; font-size: 1.1em; margin-top:10px;}
+            .print-ref { font-weight: bold; font-size: 0.8em; text-transform: uppercase; margin-bottom: 15px; display:block; color: #555;}
+            .print-note { font-family: 'Courier New', monospace; background: #f9f9f9; padding: 15px; margin-top: 10px; border-left: 3px solid #333;}
+        }
+
+        #printable-journal { display: none; }
+
+        @media (max-width: 600px) {
+            .card { padding: 30px 20px; }
+            h1 { font-size: 1.6rem; }
+            .quote-box { font-size: 1.1rem; }
+            .top-nav { justify-content: center; }
+        }
+    </style>
+</head>
+<body>
+
+    <div id="bg-image"></div>
+    <div id="bg-overlay"></div>
+
+    <div class="container">
+        <div class="card">
+            <header>
+                <div class="top-nav">
+                    <span class="day-counter" id="day-display">Dag 1</span>
+                    <div class="nav-tools">
+                        <button class="tool-btn" onclick="window.location.href='index.html'">🏠 Home</button>
+                      <button class="tool-btn" id="photo-toggle" onclick="toggleBackground()">📷 Achtergrond</button>
+                      <button class="tool-btn" onclick="goToCalendarDate()">★ Vandaag</button>
+                    </div>
+                </div>
+                <h1 id="theme-title">...</h1>
+            </header>
+
+            <div class="quote-box">
+                <span id="quote-text">Laden...</span>
+                <span class="reference" id="quote-author">...</span>
+            </div>
+
+            <div class="action-box">
+                <span class="action-title">Praktische Oefening:</span>
+                <span id="action-text">...</span>
+            </div>
+
+            <div id="journal-section">
+                <label for="user-notes" style="display:block; margin-bottom:10px; font-weight:bold; color:var(--primary-color); font-family:sans-serif; font-size:0.85rem; text-transform:uppercase;">Mijn overdenking:</label>
+                <textarea id="user-notes" placeholder="Wat spreekt God vandaag tot jouw hart?"></textarea>
+                <button class="btn-primary" onclick="completeDay()">Opslaan & Afsluiten</button>
+            </div>
+
+            <div id="night-section" class="night-thought">
+                <h3 style="margin-top:0; color:#d68910; font-size: 1rem; text-transform:uppercase; letter-spacing:1px;">🌙 Rust voor de nacht</h3>
+                <p id="night-text" style="font-style:italic;">...</p>
+            </div>
+
+            <div class="nav-buttons">
+                <button class="nav-btn" id="prev-btn" onclick="changeDay(-1)">← Vorige</button>
+                <button class="nav-btn" id="next-btn" onclick="changeDay(1)">Volgende →</button>
+            </div>
+
+            <div class="export-section">
+                <button class="btn-export" onclick="printJournal()">🖨️ Print Mijn Boekje</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="printable-journal">
+        <div style="text-align: center; margin-bottom: 50px;">
+            <h1 style="color:#000;">Erfenis van Hoop</h1>
+            <p>31 Dagen wandelen in het licht van Gods beloften.</p>
+        </div>
+        <div id="print-content"></div>
+    </div>
+
+    <script>
+        // De Data: Gebaseerd op ZDA Pioniers & Theologie
+        const daysData = [
+            // WEEK 1: RELATIE MET CHRISTUS
+            { theme: "Het Hart Openen", quote: "\"Bidden is het openen van het hart voor God als voor een vriend.\"", author: "Ellen G. White (Schreden naar Christus)", action: "Zoek vandaag een rustige plek en praat hardop tegen God, alsof Hij naast je zit. Vertel Hem je dag, niet als formule, maar als vriend.", night: "Je hebt vandaag gesproken met de Koning van het heelal, die jou Zijn vriend noemt." },
+            { theme: "Gods Liefde in de Natuur", quote: "\"God is liefde, staat geschreven op elke openbarstende knop, op elk blaadje van de ontluikende bloem.\"", author: "Ellen G. White", action: "Ga naar buiten. Vind één klein detail in de schepping (een blad, een wolk) en zie daarin Gods handtekening voor jou.", night: "Dezelfde Schepper die de sterren leidt, waakt vannacht over jouw ademhaling." },
+            { theme: "De Bijbel", quote: "\"De Bijbel is Gods stem die tot ons spreekt, even zeker als wanneer we Hem met onze oren zouden horen.\"", author: "Ellen G. White", action: "Lees één tekst die je al kent, maar lees hem langzaam, woord voor woord. Wat zegt Zijn stem *nu*?", night: "Zijn Woord is een lamp voor je voet, ook in het donker van de nacht." },
+            { theme: "Volharden", quote: "\"Wij hebben niets te vrezen voor de toekomst, tenzij wij vergeten hoe de Heer ons in het verleden heeft geleid.\"", author: "Ellen G. White", action: "Schrijf 3 momenten uit je leven op waarvan je nu ziet: 'Daar was God erbij', ook al voelde je dat toen misschien niet.", night: "De God van je verleden is ook de God van je toekomst." },
+            { theme: "De Gezegende Hoop", quote: "\"De komst van de Heer is de zoete hoop die mijn ziel verankert.\"", author: "William Miller", action: "Kijk naar de lucht. Stel je voor hoe het zou zijn als Hij vandaag terugkomt. Wat zou je Hem als eerste vragen?", night: "We zijn pelgrims op doorreis. Ooit zijn we echt thuis." },
+            { theme: "Geloof", quote: "\"Geloof is God op Zijn woord vertrouwen.\"", author: "A.T. Jones", action: "Is er een belofte in de Bijbel die je moeilijk vindt te geloven? Zeg hardop: 'Heer, ik geloof; kom mijn ongeloof te hulp'.", night: "Niet jouw gevoel, maar Zijn belofte is het fundament waarop je slaapt." },
+            { theme: "Rustdag", quote: "\"De Sabbat is een gouden gesp die God en Zijn volk verbindt.\"", author: "Ellen G. White", action: "Bereid je vandaag mentaal voor op rust. Wat kun je *laten* om morgen dichter bij Hem te zijn?", night: "Rust is geen leegte, het is de ruimte waarin God spreekt." },
+
+            // WEEK 2: KARAKTER & GROEI
+            { theme: "Het sterkste argument", quote: "\"Het sterkste argument voor het evangelie is een liefdevol en beminnelijk christen.\"", author: "Ellen G. White", action: "Wees vandaag bewust vriendelijk tegen iemand die dat niet 'verdient'. Wees het levende argument.", night: "Liefde overwint meer dan theologie. Je was vandaag een lichtje." },
+            { theme: "Kleine dingen", quote: "\"Het zijn de kleine dingen in het leven die het karakter vormen.\"", author: "James White", action: "Doe één huishoudelijk klusje met volledige aandacht en toewijding, als een dienst aan God.", night: "Grote heiligheid bestaat uit kleine daden van trouw." },
+            { theme: "Gezondheid", quote: "\"Zuivere lucht, zonlicht, onthouding, rust, beweging... dat zijn de ware geneesmiddelen.\"", author: "Ellen G. White", action: "Maak een wandeling van 20 minuten in de frisse lucht en dank God voor je lichaam.", night: "Je lichaam is een tempel. Rust goed uit om morgen weer te kunnen dienen." },
+            { theme: "Strijd en Overwinning", quote: "\"Elke overwinning op het 'ik' maakt de weg vlak voor hogere en nobelere overwinningen.\"", author: "J.N. Andrews", action: "Zeg vandaag 'nee' tegen één slechte gewoonte of gedachte. Vier die kleine overwinning.", night: "De strijd is de Heere's. In Hem ben je meer dan overwinnaar." },
+            { theme: "Rechtvaardiging", quote: "\"Christus in u, de hoop op heerlijkheid. Niet jij die werkt, maar Christus die in jou leeft.\"", author: "E.J. Waggoner", action: "Stop met 'proberen' een beter mens te zijn. Vraag Jezus simpelweg om Zijn leven door jou heen te leven.", night: "Zijn gerechtigheid is jouw dekmantel. Slaap gerust." },
+            { theme: "Dienstbaarheid", quote: "\"We zijn hier niet om gediend te worden, maar om te dienen.\"", author: "Ellen G. White", action: "Vraag aan iemand in je huis of op je werk: 'Kan ik iets voor je doen vandaag?'", night: "Wie geeft, ontvangt. Wie dient, lijkt op de Meester." },
+            { theme: "Moed", quote: "\"Heb goede moed; God leeft en Hij regeert.\"", author: "James White", action: "Lees Psalm 27. Laat de woorden 'De Heer is mijn licht' diep binnenkomen.", night: "De troon is niet leeg. God heeft de controle, ook als jij slaapt." },
+
+            // WEEK 3: VERDIEPING
+            { theme: "Het Kruis", quote: "\"Het offer van Christus als verzoening voor de zonde is de grote waarheid waaromheen alle andere waarheden zich scharen.\"", author: "Ellen G. White", action: "Teken of visualiseer een kruis. Leg in gedachten al je fouten van deze week aan de voet ervan.", night: "Het is volbracht. Er is geen veroordeling meer." },
+            { theme: "Invloed", quote: "\"Elke daad in ons leven is een zaadje dat vrucht draagt: goed of kwaad.\"", author: "Ellen G. White", action: "Plant vandaag een goed zaadje: stuur een bemoedigend kaartje of appje.", night: "De oogst komt later, maar het zaaien is vandaag gedaan." },
+            { theme: "Nieuw Licht", quote: "\"We moeten niet vastroesten in wat we weten. Er is altijd nieuw licht dat uit Gods Woord voortbreekt.\"", author: "Hiram Edson (vrij naar)", action: "Sta open voor een nieuw inzicht. Vraag God: 'Laat me iets zien wat ik nog niet zag'.", night: "God is oneindig. Morgen is er weer meer van Hem te ontdekken." },
+            { theme: "Vrede", quote: "\"Jezus zegt: Vrede laat Ik u. Niet de vrede die de wereld geeft, maar Mijn vrede.\"", author: "Ellen G. White", action: "Is er onrust in je hoofd? Adem diep in en fluister de naam 'Jezus'.", night: "Zijn vrede bewaakt je hart en je gedachten." },
+            { theme: "De Hoge Roeping", quote: "\"Hoger dan de hoogste menselijke gedachte reikt Gods ideaal voor Zijn kinderen.\"", author: "Ellen G. White", action: "Denk niet te klein over jezelf. God heeft een groot plan. Schrijf één droom op die je met Hem wilt bereiken.", night: "Je bent bestemd voor de hemel. Leef en slaap met die waardigheid." },
+            { theme: "Dankbaarheid", quote: "\"Niets bevordert de gezondheid van lichaam en ziel zozeer als een geest van dankbaarheid en lofprijs.\"", author: "Ellen G. White", action: "Zing (of neurie) een loflied, hoe zachtjes ook. Verander je sfeer door muziek.", night: "Een dankbaar hart is een zacht kussen." },
+            { theme: "Zelfverloochening", quote: "\"Het 'ik' is de grootste vijand die we hebben. Het moet dagelijks gekruisigd worden.\"", author: "Ellen G. White", action: "Laat vandaag je gelijk varen in een discussie, zelfs als je gelijk hebt. Kies voor vrede.", night: "Minder van jou betekent meer van Hem. Dat geeft rust." },
+
+            // WEEK 4: VOORUITBLIK
+            { theme: "De Voorbidder", quote: "\"Jezus staat in het heiligdom. Hij toont Zijn gewonde handen en pleit voor jou.\"", author: "Uriah Smith", action: "Visualiseer Jezus als je Hogepriester. Hij noemt jouw naam bij de Vader.", night: "Je hebt een Advocaat die nooit een zaak verliest." },
+            { theme: "Vertrouwen in het donker", quote: "\"Als het donker is en we God niet kunnen zien, moeten we Zijn hand vasthouden in het geloof.\"", author: "Ellen G. White", action: "Steek een kaars aan in het donker. Zie hoe klein licht groot duister breekt. Vertrouw Hem.", night: "Geloof ziet in het donker wat het oog bij daglicht mist." },
+            { theme: "Eenheid", quote: "\"Eendracht is kracht; verdeeldheid is zwakte.\"", author: "Ellen G. White", action: "Is er afstand tussen jou en een medegelovige? Doe een poging tot verbinding.", night: "Samen zijn we het lichaam van Christus." },
+            { theme: "De Wet en Liefde", quote: "\"De wet van God is een wet van liefde, en liefde is de vervulling van de wet.\"", author: "Ellen G. White", action: "Vervang het woord 'moeten' vandaag door 'mogen uit liefde'.", night: "Gehoorzaamheid is geen dwang, maar een antwoord op Zijn liefde." },
+            { theme: "Troost", quote: "\"Hij verzamelt je tranen in Zijn kruik. Geen verdriet is bij Hem onopgemerkt.\"", author: "Naar Psalm 56 / EGW", action: "Huilen mag. Wees eerlijk over je verdriet bij God.", night: "God is dichtbij degenen die gebroken van hart zijn." },
+            { theme: "Toewijding", quote: "\"Geef mij heel je hart, zegt de Heiland. Ik wil geen deel, maar alles.\"", author: "Ellen G. White", action: "Geef God de 'sleutels' van alle kamers in je hart, ook die ene die je liever op slot houdt.", night: "Volledige overgave is de enige weg naar volledige rust." },
+            { theme: "De Morgenster", quote: "\"Nog even en de morgen breekt aan. De donkerste nacht gaat vooraf aan de dageraad.\"", author: "James White", action: "Als je het moeilijk hebt, zeg dan hardop: 'Maranatha, de Heer komt'.", night: "Het wordt licht. Houd vol." },
+            
+            // LAATSTE DAGEN
+            { theme: "Genade alleen", quote: "\"Wij hebben niets in onszelf om op te roemen. Onze enige hoop is de gerechtigheid van Christus.\"", author: "Ellen G. White", action: "Stop met presteren voor God. Rust in wat Hij voor jou deed.", night: "Je bent gered door genade. Niets meer, niets minder." },
+            { theme: "De Grote Strijd", quote: "\"Het grote conflict is geëindigd. Zonde en zondaars zijn niet meer. Het hele heelal is rein.\"", author: "Ellen G. White (De Grote Strijd)", action: "Lees de laatste bladzijde van de Bijbel (Openbaring 22). Zie hoe het afloopt.", night: "Het einde is goed. Dus alles komt goed." },
+            { theme: "Nieuwe Start", quote: "\"Met God is elke dag een nieuw begin. Zijn barmhartigheden zijn elke morgen nieuw.\"", author: "Ellen G. White", action: "Kijk terug op deze 31 dagen. Wat neem je mee? Dank God voor de reis.", night: "Gefeliciteerd. Je bent geliefd, geleid en gezegend. Op naar de toekomst!" }
+        ];
+
+        let currentDay = 1;
+        const totalDays = daysData.length;
+        let photosEnabled = true; 
+
+        // Elementen selecteren
+        const els = {
+            dayDisplay: document.getElementById('day-display'),
+            themeTitle: document.getElementById('theme-title'),
+            quoteText: document.getElementById('quote-text'),
+            quoteAuthor: document.getElementById('quote-author'),
+            actionText: document.getElementById('action-text'),
+            userNotes: document.getElementById('user-notes'),
+            nightSection: document.getElementById('night-section'),
+            nightText: document.getElementById('night-text'),
+            bgImage: document.getElementById('bg-image'),
+            bgOverlay: document.getElementById('bg-overlay'),
+            prevBtn: document.getElementById('prev-btn'),
+            nextBtn: document.getElementById('next-btn'),
+            photoToggle: document.getElementById('photo-toggle'),
+            saveBtn: document.querySelector('.btn-primary')
+        };
+
+        window.onload = function() {
+            // Unieke key voor deze versie van de tool
+            const prefPhotos = localStorage.getItem('zda_photosEnabled');
+            if(prefPhotos === null) {
+                photosEnabled = true;
+            } else {
+                photosEnabled = (prefPhotos === 'true');
+            }
+            
+            updatePhotoToggleButton();
+            loadDay(1);
+        };
+
+        function goToCalendarDate() {
+            const today = new Date();
+            let dayOfMonth = today.getDate();
+            if(dayOfMonth > totalDays) dayOfMonth = totalDays;
+            loadDay(dayOfMonth);
+        }
+
+        function toggleBackground() {
+            photosEnabled = !photosEnabled;
+            localStorage.setItem('zda_photosEnabled', photosEnabled);
+            updatePhotoToggleButton();
+            loadDay(currentDay);
+        }
+
+        function updatePhotoToggleButton() {
+            if(photosEnabled) {
+                els.photoToggle.classList.add('active');
+                els.photoToggle.innerHTML = "📷 Foto's AAN";
+            } else {
+                els.photoToggle.classList.remove('active');
+                els.photoToggle.innerHTML = "📷 Foto's UIT";
+            }
+        }
+
+        function loadDay(dayIndex) {
+            currentDay = dayIndex;
+            const data = daysData[dayIndex - 1];
+            
+            els.dayDisplay.innerText = `DAG ${dayIndex}`;
+            els.themeTitle.innerText = data.theme;
+            els.quoteText.innerText = data.quote;
+            els.quoteAuthor.innerText = `- ${data.author}`;
+            els.actionText.innerText = data.action;
+            els.nightText.innerText = data.night;
+
+            // Achtergrond Logica - Specifieke termen voor sfeer
+            if(photosEnabled) {
+                const seeds = ['nature', 'sky', 'mountains', 'light', 'forest', 'creation', 'peace', 'sunrise', 'church', 'candle'];
+                const seedWord = seeds[dayIndex % seeds.length];
+                
+                const imgUrl = `https://picsum.photos/seed/${dayIndex}_zda_${seedWord}/1920/1080`;
+                
+                const img = new Image();
+                img.src = imgUrl;
+                img.onload = () => {
+                     els.bgImage.style.backgroundImage = `url('${imgUrl}')`;
+                     els.bgImage.style.opacity = '1';
+                };
+
+                els.bgOverlay.style.backdropFilter = 'blur(4px)';
+                document.body.style.backgroundColor = 'transparent';
+            } else {
+                els.bgImage.style.opacity = '0';
+                els.bgOverlay.style.backdropFilter = 'blur(0px)';
+                document.body.style.backgroundColor = 'var(--paper-bg)';
+            }
+
+            // Unieke storage key voor ZDA notities
+            const savedNote = localStorage.getItem(`zda_note_day_${dayIndex}`);
+            els.userNotes.value = savedNote ? savedNote : "";
+
+            if (savedNote && savedNote.length > 2) {
+                els.nightSection.style.display = 'block';
+            } else {
+                els.nightSection.style.display = 'none';
+            }
+            
+            els.prevBtn.disabled = (dayIndex === 1);
+            els.nextBtn.disabled = (dayIndex === totalDays);
+        }
+
+        function completeDay() {
+            if(els.userNotes.value.trim() === "") {
+                alert("Schrijf een korte gedachte op voordat je de dag afsluit.");
+                return;
+            }
+            localStorage.setItem(`zda_note_day_${currentDay}`, els.userNotes.value);
+            
+            els.nightSection.style.display = 'block';
+            els.nightSection.scrollIntoView({behavior: "smooth"});
+
+            const originalText = els.saveBtn.innerText;
+            els.saveBtn.innerText = "✨ Opgeslagen";
+            els.saveBtn.classList.add('btn-success');
+            
+            setTimeout(() => {
+                els.saveBtn.innerText = originalText;
+                els.saveBtn.classList.remove('btn-success');
+            }, 2000);
+        }
+
+        function changeDay(offset) {
+            const newDay = currentDay + offset;
+            if (newDay >= 1 && newDay <= totalDays) {
+                loadDay(newDay);
+            }
+        }
+
+        function printJournal() {
+            const printContent = document.getElementById('print-content');
+            printContent.innerHTML = ""; 
+
+            daysData.forEach((day, index) => {
+                const dayNum = index + 1;
+                const note = localStorage.getItem(`zda_note_day_${dayNum}`);
+                const displayNote = note ? note : "(Nog geen notitie gemaakt)";
+                
+                const entryDiv = document.createElement('div');
+                entryDiv.className = 'print-entry';
+
+                entryDiv.innerHTML = `
+                    <div class="print-header">Dag ${dayNum}: ${day.theme}</div>
+                    <div class="print-verse">${day.quote}</div>
+                    <span class="print-ref">- ${day.author}</span>
+                    <div style="margin-bottom:10px; font-size:0.9em; margin-top:10px;"><strong>Opdracht:</strong> ${day.action}</div>
+                `;
+
+                const noteDiv = document.createElement('div');
+                noteDiv.className = 'print-note';
+                
+                const label = document.createElement('em');
+                label.innerText = 'Mijn overdenking:';
+                
+                noteDiv.appendChild(label);
+                noteDiv.appendChild(document.createElement('br'));
+                noteDiv.appendChild(document.createTextNode(displayNote));
+
+                entryDiv.appendChild(noteDiv);
+                printContent.appendChild(entryDiv);
+            });
+
+            window.print();
+        }
+    </script>
+</body>
+</html>
