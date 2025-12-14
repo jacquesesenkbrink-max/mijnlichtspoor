@@ -3,326 +3,248 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dagelijkse Inspiratie - Compleet</title>
+    <title>Je bent Waardevol / Imperfectie</title>
     <style>
         :root {
-            --primary: #4a6fa5;
-            --accent: #e6b89c;
-            --card-bg: rgba(255, 255, 255, 0.98);
-            --text: #333333;
-            --shadow: 0 15px 50px rgba(0,0,0,0.3);
-            --font-head: 'Georgia', serif;
-            --overlay-color: rgba(74, 111, 165, 0.3); 
+            /* Thema: Blauw & Zand (Diepte en Warmte) */
+            --primary-color: #1565c0;      /* Helder Oceaanblauw */
+            --primary-light: #64b5f6;      /* Zacht Hemelsblauw */
+            --accent-color: #dcb372;       /* Zand/Goud */
+            --pastel-bg: #e3f2fd;          /* Heel lichtblauw als basis */
+            --glass-bg: rgba(255, 255, 255, 0.94);
+            
+            --btn-gradient: linear-gradient(135deg, #64b5f6 0%, #1976d2 100%);
+            --btn-hover: linear-gradient(135deg, #90caf9 0%, #42a5f5 100%);
+            
+            --text-color: #0d47a1;
+            --radius: 35px;
+            --transition: all 0.4s ease;
         }
 
-        body {
-            font-family: var(--font-head);
-            /* HD Achtergrond */
-            background-image: url('https://images.unsplash.com/photo-1506744038136-46273834b3fb?ixlib=rb-4.0.3&auto=format&fit=crop&w=2560&q=100');
-            background-size: cover;
-            background-position: center;
-            background-attachment: fixed;
-            color: var(--text);
-            margin: 0;
-            padding: 20px;
-            min-height: 100vh;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            transition: all 0.5s ease;
-            position: relative;
+        body, html {
+            margin: 0; padding: 0; height: 100%;
+            font-family: 'Georgia', 'Times New Roman', serif;
+            color: var(--text-color);
+            background-color: var(--pastel-bg);
+            overflow-x: hidden;
+            transition: background 1s ease;
         }
 
-        body::before {
-            content: '';
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-color: var(--overlay-color);
-            z-index: -1;
-            transition: background-color 0.8s ease;
+        #bg-image {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            z-index: -2; background-size: cover; background-position: center;
+            opacity: 0; transition: opacity 1s ease-in-out;
+        }
+        
+        #bg-overlay {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            z-index: -1; background: rgba(227, 242, 253, 0.4);
+            backdrop-filter: blur(0px); transition: backdrop-filter 1s ease;
         }
 
-        header {
-            text-align: center;
-            padding: 30px;
-            max-width: 800px;
-            width: 100%;
-            background: rgba(255,255,255,0.95);
-            border-radius: 15px;
-            box-shadow: var(--shadow);
-            margin-bottom: 30px;
-            box-sizing: border-box;
-        }
-
-        /* --- NIEUW: Home Link Stijl --- */
-        .home-link {
-            display: inline-block;
-            text-decoration: none;
-            color: var(--primary);
-            font-size: 0.9rem;
-            font-weight: bold;
-            margin-bottom: 15px;
-            border-bottom: 1px solid transparent;
-            transition: all 0.3s ease;
-            font-family: sans-serif;
-        }
-        .home-link:hover {
-            border-color: var(--primary);
-            transform: translateX(-3px);
-        }
-
-        h1 {
-            color: var(--primary);
-            font-size: 2rem;
-            margin: 0 0 15px 0;
-            transition: color 0.5s ease;
-        }
-
-        /* Thema Tabs */
-        .tabs {
-            display: flex;
-            justify-content: center;
-            gap: 10px;
-            margin-bottom: 20px;
-            flex-wrap: wrap;
-        }
-
-        .tab-btn {
-            padding: 8px 20px;
-            font-size: 0.9rem;
-            border: 2px solid var(--primary);
-            background: transparent;
-            color: var(--primary);
-            cursor: pointer;
-            border-radius: 30px;
-            font-family: sans-serif;
-            font-weight: bold;
-            transition: all 0.3s ease;
-        }
-
-        .tab-btn:hover {
-            background-color: rgba(74, 111, 165, 0.1);
-        }
-
-        .tab-btn.active {
-            background-color: var(--primary);
-            color: #fff;
-        }
-
-        /* Datum Knop */
-        .jump-today-btn {
-            background-color: transparent;
-            border: 1px solid #999;
-            color: #666;
-            padding: 6px 16px;
-            border-radius: 20px;
-            font-size: 0.8rem;
-            font-family: sans-serif;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            display: inline-flex;
-            align-items: center;
-            gap: 6px;
-        }
-
-        .jump-today-btn:hover {
-            border-color: var(--primary);
-            color: var(--primary);
-            transform: translateY(-1px);
-            background-color: rgba(255,255,255,1);
-        }
-
-        /* Navigatie balk */
-        .nav-controls {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            width: 100%;
-            max-width: 600px;
-            margin-bottom: 20px;
-            background: rgba(255,255,255,0.9);
-            padding: 10px 20px;
-            border-radius: 50px;
-            box-sizing: border-box;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
-        }
-
-        .nav-btn {
-            background: none;
-            border: none;
-            color: var(--primary);
-            font-size: 1.5rem;
-            cursor: pointer;
-            padding: 5px 15px;
-            transition: transform 0.2s;
-        }
-
-        .nav-btn:hover { transform: scale(1.2); }
-
-        .day-indicator {
-            font-family: sans-serif;
-            font-weight: bold;
-            color: var(--text);
-            font-size: 1.1rem;
-        }
-
-        /* De ene centrale kaart */
-        .card-container {
-            width: 100%;
-            max-width: 600px;
-            perspective: 1000px;
-            margin-bottom: 80px;
+        .container {
+            min-height: 100vh; display: flex; justify-content: center; align-items: center; padding: 20px;
         }
 
         .card {
-            background: var(--card-bg);
-            border-radius: 15px;
-            padding: 40px;
-            box-shadow: var(--shadow);
-            text-align: center;
-            border-top: 8px solid var(--accent);
-            position: relative;
-            animation: slideIn 0.5s ease;
+            background: var(--glass-bg);
+            border-radius: var(--radius); padding: 50px 40px;
+            max-width: 650px; width: 100%;
+            box-shadow: 0 20px 50px rgba(21, 101, 192, 0.15);
+            border: 2px solid #fff; position: relative;
+            animation: floatUp 0.8s ease-out;
         }
+        @keyframes floatUp { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
 
-        @keyframes slideIn {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
+        header { text-align: center; margin-bottom: 20px; }
 
-        .day-badge-big {
-            display: inline-block;
-            background: var(--primary);
-            color: white;
-            font-size: 0.9rem;
-            padding: 6px 15px;
-            border-radius: 20px;
-            font-family: sans-serif;
-            font-weight: bold;
-            margin-bottom: 20px;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-        }
-
-        .quote {
-            font-size: 1.4rem;
-            font-weight: bold;
-            color: var(--text);
-            margin: 20px 0;
-            font-style: italic;
-            line-height: 1.5;
-        }
-
-        .ref {
-            display: block;
-            font-size: 1rem;
-            color: var(--primary);
-            margin-bottom: 30px;
-            font-family: sans-serif;
-            font-weight: bold;
-        }
-
-        .divider {
-            height: 1px;
-            background: #ddd;
-            width: 50%;
-            margin: 0 auto 30px auto;
-        }
-
-        .task-box {
-            background-color: rgba(0,0,0,0.04);
-            padding: 20px;
-            border-radius: 10px;
-            border-left: 4px solid var(--accent);
-            text-align: left;
-        }
-
-        .task-title {
-            font-weight: bold;
-            font-size: 0.9rem;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            margin-bottom: 8px;
-            display: block;
-            color: var(--primary);
-        }
-
-        /* Achtergrond Wissel Knop */
-        .bg-toggle-btn {
-            position: fixed;
-            bottom: 30px;
-            right: 30px;
-            background: #ffffff;
-            color: #333;
-            border: 2px solid var(--primary);
-            padding: 10px 20px;
-            border-radius: 50px;
-            font-weight: bold;
-            cursor: pointer;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
-            z-index: 100;
-            transition: all 0.3s ease;
-            font-family: sans-serif;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            font-size: 0.9rem;
+        .top-nav {
+            display: flex; justify-content: space-between; align-items: center;
+            margin-bottom: 10px; flex-wrap: wrap; gap: 10px;
         }
         
-        .bg-toggle-btn:hover {
-            transform: scale(1.05);
-            background: var(--primary);
-            color: white;
-            border-color: #fff;
+        .theme-selector {
+            display: flex; justify-content: center; gap: 10px; margin-bottom: 20px; flex-wrap: wrap;
+        }
+        
+        .theme-btn {
+            background: transparent; border: 2px solid var(--primary-color);
+            color: var(--primary-color); padding: 5px 15px; border-radius: 20px;
+            font-size: 0.8rem; font-weight: bold; cursor: pointer; font-family: sans-serif;
+            transition: var(--transition);
+        }
+        .theme-btn.active, .theme-btn:hover { background: var(--primary-color); color: white; }
+
+        .nav-tools { display: flex; gap: 10px; }
+        .tool-btn {
+            background: white; border: 1px solid var(--primary-light);
+            color: var(--primary-color); padding: 6px 15px; border-radius: 20px;
+            font-size: 0.8rem; cursor: pointer; font-family: 'Helvetica Neue', sans-serif;
+            transition: var(--transition);
+        }
+        .tool-btn:hover, .tool-btn.active { background: var(--primary-light); color: white; }
+
+        h1 {
+            color: var(--primary-color); font-size: 1.8rem; margin: 10px 0;
+            font-weight: normal; font-style: italic; line-height: 1.3;
         }
 
+        .day-counter {
+            font-family: 'Helvetica Neue', sans-serif; text-transform: uppercase;
+            letter-spacing: 2px; font-size: 0.75rem; color: #fff;
+            background: var(--primary-light); padding: 5px 12px; border-radius: 50px;
+        }
+
+        .scripture-box {
+            font-size: 1.25rem; line-height: 1.6; text-align: center;
+            margin-bottom: 25px; color: var(--text-color); font-style: italic; padding: 0 10px;
+        }
+        .reference {
+            display: block; margin-top: 10px; font-size: 0.9rem;
+            color: var(--primary-light); text-transform: uppercase;
+            font-family: sans-serif; font-style: normal; font-weight: bold;
+        }
+
+        .action-box {
+            background: linear-gradient(to right, #eef7fe, #e3f2fd);
+            border-left: 4px solid var(--accent-color);
+            border-radius: 15px; padding: 20px; margin-bottom: 25px;
+        }
+        .action-title {
+            font-weight: bold; color: var(--accent-color); display: block;
+            margin-bottom: 5px; font-family: sans-serif; text-transform: uppercase;
+            font-size: 0.75rem; letter-spacing: 1px;
+        }
+
+        textarea {
+            width: 100%; height: 140px; padding: 15px; border-radius: 20px;
+            border: 2px solid var(--primary-light); background-color: #fafafa;
+            font-family: 'Georgia', serif; font-size: 1rem; color: var(--text-color);
+            margin-bottom: 20px; resize: vertical; box-sizing: border-box; transition: var(--transition);
+        }
+        textarea:focus { outline: none; border-color: var(--primary-color); background-color: #fff; }
+
+        .btn-primary {
+            background: var(--btn-gradient); color: white; border: none;
+            padding: 12px 30px; font-size: 1rem; border-radius: 50px;
+            cursor: pointer; transition: var(--transition); width: 100%;
+            font-family: 'Helvetica Neue', sans-serif; font-weight: 600;
+            box-shadow: 0 5px 15px rgba(21, 101, 192, 0.3);
+        }
+        .btn-primary:hover { transform: translateY(-2px); filter: brightness(1.05); }
+        .btn-success { background: linear-gradient(135deg, #dcb372 0%, #fbc02d 100%) !important; pointer-events: none; }
+
+        .night-thought {
+            margin-top: 25px; background: linear-gradient(135deg, #1565c0 0%, #0d47a1 100%);
+            color: #e3f2fd; padding: 25px; border-radius: 20px; text-align: center;
+            display: none; animation: fadeIn 0.5s;
+        }
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+
+        .nav-buttons {
+            display: flex; justify-content: space-between; margin-top: 30px;
+            border-top: 1px solid rgba(0,0,0,0.05); padding-top: 15px;
+        }
+        .nav-btn {
+            background: transparent; border: none; color: #999; font-weight: bold;
+            cursor: pointer; font-family: sans-serif; font-size: 0.9rem; transition: 0.3s;
+        }
+        .nav-btn:hover:not(:disabled) { color: var(--primary-color); transform: scale(1.05); }
+        .nav-btn:disabled { opacity: 0.3; cursor: default; }
+
+        .export-section { text-align: center; margin-top: 30px; }
+        .btn-export {
+            background: white; color: var(--primary-color); border: 2px solid var(--primary-color);
+            padding: 8px 20px; border-radius: 50px; cursor: pointer; font-size: 0.85rem;
+            font-family: sans-serif; font-weight: bold; transition: var(--transition);
+        }
+        .btn-export:hover { background: var(--primary-color); color: white; }
+
+        @media print {
+            body * { visibility: hidden; }
+            #printable-journal, #printable-journal * { visibility: visible; }
+            #printable-journal { position: absolute; left: 0; top: 0; width: 100%; background: white; padding: 40px; color: black; }
+            .print-entry { page-break-inside: avoid; margin-bottom: 40px; border-bottom: 1px solid #ddd; padding-bottom: 20px; }
+            .print-header { font-size: 1.4em; color: var(--primary-color); margin-bottom: 5px; font-weight: bold;}
+            .print-verse { font-style: italic; color: #555; margin-bottom: 10px; }
+            .print-note { font-family: 'Georgia', serif; background: #f9f9f9; padding: 10px; border-left: 3px solid #ddd; margin-top: 10px; }
+        }
+        #printable-journal { display: none; }
+
         @media (max-width: 600px) {
+            .card { padding: 30px 20px; }
             h1 { font-size: 1.5rem; }
-            .card { padding: 25px; }
-            .quote { font-size: 1.2rem; }
-            .bg-toggle-btn { bottom: 20px; right: 20px; padding: 8px 15px; font-size: 0.8rem;}
+            .top-nav { justify-content: center; }
         }
     </style>
 </head>
 <body>
 
-    <header>
-        <div style="text-align: left;">
-            <a href="index.html" class="home-link">← Terug naar Overzicht</a>
-        </div>
+    <div id="bg-image"></div>
+    <div id="bg-overlay"></div>
 
-        <h1 id="pageTitle">Bijbelse Inspiratie</h1>
-        
-        <div class="tabs">
-            <button class="tab-btn active" onclick="switchTheme('value')" id="btn-value">Je bent van Waarde</button>
-            <button class="tab-btn" onclick="switchTheme('imperfection')" id="btn-imperfection">Genade voor Imperfectie</button>
-        </div>
-        
-        <button class="jump-today-btn" onclick="goToToday()">
-            📅 Vandaag
-        </button>
-    </header>
+    <div class="container">
+        <div class="card">
+            <header>
+                <div class="top-nav">
+                    <span class="day-counter" id="day-display">Dag 1</span>
+                    <div class="nav-tools">
+                      <button class="tool-btn" onclick="window.location.href='index.html'">🏠 Home</button>
+                      <button class="tool-btn" id="photo-toggle" onclick="toggleBackground()">📷 Achtergrond</button>
+                      <button class="tool-btn" onclick="goToToday()">♥ Vandaag</button>
+                    </div>
+                </div>
+                
+                <h1 id="theme-title">Je bent van Waarde</h1>
+                
+                <div class="theme-selector">
+                    <button class="theme-btn active" id="btn-value" onclick="switchTheme('value')">Je bent Waardevol</button>
+                    <button class="theme-btn" id="btn-imperfection" onclick="switchTheme('imperfection')">Imperfectie</button>
+                </div>
+            </header>
 
-    <div class="nav-controls">
-        <button class="nav-btn" onclick="changeDay(-1)">&#10094;</button>
-        <div class="day-indicator" id="dayIndicator">Dag 1 / 30</div>
-        <button class="nav-btn" onclick="changeDay(1)">&#10095;</button>
+            <div class="scripture-box">
+                <span id="verse-text">...</span>
+                <span class="reference" id="verse-ref">...</span>
+            </div>
+
+            <div class="action-box">
+                <span class="action-title">Opdracht voor vandaag:</span>
+                <span id="action-text">...</span>
+            </div>
+
+            <div id="journal-section">
+                <label for="user-notes" style="display:block; margin-bottom:10px; font-weight:bold; color:var(--primary-color); font-family:sans-serif; font-size:0.85rem;">Jouw gedachten & gebed:</label>
+                <textarea id="user-notes" placeholder="Wat doet deze tekst met je? Schrijf het van je af..."></textarea>
+                <button class="btn-primary" onclick="completeDay()">Dag Afronden</button>
+            </div>
+
+            <div id="night-section" class="night-thought">
+                <h3 style="margin-top:0; color:var(--accent-color); font-size: 1.1rem;">✨ Om mee te nemen</h3>
+                <p id="night-text">Je bent geliefd, precies zoals je bent. Slaap in vrede.</p>
+            </div>
+
+            <div class="nav-buttons">
+                <button class="nav-btn" id="prev-btn" onclick="changeDay(-1)">← Vorige</button>
+                <button class="nav-btn" id="next-btn" onclick="changeDay(1)">Volgende →</button>
+            </div>
+
+            <div class="export-section">
+                <button class="btn-export" onclick="printJournal()">🖨️ Maak Boekje</button>
+            </div>
+        </div>
     </div>
 
-    <div class="card-container" id="mainCardContainer">
+    <div id="printable-journal">
+        <div style="text-align: center; margin-bottom: 50px;">
+            <h1 style="color:#1565c0;">Mijn Waardevolle Reis</h1>
+            <p>Inzichten en Gebeden</p>
         </div>
-
-    <button class="bg-toggle-btn" onclick="changeBackground()">
-        🖼️ Nieuw Beeld
-    </button>
+        <div id="print-content"></div>
+    </div>
 
     <script>
-        // --- DATA SETS ---
+        // DATA SETS
         const dataValue = [
             { day: 1, quote: "Ik loof U, omdat ik ontzagwekkend wonderlijk gemaakt ben.", ref: "Psalm 139:14", task: "Kijk 1 minuut in de spiegel, recht in je eigen ogen, en zeg hardop: 'Ik ben een wonder'." },
             { day: 2, quote: "Want wij zijn Zijn maaksel, geschapen in Christus Jezus.", ref: "Efeziërs 2:10", task: "Schrijf 'Meesterwerk' op een post-it en plak het op je computerscherm of koelkast." },
@@ -330,10 +252,10 @@
             { day: 4, quote: "Zie, Ik heb u in beide handpalmen gegraveerd.", ref: "Jesaja 49:16", task: "Bekijk de lijnen in je eigen handpalm en besef: zo onuitwisbaar sta ik bij God bekend." },
             { day: 5, quote: "U bent kostbaar in Mijn ogen, hooggeacht, en Ik heb u lief.", ref: "Jesaja 43:4", task: "Vraag jezelf af: 'Als ik zo kostbaar ben, hoe mag ik mijzelf dan vandaag behandelen?' Doe iets liefs voor jezelf." },
             { day: 6, quote: "Zelfs de haren op uw hoofd zijn alle geteld.", ref: "Lukas 12:7", task: "Als je je haar kamt of doucht, dank God voor Zijn extreme aandacht voor de kleinste details van jouw leven." },
-            { day: 7, quote: "Bedenk toch hoe groot de liefde is die de Vader ons heeft gegeven: wij worden kinderen van God genoemd.", ref: "1 Johannes 3:1", task: "Luister naar een lied dat gaat over God als Vader (bijv. 'Good Good Father') en zing het mee." },
+            { day: 7, quote: "Bedenk toch hoe groot de liefde is die de Vader ons heeft gegeven: wij worden kinderen van God genoemd.", ref: "1 Johannes 3:1", task: "Luister naar een lied dat gaat over God als Vader en zing het mee." },
             { day: 8, quote: "U bent een uitverkoren geslacht, een koninkrijk van priesters.", ref: "1 Petrus 2:9", task: "Draag vandaag je mooiste kledingstuk of accessoire als symbool van je koninklijke status." },
             { day: 9, quote: "De HEERE, uw God, is in uw midden... Hij zal Zich over u verheugen met blijdschap.", ref: "Sefanja 3:17", task: "Glimlach vandaag bewust naar iemand, wetende dat God ook naar jou glimlacht." },
-            { day: 10, quote: "Want U hebt mijn nieren geschapen, mij in de schoot van mijn moeder geweven.", ref: "Psalm 139:13", task: "Kijk naar een ingewikkeld geweven stof of breiwerk. Zo complex en zorgvuldig zit jij in elkaar." },
+            { day: 10, quote: "Want U hebt mijn nieren geschapen, mij in de schoot van mijn moeder geweven.", ref: "Psalm 139:13", task: "Kijk naar een ingewikkeld geweven stof. Zo complex en zorgvuldig zit jij in elkaar." },
             { day: 11, quote: "Jullie zijn het lichaam van Christus en ieder van jullie is een deel daarvan.", ref: "1 Korintiërs 12:27", task: "Bedenk één talent dat jij hebt. Dank God dat dit talent nodig is in het grote geheel." },
             { day: 12, quote: "Er is geen veroordeling voor wie in Christus Jezus zijn.", ref: "Romeinen 8:1", task: "Als je vandaag een fout maakt, zeg dan direct: 'Ik ben vergeven, ik leer hiervan' in plaats van jezelf te straffen." },
             { day: 13, quote: "Niet gij hebt Mij, maar Ik heb u uitgekozen.", ref: "Johannes 15:16", task: "Schrijf op een briefje: 'Ik ben gewild' en stop het in je portemonnee." },
@@ -361,7 +283,7 @@
             { day: 2, quote: "Want Hij weet wat voor maaksel wij zijn en blijft bedenken dat wij stof zijn.", ref: "Psalm 103:14", task: "Pak een beetje aarde of zand in je hand. Voel hoe los het is. Het is oké om fragiel te zijn." },
             { day: 3, quote: "Maar wij hebben deze schat in aarden kruiken, opdat de allesovertreffende kracht van God zou zijn.", ref: "2 Korintiërs 4:7", task: "Kijk naar een mok of vaasje met een barstje of oneffenheid. Zie de schoonheid in het niet-perfecte." },
             { day: 4, quote: "Niet dat ik het al verkregen heb... maar ik jaag ernaar.", ref: "Filippenzen 3:12", task: "Zeg tegen jezelf als iets mislukt: 'Ik ben onderweg, ik ben er nog niet, en dat geeft niet'." },
-            { day: 5, quote: "Want de rechtvaardige valt zevenmaal, maar staat weer op.", ref: "Spreuken 24:16", task: "Als je vandaag struikelt (letterlijk of figuurlijk), maak er een punt van om bewust weer 'op te staan' en verder te gaan zonder schuldgevoel." },
+            { day: 5, quote: "Want de rechtvaardige valt zevenmaal, maar staat weer op.", ref: "Spreuken 24:16", task: "Als je vandaag struikelt, maak er een punt van om bewust weer 'op te staan' zonder schuldgevoel." },
             { day: 6, quote: "Wij struikelen immers allen in veel opzichten.", ref: "Jakobus 3:2", task: "Wees mild voor de fout van een ander vandaag. Het herinnert je eraan dat we allemaal struikelen." },
             { day: 7, quote: "Gezonden hebben geen dokter nodig, maar wie ziek zijn.", ref: "Mattheüs 9:12", task: "Vraag God vandaag niet om kracht om het zélf te doen, maar geef toe dat je Zijn 'Hulp' nodig hebt." },
             { day: 8, quote: "Want allen hebben gezondigd en missen de heerlijkheid van God.", ref: "Romeinen 3:23", task: "Adem diep in en uit. Besef dat iedereen die je vandaag ziet, ook niet perfect is. Dat schept een band." },
@@ -369,7 +291,7 @@
             { day: 10, quote: "Al bezwijkt mijn vlees en mijn hart, God is de rots van mijn hart.", ref: "Psalm 73:26", task: "Voel je hartslag aan je pols. Het is kwetsbaar. Dank God dat Hij de Rots is, en niet jij." },
             { day: 11, quote: "HEERE, U bent onze Vader; wij zijn de klei en U bent onze Pottenbakker.", ref: "Jesaja 64:8", task: "Visualiseer dat je op een draaischijf staat. De Pottenbakker is nog bezig. Je mag dus nog onaf zijn." },
             { day: 12, quote: "Indien wij onze zonden belijden: Hij is getrouw en rechtvaardig.", ref: "1 Johannes 1:9", task: "Schrijf een fout op papier, verscheur het en gooi het weg. Het is weg." },
-            { day: 13, quote: "Wees niet al te rechtvaardig en wees niet bovenmate wijs.", ref: "Prediker 7:16", task: "Laat de teugels vandaag één keer vieren. Laat de afwas staan of stuur een mailtje later. De wereld vergaat niet." },
+            { day: 13, quote: "Wees niet al te rechtvaardig en wees niet bovenmate wijs.", ref: "Prediker 7:16", task: "Laat de teugels vandaag één keer vieren. Laat de afwas staan of stuur een mailtje later." },
             { day: 14, quote: "Door de genade van God ben ik wat ik ben.", ref: "1 Korintiërs 15:10", task: "Kijk in de spiegel en zeg: 'Ik ben goed genoeg door Zijn genade'." },
             { day: 15, quote: "Want wij hebben geen Hogepriester die geen medelijden kan hebben met onze zwakheden.", ref: "Hebreeën 4:15", task: "Vertel Jezus over je dag zoals je tegen een vriend praat die alles begrijpt, zonder vrome woorden." },
             { day: 16, quote: "En evenzo komt ook de Geest onze zwakheden te hulp.", ref: "Romeinen 8:26", task: "Weet je niet wat je moet bidden? Wees 1 minuut stil en laat de Geest voor je 'zuchten'." },
@@ -378,112 +300,195 @@
             { day: 19, quote: "Werp al uw zorgen op Hem, want Hij zorgt voor u.", ref: "1 Petrus 5:7", task: "Bal je vuisten met al je zorgen erin, en open dan je handen naar beneden om ze los te laten." },
             { day: 20, quote: "De offers voor God zijn een gebroken geest.", ref: "Psalm 51:19", task: "Je hoeft je niet stoerder voor te doen dan je bent. Huilen of balen mag ook een gebed zijn." },
             { day: 21, quote: "Zalig zijn de armen van geest.", ref: "Mattheüs 5:3", task: "Ga even zitten met open, lege handen op je schoot. Erken dat je God nodig hebt." },
-            { day: 22, quote: "Als wij ontrouw zijn, blijft Hij getrouw.", ref: "2 Timotheüs 2:13", task: "Leun letterlijk tegen een muur aan. De muur blijft staan, ook als jij wankelt. Zo is God." },
+            { day: 22, quote: "Als wij ontrouw zijn, blijft Hij getrouw.", ref: "2 Timoteüs 2:13", task: "Leun letterlijk tegen een muur aan. De muur blijft staan, ook als jij wankelt. Zo is God." },
             { day: 23, quote: "Ik ben niet gekomen om rechtvaardigen te roepen, maar zondaars.", ref: "Lukas 5:32", task: "Wees blij dat je niet perfect ('rechtvaardig') hoeft te zijn om door Jezus geroepen te worden." },
             { day: 24, quote: "Vertrouw op de HEERE met heel je hart, en steun op je eigen inzicht niet.", ref: "Spreuken 3:5", task: "Doe 1 minuut je ogen dicht. Je ziet niks, maar je bent veilig. Oefening in vertrouwen." },
             { day: 25, quote: "Want het willen is wel bij mij aanwezig, maar het goede uitwerken niet.", ref: "Romeinen 7:18", task: "Accepteer vandaag dat je intentie goed was, ook al was het resultaat rommelig." },
             { day: 26, quote: "Aan Hem nu Die u voor struikelen kan behoeden...", ref: "Judas 1:24", task: "Loop over een smal randje (van de stoep of tapijt). Besef: Hij houdt mij vast als ik wankel." },
             { day: 27, quote: "Hij zal de geknakte rietstengel niet breken.", ref: "Jesaja 42:3", task: "Zoek in de tuin of het park een geknakt plantje. Zie hoe teer het is. God is oneindig voorzichtig met jou." },
             { day: 28, quote: "De mens wikt, maar de HEERE beschikt.", ref: "Spreuken 19:21", task: "Streep iets door in je agenda wat niet gelukt is, en zet er een smiley bij. Het is oké." },
-            { day: 29, quote: "Ik ellendig mens, wie zal mij verlossen?", ref: "Romeinen 7:24", task: "Soms mag je gewoon even klagen. Stort je hart uit, en eindig met: 'Dank U God door Jezus Christus' (Rom 7:25)." },
+            { day: 29, quote: "Ik ellendig mens, wie zal mij verlossen?", ref: "Romeinen 7:24", task: "Soms mag je gewoon even klagen. Stort je hart uit, en eindig met: 'Dank U God'." },
             { day: 30, quote: "De HEERE zal voor u voltooien wat bij mij hoort.", ref: "Psalm 138:8", task: "Kijk terug op de maand. Je bent nog niet 'af', maar God is nog steeds aan het werk. Rust daarin." }
         ];
 
-        // --- CONFIGURATIE ---
-        const themes = {
-            value: {
-                data: dataValue,
-                title: "Je bent van Waarde",
-                colors: { primary: "#4a6fa5", accent: "#e6b89c", overlay: "rgba(74, 111, 165, 0.3)" }
-            },
-            imperfection: {
-                data: dataImperfection,
-                title: "Genade voor Imperfectie",
-                colors: { primary: "#a8573c", accent: "#d4af37", overlay: "rgba(168, 87, 60, 0.3)" }
-            }
+        let currentDay = 1;
+        let activeTheme = 'value'; // 'value' or 'imperfection'
+        let photosEnabled = true;
+
+        // Elementen
+        const els = {
+            dayDisplay: document.getElementById('day-display'),
+            themeTitle: document.getElementById('theme-title'),
+            verseText: document.getElementById('verse-text'),
+            verseRef: document.getElementById('verse-ref'),
+            actionText: document.getElementById('action-text'),
+            userNotes: document.getElementById('user-notes'),
+            nightSection: document.getElementById('night-section'),
+            bgImage: document.getElementById('bg-image'),
+            bgOverlay: document.getElementById('bg-overlay'),
+            prevBtn: document.getElementById('prev-btn'),
+            nextBtn: document.getElementById('next-btn'),
+            photoToggle: document.getElementById('photo-toggle'),
+            saveBtn: document.querySelector('.btn-primary')
         };
 
-        const backgroundImages = [
-            'https://images.unsplash.com/photo-1506744038136-46273834b3fb?ixlib=rb-4.0.3&auto=format&fit=crop&w=2560&q=100',
-            'https://images.unsplash.com/photo-1511497584788-876760111969?ixlib=rb-4.0.3&auto=format&fit=crop&w=2560&q=100',
-            'https://images.unsplash.com/photo-1470071459604-3b5ec3a7fe05?ixlib=rb-4.0.3&auto=format&fit=crop&w=2560&q=100',
-            'https://images.unsplash.com/photo-1507525428034-b723cf961d3e?ixlib=rb-4.0.3&auto=format&fit=crop&w=2560&q=100',
-            'https://images.unsplash.com/photo-1519681393784-d120267933ba?ixlib=rb-4.0.3&auto=format&fit=crop&w=2560&q=100',
-            'https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?ixlib=rb-4.0.3&auto=format&fit=crop&w=2560&q=100',
-            'https://images.unsplash.com/photo-1501854140884-074cf27f731d?ixlib=rb-4.0.3&auto=format&fit=crop&w=2560&q=100'
-        ];
-        
-        let currentImageIndex = 0;
-        let currentThemeKey = 'value';
-        let currentDayIndex = 0; 
+        window.onload = function() {
+            // Check opgeslagen voorkeur voor foto's
+            const prefPhotos = localStorage.getItem('photosEnabled_value');
+            if(prefPhotos !== null) { photosEnabled = (prefPhotos === 'true'); }
+            updatePhotoToggleButton();
 
-        const root = document.documentElement;
-        const pageTitle = document.getElementById('pageTitle');
-        const container = document.getElementById('mainCardContainer');
-        const dayIndicator = document.getElementById('dayIndicator');
-
-        // Start
-        switchTheme('value');
-
-        function switchTheme(themeKey) {
-            currentThemeKey = themeKey;
-            const theme = themes[themeKey];
+            // Check opgeslagen dag & thema
+            const savedDay = localStorage.getItem('currentDay_value');
+            if(savedDay) currentDay = parseInt(savedDay);
             
-            // Kleuren
-            root.style.setProperty('--primary', theme.colors.primary);
-            root.style.setProperty('--accent', theme.colors.accent);
-            root.style.setProperty('--overlay-color', theme.colors.overlay);
+            const savedTheme = localStorage.getItem('currentTheme_value');
+            if(savedTheme) activeTheme = savedTheme;
 
-            // Tekst & Knoppen
-            pageTitle.innerText = theme.title;
-            document.getElementById('btn-value').classList.toggle('active', themeKey === 'value');
-            document.getElementById('btn-imperfection').classList.toggle('active', themeKey === 'imperfection');
+            loadDay(currentDay);
+        };
 
-            renderCurrentCard();
-        }
-
-        function changeDay(delta) {
-            const data = themes[currentThemeKey].data;
-            const newIndex = currentDayIndex + delta;
-
-            if (newIndex >= 0 && newIndex < data.length) {
-                currentDayIndex = newIndex;
-                renderCurrentCard();
-            }
+        function switchTheme(theme) {
+            activeTheme = theme;
+            localStorage.setItem('currentTheme_value', activeTheme);
+            loadDay(currentDay);
         }
 
         function goToToday() {
-            const today = new Date().getDate(); 
-            let targetDay = today;
-            if (targetDay > 30) targetDay = 30; 
-            if (targetDay < 1) targetDay = 1;
-            
-            currentDayIndex = targetDay - 1; 
-            renderCurrentCard();
+            const todayDate = new Date().getDate();
+            if (todayDate <= 30) loadDay(todayDate);
+            else loadDay(1);
         }
 
-        function renderCurrentCard() {
-            const item = themes[currentThemeKey].data[currentDayIndex];
-            
-            dayIndicator.innerText = `Dag ${item.day} / 30`;
-            
-            container.innerHTML = `
-                <div class="card">
-                    <div class="day-badge-big">Dag ${item.day}</div>
-                    <div class="quote">"${item.quote}"</div>
-                    <div class="ref">— ${item.ref}</div>
-                    <div class="divider"></div>
-                    <div class="task-box">
-                        <span class="task-title">De opdracht voor vandaag:</span>
-                        ${item.task}
-                    </div>
-                </div>
-            `;
+        function toggleBackground() {
+            photosEnabled = !photosEnabled;
+            localStorage.setItem('photosEnabled_value', photosEnabled);
+            updatePhotoToggleButton();
+            loadDay(currentDay);
         }
 
-        function changeBackground() {
-            currentImageIndex = (currentImageIndex + 1) % backgroundImages.length;
-            document.body.style.backgroundImage = `url('${backgroundImages[currentImageIndex]}')`;
+        function updatePhotoToggleButton() {
+            if(photosEnabled) {
+                els.photoToggle.classList.add('active');
+                els.photoToggle.innerHTML = "📷 Foto's AAN";
+            } else {
+                els.photoToggle.classList.remove('active');
+                els.photoToggle.innerHTML = "📷 Foto's UIT";
+            }
+        }
+
+        function loadDay(day) {
+            currentDay = parseInt(day);
+            if (currentDay < 1) currentDay = 1;
+            if (currentDay > 30) currentDay = 30;
+            localStorage.setItem('currentDay_value', currentDay);
+
+            // Activeer juiste knop
+            document.getElementById('btn-value').classList.toggle('active', activeTheme === 'value');
+            document.getElementById('btn-imperfection').classList.toggle('active', activeTheme === 'imperfection');
+            
+            // Kies juiste dataset
+            const dataSet = activeTheme === 'value' ? dataValue : dataImperfection;
+            const data = dataSet.find(d => d.day === currentDay);
+            
+            // UI Update
+            els.dayDisplay.innerText = `DAG ${data.day}`;
+            els.themeTitle.innerText = activeTheme === 'value' ? "Je bent van Waarde" : "Genade voor Imperfectie";
+            els.verseText.innerText = `"${data.quote}"`;
+            els.verseRef.innerText = data.ref;
+            els.actionText.innerText = data.task;
+
+            // Achtergrond Logica
+            if(photosEnabled) {
+                // Seed 'ocean' of 'sky' voor blauw thema
+                const seed = activeTheme === 'value' ? 'sky' : 'ocean';
+                const imgUrl = `https://picsum.photos/seed/${currentDay}_${seed}/1920/1080`;
+                const img = new Image();
+                img.src = imgUrl;
+                img.onload = () => {
+                     els.bgImage.style.backgroundImage = `url('${imgUrl}')`;
+                     els.bgImage.style.opacity = '1';
+                };
+                els.bgOverlay.style.backdropFilter = 'blur(3px)';
+                document.body.style.backgroundColor = 'transparent';
+            } else {
+                els.bgImage.style.opacity = '0';
+                els.bgOverlay.style.backdropFilter = 'blur(0px)';
+                document.body.style.backgroundColor = 'var(--pastel-bg)';
+            }
+
+            // Notitie ophalen
+            const savedNote = localStorage.getItem(`note_${activeTheme}_${currentDay}`);
+            els.userNotes.value = savedNote ? savedNote : "";
+
+            if (savedNote && savedNote.length > 2) {
+                els.nightSection.style.display = 'block';
+            } else {
+                els.nightSection.style.display = 'none';
+            }
+            
+            els.prevBtn.disabled = (currentDay === 1);
+            els.nextBtn.disabled = (currentDay === 30);
+        }
+
+        function changeDay(delta) {
+            loadDay(currentDay + delta);
+        }
+
+        function completeDay() {
+            if(els.userNotes.value.trim() === "") {
+                alert("Schrijf een korte gedachte op voordat je de dag afsluit.");
+                return;
+            }
+            localStorage.setItem(`note_${activeTheme}_${currentDay}`, els.userNotes.value);
+            
+            els.nightSection.style.display = 'block';
+            els.nightSection.scrollIntoView({behavior: "smooth"});
+
+            const originalText = els.saveBtn.innerText;
+            els.saveBtn.innerText = "✨ Opgeslagen!";
+            els.saveBtn.classList.add('btn-success');
+            setTimeout(() => {
+                els.saveBtn.innerText = originalText;
+                els.saveBtn.classList.remove('btn-success');
+            }, 2000);
+        }
+
+        function printJournal() {
+            const printContent = document.getElementById('print-content');
+            printContent.innerHTML = ""; 
+
+            // Print beide thema's? Laten we het huidige actieve thema printen
+            const dataSet = activeTheme === 'value' ? dataValue : dataImperfection;
+            const title = activeTheme === 'value' ? "Je bent van Waarde" : "Genade voor Imperfectie";
+
+            const themeHeader = document.createElement('h2');
+            themeHeader.innerText = title;
+            themeHeader.style.color = '#1565c0';
+            printContent.appendChild(themeHeader);
+
+            dataSet.forEach((d) => {
+                const note = localStorage.getItem(`note_${activeTheme}_${d.day}`);
+                const displayNote = note ? note : "(Nog geen notitie gemaakt)";
+                
+                const entryDiv = document.createElement('div');
+                entryDiv.className = 'print-entry';
+
+                entryDiv.innerHTML = `
+                    <div class="print-header">Dag ${d.day}</div>
+                    <div class="print-verse">"${d.quote}"</div>
+                    <div style="font-size:0.9em; color:#666; margin-bottom:10px;">${d.ref}</div>
+                    <div style="margin-bottom:10px;"><strong>Opdracht:</strong> ${d.task}</div>
+                `;
+
+                const noteDiv = document.createElement('div');
+                noteDiv.className = 'print-note';
+                noteDiv.innerHTML = `<em>Mijn notitie:</em><br>${displayNote}`;
+
+                entryDiv.appendChild(noteDiv);
+                printContent.appendChild(entryDiv);
+            });
+            window.print();
         }
     </script>
 </body>
