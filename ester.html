@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>31 Dagen met Ester: Moed & Timing</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Lato:wght@300;400;700&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            /* Ester Thema: Koninklijk Paars, Goud, Zijde & Mysterie */
+            --primary-color: #4a235a; /* Diep paars */
+            --primary-light: #8e44ad; 
+            --accent-color: #f1c40f;  /* Goud */
+            --pastel-bg: #f5eef8;     /* Zacht lila wit */
+            --glass-bg: rgba(255, 255, 255, 0.96);
+            --btn-gradient: linear-gradient(135deg, #4a235a 0%, #150b1a 100%);
+            --radius: 30px;
+        }
+
+        body, html {
+            margin: 0; padding: 0; height: 100%;
+            font-family: 'Lato', sans-serif;
+            color: #4a235a;
+            background-color: var(--pastel-bg);
+        }
+
+        .container {
+            min-height: 100vh; display: flex; justify-content: center; align-items: center; padding: 20px;
+        }
+
+        .card {
+            background: var(--glass-bg);
+            border-radius: var(--radius);
+            padding: 40px;
+            max-width: 600px; width: 100%;
+            box-shadow: 0 20px 50px rgba(74, 35, 90, 0.1); /* Iets subtielere schaduw nu er geen foto is */
+            position: relative;
+            border-top: 5px solid var(--accent-color);
+        }
+
+        header { text-align: center; margin-bottom: 25px; }
+
+        .top-nav {
+            display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;
+        }
+
+        .home-btn {
+            text-decoration: none; color: var(--primary-light); font-weight: bold; font-size: 0.9rem; transition: 0.3s;
+        }
+        .home-btn:hover { color: var(--accent-color); }
+
+        h1 { 
+            font-family: 'Playfair Display', serif; 
+            color: var(--primary-color); 
+            margin: 5px 0; 
+            font-size: 2rem; 
+        }
+        
+        .subtitle { 
+            font-size: 0.8rem; text-transform: uppercase; letter-spacing: 3px; color: var(--accent-color); font-weight: bold; 
+        }
+
+        .day-badge {
+            background: var(--primary-color); color: white; padding: 5px 15px; border-radius: 20px; font-size: 0.8rem; letter-spacing: 1px;
+        }
+
+        .scripture-box {
+            text-align: center; margin: 30px 0; font-size: 1.25rem; line-height: 1.6; color: #4a235a; font-family: 'Playfair Display', serif; font-style: italic;
+        }
+        .reference { 
+            display: block; margin-top: 15px; font-weight: bold; font-style: normal; font-size: 0.85rem; color: var(--accent-color); font-family: 'Lato', sans-serif; text-transform: uppercase; 
+        }
+
+        .action-box {
+            background: #fbf8fc; border-left: 4px solid var(--accent-color);
+            padding: 20px; border-radius: 10px; margin-bottom: 25px;
+            box-shadow: 0 2px 15px rgba(0,0,0,0.03);
+        }
+        .action-title { font-weight: bold; color: var(--primary-color); text-transform: uppercase; font-size: 0.75rem; display: block; margin-bottom: 8px; letter-spacing: 1px;}
+
+        textarea {
+            width: 100%; height: 120px; padding: 15px; border-radius: 15px; border: 2px solid #e8daef;
+            font-family: 'Lato', sans-serif; font-size: 1rem; margin-bottom: 15px; resize: vertical; outline: none; transition: 0.3s;
+            background: #fafafa; color: #4a235a;
+        }
+        textarea:focus { border-color: var(--accent-color); background: #fff; }
+
+        .btn-primary {
+            background: var(--btn-gradient); color: white; border: none; padding: 15px 30px;
+            font-size: 1rem; border-radius: 50px; cursor: pointer; width: 100%; font-weight: bold; letter-spacing: 0.5px;
+            box-shadow: 0 5px 15px rgba(74, 35, 90, 0.2); transition: 0.3s;
+        }
+        .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 8px 20px rgba(74, 35, 90, 0.3); }
+
+        .night-thought {
+            margin-top: 30px; background: var(--primary-color); color: #f4ecf7; padding: 25px;
+            border-radius: 20px; text-align: center; display: none; animation: fadeIn 0.6s ease;
+        }
+        
+        .nav-buttons {
+            display: flex; justify-content: space-between; margin-top: 30px; padding-top: 20px; border-top: 1px solid #eee;
+        }
+        .nav-btn { background: none; border: none; cursor: pointer; color: #a569bd; font-weight: bold; font-size: 0.9rem; transition: 0.3s; }
+        .nav-btn:hover:not(:disabled) { color: var(--accent-color); }
+        .nav-btn:disabled { opacity: 0.3; cursor: default; }
+
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        
+        /* Print Styles */
+        @media print {
+            body * { visibility: hidden; }
+            #printable-journal, #printable-journal * { visibility: visible; }
+            #printable-journal { position: absolute; left: 0; top: 0; width: 100%; color: black; padding: 40px;}
+            .print-entry { margin-bottom: 30px; border-bottom: 1px solid #ccc; padding-bottom: 20px; page-break-inside: avoid; }
+            .print-header { font-weight: bold; font-size: 1.2em; margin-bottom: 5px; }
+        }
+        #printable-journal { display: none; }
+
+        @media (max-width: 600px) {
+            .card { padding: 25px; }
+            h1 { font-size: 1.6rem; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <div class="card">
+            <div class="top-nav">
+                <a href="index.html" class="home-btn">← Terug naar Gidsen</a>
+                <span class="day-badge" id="day-display">DAG 1</span>
+            </div>
+
+            <header>
+                <div class="subtitle" id="month-subtitle">TRAJECT: MOED & TIMING</div>
+                <h1 id="theme-title">...</h1>
+            </header>
+
+            <div class="scripture-box">
+                <span id="verse-text">Laden...</span>
+                <span class="reference" id="verse-ref">...</span>
+            </div>
+
+            <div class="action-box">
+                <span class="action-title">Koninklijke stap</span>
+                <span id="action-text">...</span>
+            </div>
+
+            <label style="font-size:0.85rem; font-weight:bold; color:#8e44ad; display:block; margin-bottom:8px; text-transform: uppercase; letter-spacing: 1px;">Mijn gedachten:</label>
+            <textarea id="user-notes" placeholder="Waar heeft God jou geplaatst?"></textarea>
+            <button class="btn-primary" id="save-btn" onclick="completeDay()">Dag Afronden</button>
+
+            <div id="night-section" class="night-thought">
+                <h3 style="margin:0 0 10px 0; font-size:1.1rem; color: #f1c40f;">👑 De Scepter van Genade</h3>
+                <p id="night-text" style="margin:0; line-height: 1.6;">... </p>
+            </div>
+
+            <div class="nav-buttons">
+                <button class="nav-btn" id="prev-btn" onclick="changeDay(-1)">← Vorige</button>
+                <button class="nav-btn" onclick="printJournal()">🖨️ Reisverslag</button>
+                <button class="nav-btn" id="next-btn" onclick="changeDay(1)">Volgende →</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="printable-journal">
+        <div style="text-align:center; margin-bottom:40px;">
+            <h1 style="color:#4a235a;">Mijn Reis met Ester</h1>
+            <p>Voor een tijd als deze: Vertrouwen op Gods voorzienigheid.</p>
+        </div>
+        <div id="print-content"></div>
+    </div>
+
+    <script>
+        // CONFIGURATIE VOOR ESTER
+        // Thema's: Voorzienigheid (God in de schaduw), Moed, Vasten, Strategie, Overwinning
+        
+        const journeyConfig = {
+            character: "Ester",
+            storageKey: "ester_journal", // Unieke opslag key
+            days: [
+                { theme: "Rijkdom en Leegte", verse: "Hij liet de rijkdom van zijn koninklijke heerlijkheid zien, 180 dagen lang.", ref: "Ester 1:4", action: "Koning Ahasveros toonde zijn rijkdom, maar had geen vrede in zijn huwelijk. Kijk om je heen: wat is 'schone schijn' en wat is echt waardevol in jouw leven?", night: "Al de schatten van Perzië kunnen niet tippen aan de vrede van God in je hart." },
+                { theme: "Waardigheid (Vasthi)", verse: "Maar koningin Vasthi weigerde te komen.", ref: "Ester 1:12", action: "Soms moet je 'nee' zeggen om je waardigheid te behouden. Is er een grens die jij vandaag moet trekken? Respecteer jezelf.", night: "Je bent een koningskind. Laat niemand je behandelen als minder dan dat." },
+                { theme: "Hadassa wordt Ester", verse: "Hij had Hadassa, dat is Ester, opgevoed.", ref: "Ester 2:7", action: "Hadassa (mirtetak) werd Ester (ster). Soms geeft God je een nieuwe rol of identiteit voor een specifieke taak. Omarm je verandering.", night: "God kent je bij je naam. Hij vormt je voor een doel dat je nu nog niet ziet." },
+                { theme: "Schoonheid van binnen", verse: "Ester verwierf genade in de ogen van ieder die haar zag.", ref: "Ester 2:15", action: "Ester vroeg geen extra juwelen, ze was zichzelf. Focus vandaag niet op je uiterlijk, maar op je uitstraling: vriendelijkheid en rust.", night: "Ware schoonheid is een zachtmoedige en stille geest; dat is kostbaar voor God." },
+                { theme: "Op de juiste plek", verse: "De koning kreeg Ester lief boven alle andere vrouwen.", ref: "Ester 2:17", action: "Je bent waar je bent met een reden. Misschien vind je je werk niet leuk, maar God heeft je daar geplaatst. Vraag: 'Heer, wat moet ik HIER doen?'", night: "Je zit niet toevallig op de troon (of op je bureaustoel). God heeft een plan." },
+                { theme: "Integriteit (Mordechai)", verse: "Maar Mordechai knielde niet en boog zich niet neer.", ref: "Ester 3:2", action: "Mordechai weigerde Haman te eren. Voor wie of wat weiger jij te buigen? Sta voor je principes, ook als je de enige bent.", night: "Buigen voor mensen geeft tijdelijke vrede, staan voor God geeft eeuwige eer." },
+                { theme: "De Vijand", verse: "Haman zocht een manier om alle Joden weg te vagen.", ref: "Ester 3:6", action: "Er is een tegenstander (in de Grote Strijd) die Gods kinderen haat. Wees niet naïef, maar wees ook niet bang. God is sterker.", night: "De vijand kan plannen smeden, maar God heeft het laatste woord." },
+                { theme: "Rouw en vasten", verse: "Mordechai scheurde zijn kleren en trok een rouwgewaad aan.", ref: "Ester 4:1", action: "Als er slecht nieuws komt, mag je rouwen. Stop je verdriet niet weg. Breng je 'rouwgewaad' bij God.", night: "God ziet je tranen. Hij is dichtbij degenen die gebroken van hart zijn." },
+                { theme: "Geen toeval", verse: "Wie weet of jij niet voor een tijd als deze tot deze koninklijke waardigheid gekomen bent.", ref: "Ester 4:14", action: "Dit is de kern. Kijk naar de uitdagingen in onze tijd. Vraag God: 'Wat is mijn rol voor een tijd als deze?'", night: "Je bent geboren voor dit moment in de geschiedenis. Je bent nodig." },
+                { theme: "De beslissing", verse: "Kom ik om, dan kom ik om.", ref: "Ester 4:16", action: "Overgave. Leg je grootste angst in Gods handen en zeg: 'Ik ga, en de uitkomst is aan U'.", night: "Veiligheid is niet 'geen gevaar lopen', veiligheid is 'in Gods wil zijn'." },
+                { theme: "Geestelijke oorlogsvoering", verse: "Vast voor mij... drie dagen en drie nachten.", ref: "Ester 4:16", action: "Vasten (van eten of media) scherpt de geest. Sla vandaag één maaltijd of tussendoortje over en bid in die tijd voor een doorbraak.", night: "Sommige bergen worden alleen verzet door bidden en vasten." },
+                { theme: "De derde dag", verse: "Op de derde dag trok Ester een koninklijk gewaad aan.", ref: "Ester 5:1", action: "Op de derde dag stond Jezus op. Sta vandaag op uit je zorgen. Trek je 'geestelijke koningsmantel' aan (lofzang).", night: "De derde dag is de dag van de overwinning. Het leven wint." },
+                { theme: "De gouden scepter", verse: "De koning reikte Ester de gouden scepter toe.", ref: "Ester 5:2", action: "God reikt jou de scepter van genade toe. Je mag vrijmoedig tot de troon komen. Dank Hem voor die toegang.", night: "Je hoeft niet bang te zijn in de troonzaal. Je bent Zijn geliefde kind." },
+                { theme: "Strategisch geduld", verse: "Laat de koning en Haman vandaag op de maaltijd komen.", ref: "Ester 5:4", action: "Ester flapte het er niet gelijk uit. Ze wachtte. Heb je een moeilijk gesprek? Bid eerst om het juiste moment.", night: "Haastige spoed is zelden goed. Gods timing is perfect." },
+                { theme: "Hoogmoed van Haman", verse: "Toch geeft dit alles mij geen voldoening, zolang ik Mordechai zie.", ref: "Ester 5:13", action: "Jaloezie en haat vreten je van binnen op. Is er iemand aan wie jij je ergert? Laat het los, voordat het je bitter maakt.", night: "Bitterheid is gif dat je zelf drinkt in de hoop dat de ander sterft. Spuug het uit." },
+                { theme: "De slapeloze nacht", verse: "In die nacht kon de koning de slaap niet vatten.", ref: "Ester 6:1", action: "God is wakker als de wereld slaapt. Hij bestuurde de slapeloosheid van de koning. Vertrouw erop dat God 's nachts doorwerkt aan jouw probleem.", night: "Hij sluimert niet, noch slaapt Hij. Jouw Bewaarder is wakker." },
+                { theme: "Eerherstel", verse: "Wat moet men doen met de man die de koning wenst te eren?", ref: "Ester 6:6", action: "Haman moest zijn vijand eren. God keert de rollen om. Maak je niet druk om je reputatie; God zal je op Zijn tijd verhogen.", night: "Wie een kuil graaft voor een ander, valt er zelf in. God is rechtvaardig." },
+                { theme: "De ontmaskering", verse: "De tegenstander en vijand is deze slechte Haman!", ref: "Ester 7:6", action: "Noem het kwaad bij de naam. Wees duidelijk over wat zonde is in je leven. Wijs de vijand aan en ban hem uit.", night: "De waarheid maakt vrij. Licht verdrijft de duisternis." },
+                { theme: "Gerechtigheid", verse: "Ze hingen Haman aan de galg die hij voor Mordechai gemaakt had.", ref: "Ester 7:10", action: "Het recht zegeviert uiteindelijk. Zie je onrecht in de wereld? Houd moed. God is Rechter.", night: "De boog van de geschiedenis is lang, maar hij buigt naar gerechtigheid." },
+                { theme: "Smeekbede voor het volk", verse: "Ester sprak opnieuw... en viel hem te voet.", ref: "Ester 8:3", action: "Ester was gered, maar ze rustte niet totdat haar volk gered was. Bid vandaag voor de redding van anderen, niet alleen voor jezelf.", night: "Een echte leider huilt voor zijn volk. Voorbede is liefde op de knieën." },
+                { theme: "De ring", verse: "De koning nam zijn zegelring... en gaf die aan Mordechai.", ref: "Ester 8:2", action: "Je hebt autoriteit gekregen in Jezus' naam. Gebruik die autoriteit om zegen te spreken over je huis.", night: "Je draagt de zegelring van de Koning der koningen. Handel waardig." },
+                { theme: "Het nieuwe decreet", verse: "Schrijf zelf ten gunste van de Joden, zoals het goed is in uw ogen.", ref: "Ester 8:8", action: "De wet kon niet veranderd worden, maar er kwam een NIEUWE wet. De wet van de Geest is sterker dan de wet van de zonde. Leef uit die nieuwe wet.", night: "Er is een tegenbevel gegeven vanuit de Hemel: Jij zult leven!" },
+                { theme: "Licht en vreugde", verse: "Voor de Joden was er licht en blijdschap, vreugde en eer.", ref: "Ester 8:16", action: "Vier je overwinningen. Steek vanavond een kaars aan als symbool voor het Licht dat in de duisternis schijnt.", night: "Na de donkerste nacht komt de helderste morgen." },
+                { theme: "Vrees en ontzag", verse: "Vrees voor de Joden was op hen gevallen.", ref: "Ester 8:17", action: "Als God met je is, wie zal tegen je zijn? Loop vandaag met opgeheven hoofd. Niet uit arrogantie, maar uit zekerheid.", night: "Je bent onaantastbaar zolang je in Gods hand bent." },
+                { theme: "De dag van de strijd", verse: "De dag waarop de vijanden hoopten hen te overweldigen, werd omgekeerd.", ref: "Ester 9:1", action: "God is een God van omkering. Wat vandaag een nederlaag lijkt, kan morgen je grootste overwinning zijn. Geloof dat.", night: "Hij verandert rouwklacht in een reidans." },
+                { theme: "Rusten", verse: "Ze rustten op de veertiende dag en maakten die tot een dag van maaltijden.", ref: "Ester 9:17", action: "Na de strijd komt de rust. Plan een moment van pure ontspanning in. Geniet van het leven dat God geeft.", night: "De strijd is voorbij. De vrede is getekend." },
+                { theme: "Purim: Herinneren", verse: "Deze dagen moesten herdacht en gevierd worden.", ref: "Ester 9:28", action: "Maak een 'monumentje'. Schrijf een datum op in je agenda waarop God je hielp, en vier dat elk jaar.", night: "Vergeet niet al Zijn weldaden. Herinnering houdt hoop levend." },
+                { theme: "Vrede zoeken", verse: "Mordechai zocht het goede voor zijn volk en sprak woorden van vrede.", ref: "Ester 10:3", action: "Wees een vredestichter. Stuur vandaag een berichtje van verzoening of bemoediging naar iemand.", night: "Zalig zijn de vredestichters, want zij zullen Gods kinderen genoemd worden." },
+                { theme: "God in de schaduw", verse: "Reflectie: God werd niet genoemd, maar was overal.", ref: "Ester boek", action: "Zie je God niet? Voel je Hem niet? Vertrouw dan op Zijn karakter. Hij werkt in de schaduw. Dank Hem voor Zijn onzichtbare werk.", night: "Hij is de Regisseur achter de coulissen van jouw leven." },
+                { theme: "De kracht van een vrouw", verse: "Reflectie: Ester gebruikte haar invloed ten goede.", ref: "Ester boek", action: "Onderschat je invloed niet. Of je man of vrouw bent, jouw stem telt. Gebruik hem voor het goede.", night: "Zachtheid is sterker dan geweld." },
+                { theme: "Einde reis", verse: "Gij zijt de God die wonderen doet.", ref: "Psalm 77:15", action: "Je hebt 31 dagen met Ester gelopen. Je weet nu: je bent hier met een doel. Ga en wees moedig.", night: "Slaap in de wetenschap dat jouw Koning je de scepter toereikt. Je bent geliefd." }
+            ]
+        };
+
+        // BASIS LOGICA
+        let currentDay = 1;
+
+        window.onload = function() {
+            loadDay(1);
+        };
+
+        function loadDay(dayIndex) {
+            currentDay = dayIndex;
+            const data = journeyConfig.days[dayIndex - 1];
+            
+            document.getElementById('day-display').innerText = `DAG ${dayIndex}`;
+            document.getElementById('theme-title').innerText = data.theme;
+            document.getElementById('verse-text').innerText = `"${data.verse}"`;
+            document.getElementById('verse-ref').innerText = data.ref;
+            document.getElementById('action-text').innerText = data.action;
+            document.getElementById('night-text').innerText = data.night;
+
+            const savedNote = localStorage.getItem(`${journeyConfig.storageKey}_day_${dayIndex}`);
+            document.getElementById('user-notes').value = savedNote ? savedNote : "";
+            
+            const nightSec = document.getElementById('night-section');
+            if(savedNote && savedNote.length > 2) nightSec.style.display = 'block';
+            else nightSec.style.display = 'none';
+
+            document.getElementById('prev-btn').disabled = (dayIndex === 1);
+            document.getElementById('next-btn').disabled = (dayIndex === journeyConfig.days.length);
+        }
+
+        function completeDay() {
+            const noteText = document.getElementById('user-notes').value;
+            if(noteText.trim() === "") {
+                alert("Schrijf een korte gedachte op voordat je opslaat.");
+                return;
+            }
+            localStorage.setItem(`${journeyConfig.storageKey}_day_${currentDay}`, noteText);
+            
+            const nightSec = document.getElementById('night-section');
+            nightSec.style.display = 'block';
+            nightSec.scrollIntoView({behavior: "smooth"});
+            
+            const btn = document.getElementById('save-btn');
+            const oldText = btn.innerText;
+            btn.innerText = "✓ Opgeslagen";
+            btn.style.background = "#27ae60"; 
+            
+            setTimeout(() => {
+                btn.innerText = oldText;
+                btn.style.background = "var(--btn-gradient)";
+            }, 2000);
+        }
+
+        function changeDay(offset) {
+            const newDay = currentDay + offset;
+            if(newDay >= 1 && newDay <= journeyConfig.days.length) {
+                loadDay(newDay);
+            }
+        }
+
+        function printJournal() {
+            const container = document.getElementById('print-content');
+            container.innerHTML = ""; 
+
+            journeyConfig.days.forEach((day, index) => {
+                const dayNum = index + 1;
+                const savedNote = localStorage.getItem(`${journeyConfig.storageKey}_day_${dayNum}`) || "(Nog geen notitie)";
+                
+                const entry = document.createElement('div');
+                entry.className = 'print-entry';
+                entry.innerHTML = `
+                    <div class="print-header">Dag ${dayNum}: ${day.theme}</div>
+                    <div style="font-style:italic; margin-bottom:10px;">"${day.verse}" (${day.ref})</div>
+                    <div style="margin-bottom:10px; font-weight:bold;">Actie: ${day.action}</div>
+                    <div style="background:#f9f9f9; padding:10px; border-left:3px solid #ccc;">
+                        <strong>Mijn gedachte:</strong><br>${savedNote}
+                    </div>
+                `;
+                container.appendChild(entry);
+            });
+            window.print();
+        }
+    </script>
+</body>
+</html>

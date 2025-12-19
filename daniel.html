@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>31 Dagen met Daniël: Integriteit & Kracht</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Lato:wght@300;400;700&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            /* Daniël Thema: Nacht, Sterren, Goud & Koninkrijk */
+            --primary-color: #1a252f; /* Middernachtblauw */
+            --primary-light: #34495e; 
+            --accent-color: #f1c40f;  /* Goud (Babylon/Kroon) */
+            --pastel-bg: #fdfefe;     /* Wit/Papyrus */
+            --glass-bg: rgba(255, 255, 255, 0.97);
+            --btn-gradient: linear-gradient(135deg, #1a252f 0%, #000000 100%);
+            --radius: 30px;
+        }
+
+        body, html {
+            margin: 0; padding: 0; height: 100%;
+            font-family: 'Lato', sans-serif;
+            color: #2c3e50;
+            background-color: var(--pastel-bg);
+        }
+
+        .container {
+            min-height: 100vh; display: flex; justify-content: center; align-items: center; padding: 20px;
+        }
+
+        .card {
+            background: var(--glass-bg);
+            border-radius: var(--radius);
+            padding: 40px;
+            max-width: 600px; width: 100%;
+            box-shadow: 0 20px 50px rgba(26, 37, 47, 0.2);
+            position: relative;
+            border-top: 5px solid var(--accent-color);
+        }
+
+        header { text-align: center; margin-bottom: 25px; }
+
+        .top-nav {
+            display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;
+        }
+
+        .home-btn {
+            text-decoration: none; color: var(--primary-light); font-weight: bold; font-size: 0.9rem; transition: 0.3s;
+        }
+        .home-btn:hover { color: var(--accent-color); }
+
+        h1 { 
+            font-family: 'Playfair Display', serif; 
+            color: var(--primary-color); 
+            margin: 5px 0; 
+            font-size: 2rem; 
+        }
+        
+        .subtitle { 
+            font-size: 0.8rem; text-transform: uppercase; letter-spacing: 3px; color: var(--accent-color); font-weight: bold; 
+        }
+
+        .day-badge {
+            background: var(--primary-color); color: white; padding: 5px 15px; border-radius: 20px; font-size: 0.8rem; letter-spacing: 1px;
+        }
+
+        .scripture-box {
+            text-align: center; margin: 30px 0; font-size: 1.25rem; line-height: 1.6; color: #1a252f; font-family: 'Playfair Display', serif; font-style: italic;
+        }
+        .reference { 
+            display: block; margin-top: 15px; font-weight: bold; font-style: normal; font-size: 0.85rem; color: var(--accent-color); font-family: 'Lato', sans-serif; text-transform: uppercase; 
+        }
+
+        .action-box {
+            background: #fcfbf9; border-left: 4px solid var(--accent-color);
+            padding: 20px; border-radius: 10px; margin-bottom: 25px;
+            box-shadow: 0 2px 15px rgba(0,0,0,0.03);
+        }
+        .action-title { font-weight: bold; color: var(--primary-color); text-transform: uppercase; font-size: 0.75rem; display: block; margin-bottom: 8px; letter-spacing: 1px;}
+
+        textarea {
+            width: 100%; height: 120px; padding: 15px; border-radius: 15px; border: 2px solid #ecf0f1;
+            font-family: 'Lato', sans-serif; font-size: 1rem; margin-bottom: 15px; resize: vertical; outline: none; transition: 0.3s;
+            background: #f7f9f9; color: #2c3e50;
+        }
+        textarea:focus { border-color: var(--primary-color); background: #fff; }
+
+        .btn-primary {
+            background: var(--btn-gradient); color: white; border: none; padding: 15px 30px;
+            font-size: 1rem; border-radius: 50px; cursor: pointer; width: 100%; font-weight: bold; letter-spacing: 0.5px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2); transition: 0.3s;
+        }
+        .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3); }
+
+        .night-thought {
+            margin-top: 30px; background: var(--primary-color); color: #ecf0f1; padding: 25px;
+            border-radius: 20px; text-align: center; display: none; animation: fadeIn 0.6s ease;
+        }
+        
+        .nav-buttons {
+            display: flex; justify-content: space-between; margin-top: 30px; padding-top: 20px; border-top: 1px solid #eee;
+        }
+        .nav-btn { background: none; border: none; cursor: pointer; color: #95a5a6; font-weight: bold; font-size: 0.9rem; transition: 0.3s; }
+        .nav-btn:hover:not(:disabled) { color: var(--primary-color); }
+        .nav-btn:disabled { opacity: 0.3; cursor: default; }
+
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        
+        /* Print Styles */
+        @media print {
+            body * { visibility: hidden; }
+            #printable-journal, #printable-journal * { visibility: visible; }
+            #printable-journal { position: absolute; left: 0; top: 0; width: 100%; color: black; padding: 40px;}
+            .print-entry { margin-bottom: 30px; border-bottom: 1px solid #ccc; padding-bottom: 20px; page-break-inside: avoid; }
+            .print-header { font-weight: bold; font-size: 1.2em; margin-bottom: 5px; }
+        }
+        #printable-journal { display: none; }
+
+        @media (max-width: 600px) {
+            .card { padding: 25px; }
+            h1 { font-size: 1.6rem; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <div class="card">
+            <div class="top-nav">
+                <a href="index.html" class="home-btn">← Terug naar Gidsen</a>
+                <span class="day-badge" id="day-display">DAG 1</span>
+            </div>
+
+            <header>
+                <div class="subtitle" id="month-subtitle">TRAJECT: INTEGRITEIT & KRACHT</div>
+                <h1 id="theme-title">...</h1>
+            </header>
+
+            <div class="scripture-box">
+                <span id="verse-text">Laden...</span>
+                <span class="reference" id="verse-ref">...</span>
+            </div>
+
+            <div class="action-box">
+                <span class="action-title">De Uitdaging</span>
+                <span id="action-text">...</span>
+            </div>
+
+            <label style="font-size:0.85rem; font-weight:bold; color:#7f8c8d; display:block; margin-bottom:8px; text-transform: uppercase; letter-spacing: 1px;">Mijn voornemen:</label>
+            <textarea id="user-notes" placeholder="Hoe wil jij vandaag staande blijven?"></textarea>
+            <button class="btn-primary" id="save-btn" onclick="completeDay()">Dag Afronden</button>
+
+            <div id="night-section" class="night-thought">
+                <h3 style="margin:0 0 10px 0; font-size:1.1rem; color: #f1c40f;">🌟 Licht in de Nacht</h3>
+                <p id="night-text" style="margin:0; line-height: 1.6;">...</p>
+            </div>
+
+            <div class="nav-buttons">
+                <button class="nav-btn" id="prev-btn" onclick="changeDay(-1)">← Vorige</button>
+                <button class="nav-btn" onclick="printJournal()">🖨️ Reisverslag</button>
+                <button class="nav-btn" id="next-btn" onclick="changeDay(1)">Volgende →</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="printable-journal">
+        <div style="text-align:center; margin-bottom:40px;">
+            <h1 style="color:#1a252f;">Mijn Reis met Daniël</h1>
+            <p>Staande blijven in Babylon: Karakter, Gebed en Hoop.</p>
+        </div>
+        <div id="print-content"></div>
+    </div>
+
+    <script>
+        // CONFIGURATIE VOOR DANIËL
+        // Thema's: Gezondheid, Karakter, Gebed, Profetie, Trouw in Babylon
+        
+        const journeyConfig = {
+            character: "Daniel",
+            storageKey: "daniel_journal", // Unieke opslag key
+            days: [
+                { theme: "Gevangen maar niet verslagen", verse: "De Heer gaf Jojakim in de hand van Nebukadnezar.", ref: "Daniël 1:2", action: "Soms overkomen dingen je waar je geen controle over hebt. Je bent misschien in 'Babylon', maar je bent niet vergeten. Accepteer je situatie, maar verlies je identiteit niet.", night: "God regeert, ook als het lijkt alsof de vijand wint. Hij heeft de regie." },
+                { theme: "Een heilig voornemen", verse: "Daniël nam zich in zijn hart voor zich niet te besmetten.", ref: "Daniël 1:8", action: "Karakter begint met een besluit, voordat de crisis komt. Neem je vandaag één ding voor waar je niet op zult inleveren (eerlijkheid, zuiverheid).", night: "Een voornemen in het hart is sterker dan de muren van Babylon." },
+                { theme: "De proef van 10 dagen", verse: "Probeer het toch tien dagen... geef ons plantaardig voedsel en water.", ref: "Daniël 1:12", action: "Gezondheid is een geestelijke zaak. Eet en drink vandaag bewust puur en gezond. Behandel je lichaam als Gods tempel.", night: "Helder denken begint bij gezond leven. God zegent je lichaam als je er goed voor zorgt." },
+                { theme: "Beter inzicht", verse: "God gaf hun kennis en verstand... en Daniël inzicht in visioenen.", ref: "Daniël 1:17", action: "Wijsheid komt van Boven, niet van de universiteit. Bid vandaag om inzicht voor een probleem op je werk of school.", night: "Wie God eert, zal Hij eren. Je talenten zullen bloeien onder Zijn leiding." },
+                { theme: "De vergeten droom", verse: "De droom is mij ontschoten, maar jullie moeten hem vertellen.", ref: "Daniël 2:5", action: "Sta je voor een onmogelijke taak? Raak niet in paniek. Ga niet stressen, maar ga (zoals Daniël) naar je 'huis' om te bidden.", night: "Er is een God in de hemel die verborgenheden onthult. Niets is voor Hem verborgen." },
+                { theme: "Samen bidden", verse: "Opdat zij barmhartigheid zouden vragen van de God van de hemel.", ref: "Daniël 2:18", action: "Daniël bad niet alleen, hij vroeg zijn vrienden. Heb jij gebedspartners? Vraag vandaag iemand om specifiek met jou mee te bidden.", night: "Samen sta je sterk. Waar twee of drie vergaderd zijn, daar is Hij." },
+                { theme: "De Steen en het Beeld", verse: "Een steen, die zonder toedoen van mensenhanden was afgehouwen.", ref: "Daniël 2:34", action: "Wereldrijken komen en gaan. Politiek is onrustig. Richt je blik vandaag op die ene Steen: het Koninkrijk van Jezus dat eeuwig blijft.", night: "Alles wankelt, behalve de Rots waarop wij bouwen. Slaap in die zekerheid." },
+                { theme: "Buig niet", verse: "Als u niet buigt, zult u in de vuuroven geworpen worden.", ref: "Daniël 3:15", action: "Groepsdruk is sterk. Durf jij 'nee' te zeggen als iedereen 'ja' zegt? Wees vandaag trouw aan je geweten in iets kleins.", night: "Beter in de oven met God, dan erbuiten zonder Hem." },
+                { theme: "Maar zo niet...", verse: "Onze God kan ons verlossen... maar zo niet, wij zullen niet buigen.", ref: "Daniël 3:17-18", action: "Is je geloof afhankelijk van succes? Spreek uit: 'Ook als God niet doet wat ik hoop, blijf ik Hem trouw'. Dat is echt geloof.", night: "Onvoorwaardelijke trouw is het mooiste offer dat je kunt brengen." },
+                { theme: "De Vierde in het vuur", verse: "Ik zie vier mannen... en de vierde lijkt op een zoon van de goden.", ref: "Daniël 3:25", action: "Ga je door een vuurproef? Kijk goed. Je bent niet alleen. Jezus wandelt met je in het vuur. Zoek Zijn aanwezigheid in je pijn.", night: "Het vuur verbrandt alleen je boeien, niet jou. Hij is erbij." },
+                { theme: "Hoogmoed komt voor de val", verse: "Is dit niet het grote Babel dat ik gebouwd heb?", ref: "Daniël 4:30", action: "Pas op voor trots. Heb je iets bereikt? Geef God direct de eer. Zeg hardop: 'Dank U Heer, dat U dit gaf'.", night: "Wie zichzelf verhoogt, zal vernederd worden. Wie zich vernedert, slaapt in vrede." },
+                { theme: "Het schrift op de muur", verse: "Mene, mene, tekel, ufarsin (Gewogen en te licht bevonden).", ref: "Daniël 5:25", action: "Leef vandaag in het besef dat God kijkt. Niet om je te pakken, maar omdat je leven gewicht heeft. Maak keuzes die tellen.", night: "In Jezus zijn wij niet te licht bevonden. Zijn gewicht (glorie) compenseert ons tekort." },
+                { theme: "De gewoonte van gebed", verse: "Hij ging drie keer per dag op zijn knieën en bad.", ref: "Daniël 6:11", action: "Routine is kracht. Zet vandaag drie wekkers (ochtend, middag, avond) voor een kort moment van contact met Boven.", night: "Regelmaat in gebed is het anker van de ziel. Sluit de dag af zoals je hem begon: met Hem." },
+                { theme: "De leeuwenkuil", verse: "Mijn God heeft zijn engel gezonden en de muil van de leeuwen gesloten.", ref: "Daniël 6:23", action: "Word je aangevallen of belasterd? Vecht niet terug. Vertrouw je zaak toe aan de Rechter. Laat God de muilen sluiten.", night: "Geen haar van je hoofd zal gekrenkt worden zonder Zijn wil. Je bent veilig." },
+                { theme: "Dieren uit de zee", verse: "Vier grote dieren stegen op uit de zee.", ref: "Daniël 7:3", action: "De wereldgeschiedenis kan beangstigend zijn. Bedenk: achter de chaos van de 'beesten' staat de troon van God vast.", night: "Laat het wereldnieuws je slaap niet roven. De Oude van Dagen zit op de troon." },
+                { theme: "De Mensenzoon", verse: "Iemand als een Mensenzoon kwam met de wolken van de hemel.", ref: "Daniël 7:13", action: "Kijk omhoog! Verwacht jij Jezus? Leef vandaag met de 'blik omhoog', in blijde verwachting.", night: "Hij komt eraan. Het koninkrijk wordt gegeven aan de heiligen. Dat ben jij." },
+                { theme: "Ootmoed en belijdenis", verse: "Wij hebben gezondigd en goddeloos gehandeld.", ref: "Daniël 9:5", action: "Daniël beleed de zonden van zijn volk alsof het de zijne waren. Bid vandaag voor je kerk of land, en sluit jezelf in bij dat gebed.", night: "Een verootmoedigd hart is de landingsbaan voor Gods genade." },
+                { theme: "Geliefde man", verse: "Wees niet bevreesd, zeer gewenste man! (Geliefde).", ref: "Daniël 10:19", action: "Laat deze woorden tot je doordringen: 'Jij bent zeer gewenst'. God verlangt naar jou. Zeg het tegen jezelf in de spiegel.", night: "Je bent niet slechts geduld, je bent gewenst. Slaap in de liefde van de Vader." },
+                { theme: "Geestelijke strijd", verse: "De vorst van Perzië stond 21 dagen tegenover mij.", ref: "Daniël 10:13", action: "Gebedsverhoring lijkt soms vertraagd door strijd in de hemelse gewesten. Geef niet op als antwoord uitblijft. Blijf bidden.", night: "Engelen strijden voor jou terwijl jij slaapt. De overwinning is al behaald." },
+                { theme: "Kennis zal vermeerderen", verse: "Velen zullen het onderzoeken en de kennis zal toenemen.", ref: "Daniël 12:4", action: "Gebruik je verstand en de moderne middelen om Gods woord te diepen. Lees vandaag een achtergrondartikel of studie.", night: "Kennis is goed, maar liefde bouwt op. Rust in wat je weet van Hem." },
+                { theme: "Die verstandig zijn", verse: "De verstandigen zullen blinken als de glans van de hemelkoepel.", ref: "Daniël 12:3", action: "Deel je licht. Wie kun jij vandaag iets leren of bemoedigen? Wees een ster in iemands donkere nacht.", night: "Sterren schijnen het felst als het donker is. Jij bent een lichtje in de nacht." },
+                { theme: "Volharden tot het einde", verse: "Welzalig is hij die blijft verwachten.", ref: "Daniël 12:12", action: "Geduld is een vrucht van de Geest. Heb je ergens haast mee? Adem in, adem uit. Wacht op de Heer.", night: "Wie verwacht, wordt niet beschaamd." },
+                { theme: "Opstaan in uw lot", verse: "Maar u, ga heen tot het einde... u zult opstaan in uw bestemming.", ref: "Daniël 12:13", action: "Denk aan je eindbestemming. De dood is niet het einde, maar een rustpauze voor de opstanding. Leef vanuit de eeuwigheid.", night: "Ga heen in vrede. Je bestemming staat vast. Tot de morgen aanbreekt." },
+                { theme: "Geen compromis", verse: "Onderzoek alles en behoud het goede.", ref: "1 Thess 5:21", action: "Daniël at geen vlees van de koning. Is er iets in jouw dieet of mediagebruik dat je 'vertroebelt'? Laat het vandaag staan.", night: "Zuiverheid geeft helderheid." },
+                { theme: "De vensters open", verse: "Zijn vensters stonden open in de richting van Jeruzalem.", ref: "Daniël 6:11", action: "Richt je focus. Waar kijk jij naar als je rust zoekt? Netflix of Jeruzalem (Gods beloftes)? Zet je 'raam' open naar God.", night: "Laat Gods frisse lucht je kamer binnenstromen." },
+                { theme: "Trouw in kleine dingen", verse: "Wie trouw is in het minste, is ook in het grote trouw.", ref: "Lukas 16:10", action: "Daniël was trouw in administratie. Doe je werk vandaag nauwkeurig en eerlijk, ook als niemand kijkt.", night: "God ziet je trouw in het verborgene en zal je openlijk belonen." },
+                { theme: "Vriendelijkheid en wijsheid", verse: "Daniël sprak met raad en verstand.", ref: "Daniël 2:14", action: "Reageer vandaag rustig en beleefd, ook als iemand boos of onredelijk is (zoals Arioch). Zachte woorden breken botten.", night: "Wijsheid is beter dan wapens." },
+                { theme: "De grote strijd", verse: "Michaël, de grote vorst, zal opstaan.", ref: "Daniël 12:1", action: "Besef dat je in een kosmisch conflict zit. Maar onze Aanvoerder, Michaël (Jezus), heeft al gewonnen. Wees niet bang.", night: "De Vorst van het Leven waakt over jou." },
+                { theme: "Dankzegging", verse: "Ik dank en prijs U, God van mijn vaderen.", ref: "Daniël 2:23", action: "Dankbaarheid is het kenmerk van een groot karakter. Schrijf 3 dingen op waar je God voor prijst, ondanks omstandigheden.", night: "Dankzegging opent de poorten van de hemel." },
+                { theme: "Een uitnemende geest", verse: "Omdat er een uitnemende geest in hem was.", ref: "Daniël 6:4", action: "Vraag God vandaag om vervulling met Zijn Heilige Geest. Dat maakt het verschil tussen 'goed' en 'uitnemend'.", night: "Niet door kracht, niet door geweld, maar door Mijn Geest." },
+                { theme: "Klaar voor de toekomst", verse: "De God van de hemel zal een Koninkrijk oprichten dat in eeuwigheid niet vernietigd zal worden.", ref: "Daniël 2:44", action: "Je reis met Daniël zit erop. Je bent een burger van dat komende Koninkrijk. Loop vandaag met opgeheven hoofd.", night: "Welterusten, burger van het Koninkrijk. De Koning komt spoedig." }
+            ]
+        };
+
+        // BASIS LOGICA
+        let currentDay = 1;
+
+        window.onload = function() {
+            loadDay(1);
+        };
+
+        function loadDay(dayIndex) {
+            currentDay = dayIndex;
+            const data = journeyConfig.days[dayIndex - 1];
+            
+            document.getElementById('day-display').innerText = `DAG ${dayIndex}`;
+            document.getElementById('theme-title').innerText = data.theme;
+            document.getElementById('verse-text').innerText = `"${data.verse}"`;
+            document.getElementById('verse-ref').innerText = data.ref;
+            document.getElementById('action-text').innerText = data.action;
+            document.getElementById('night-text').innerText = data.night;
+
+            const savedNote = localStorage.getItem(`${journeyConfig.storageKey}_day_${dayIndex}`);
+            document.getElementById('user-notes').value = savedNote ? savedNote : "";
+            
+            const nightSec = document.getElementById('night-section');
+            if(savedNote && savedNote.length > 2) nightSec.style.display = 'block';
+            else nightSec.style.display = 'none';
+
+            document.getElementById('prev-btn').disabled = (dayIndex === 1);
+            document.getElementById('next-btn').disabled = (dayIndex === journeyConfig.days.length);
+        }
+
+        function completeDay() {
+            const noteText = document.getElementById('user-notes').value;
+            if(noteText.trim() === "") {
+                alert("Schrijf een korte gedachte op voordat je opslaat.");
+                return;
+            }
+            localStorage.setItem(`${journeyConfig.storageKey}_day_${currentDay}`, noteText);
+            
+            const nightSec = document.getElementById('night-section');
+            nightSec.style.display = 'block';
+            nightSec.scrollIntoView({behavior: "smooth"});
+            
+            const btn = document.getElementById('save-btn');
+            const oldText = btn.innerText;
+            btn.innerText = "✓ Opgeslagen";
+            btn.style.background = "#27ae60"; 
+            
+            setTimeout(() => {
+                btn.innerText = oldText;
+                btn.style.background = "var(--btn-gradient)";
+            }, 2000);
+        }
+
+        function changeDay(offset) {
+            const newDay = currentDay + offset;
+            if(newDay >= 1 && newDay <= journeyConfig.days.length) {
+                loadDay(newDay);
+            }
+        }
+
+        function printJournal() {
+            const container = document.getElementById('print-content');
+            container.innerHTML = ""; 
+
+            journeyConfig.days.forEach((day, index) => {
+                const dayNum = index + 1;
+                const savedNote = localStorage.getItem(`${journeyConfig.storageKey}_day_${dayNum}`) || "(Nog geen notitie)";
+                
+                const entry = document.createElement('div');
+                entry.className = 'print-entry';
+                entry.innerHTML = `
+                    <div class="print-header">Dag ${dayNum}: ${day.theme}</div>
+                    <div style="font-style:italic; margin-bottom:10px;">"${day.verse}" (${day.ref})</div>
+                    <div style="margin-bottom:10px; font-weight:bold;">Actie: ${day.action}</div>
+                    <div style="background:#f9f9f9; padding:10px; border-left:3px solid #ccc;">
+                        <strong>Mijn gedachte:</strong><br>${savedNote}
+                    </div>
+                `;
+                container.appendChild(entry);
+            });
+            window.print();
+        }
+    </script>
+</body>
+</html>

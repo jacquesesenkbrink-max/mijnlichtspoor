@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>31 Dagen met Elia: Rust & Herstel</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Lato:wght@300;400;700&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            /* Elia Thema: Schemering, Woestijnrust & Vuur */
+            --primary-color: #2e4053; /* Diep grijsblauw (De stilte/nacht) */
+            --primary-light: #5d6d7e; 
+            --accent-color: #d35400;  /* Roestoranje (Het vuur/De woestijn) */
+            --pastel-bg: #fdfefe;     /* Bijna wit */
+            --glass-bg: rgba(255, 255, 255, 0.96);
+            --btn-gradient: linear-gradient(135deg, #2e4053 0%, #17202a 100%);
+            --radius: 30px;
+        }
+
+        body, html {
+            margin: 0; padding: 0; height: 100%;
+            font-family: 'Lato', sans-serif;
+            color: #333;
+            background-color: var(--pastel-bg);
+        }
+
+        .container {
+            min-height: 100vh; display: flex; justify-content: center; align-items: center; padding: 20px;
+        }
+
+        .card {
+            background: var(--glass-bg);
+            border-radius: var(--radius);
+            padding: 40px;
+            max-width: 600px; width: 100%;
+            /* Iets zachtere schaduw nu er geen drukke achtergrond meer is */
+            box-shadow: 0 15px 40px rgba(46, 64, 83, 0.1);
+            position: relative;
+            border-top: 5px solid var(--accent-color);
+        }
+
+        header { text-align: center; margin-bottom: 25px; }
+
+        .top-nav {
+            display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;
+        }
+
+        .home-btn {
+            text-decoration: none; color: var(--primary-light); font-weight: bold; font-size: 0.9rem; transition: 0.3s;
+        }
+        .home-btn:hover { color: var(--accent-color); }
+
+        h1 { 
+            font-family: 'Playfair Display', serif; 
+            color: var(--primary-color); 
+            margin: 5px 0; 
+            font-size: 2rem; 
+        }
+        
+        .subtitle { 
+            font-size: 0.8rem; text-transform: uppercase; letter-spacing: 3px; color: var(--accent-color); font-weight: bold; 
+        }
+
+        .day-badge {
+            background: var(--primary-color); color: white; padding: 5px 15px; border-radius: 20px; font-size: 0.8rem; letter-spacing: 1px;
+        }
+
+        .scripture-box {
+            text-align: center; margin: 30px 0; font-size: 1.25rem; line-height: 1.6; color: #444; font-family: 'Playfair Display', serif; font-style: italic;
+        }
+        .reference { 
+            display: block; margin-top: 15px; font-weight: bold; font-style: normal; font-size: 0.85rem; color: var(--accent-color); font-family: 'Lato', sans-serif; text-transform: uppercase; 
+        }
+
+        .action-box {
+            background: #fdfbf7; border-left: 4px solid var(--accent-color);
+            padding: 20px; border-radius: 10px; margin-bottom: 25px;
+            box-shadow: 0 2px 15px rgba(0,0,0,0.03);
+        }
+        .action-title { font-weight: bold; color: var(--primary-color); text-transform: uppercase; font-size: 0.75rem; display: block; margin-bottom: 8px; letter-spacing: 1px;}
+
+        textarea {
+            width: 100%; height: 120px; padding: 15px; border-radius: 15px; border: 2px solid #eee;
+            font-family: 'Lato', sans-serif; font-size: 1rem; margin-bottom: 15px; resize: vertical; outline: none; transition: 0.3s;
+            background: #fafafa;
+        }
+        textarea:focus { border-color: var(--primary-light); background: #fff; }
+
+        .btn-primary {
+            background: var(--btn-gradient); color: white; border: none; padding: 15px 30px;
+            font-size: 1rem; border-radius: 50px; cursor: pointer; width: 100%; font-weight: bold; letter-spacing: 0.5px;
+            box-shadow: 0 5px 15px rgba(46, 64, 83, 0.2); transition: 0.3s;
+        }
+        .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 8px 20px rgba(46, 64, 83, 0.3); }
+
+        .night-thought {
+            margin-top: 30px; background: var(--primary-color); color: white; padding: 25px;
+            border-radius: 20px; text-align: center; display: none; animation: fadeIn 0.6s ease;
+        }
+        
+        .nav-buttons {
+            display: flex; justify-content: space-between; margin-top: 30px; padding-top: 20px; border-top: 1px solid #eee;
+        }
+        .nav-btn { background: none; border: none; cursor: pointer; color: #999; font-weight: bold; font-size: 0.9rem; transition: 0.3s; }
+        .nav-btn:hover:not(:disabled) { color: var(--accent-color); }
+        .nav-btn:disabled { opacity: 0.3; cursor: default; }
+
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        
+        /* Print Styles */
+        @media print {
+            body * { visibility: hidden; }
+            #printable-journal, #printable-journal * { visibility: visible; }
+            #printable-journal { position: absolute; left: 0; top: 0; width: 100%; color: black; padding: 40px;}
+            .print-entry { margin-bottom: 30px; border-bottom: 1px solid #ccc; padding-bottom: 20px; page-break-inside: avoid; }
+            .print-header { font-weight: bold; font-size: 1.2em; margin-bottom: 5px; }
+        }
+        #printable-journal { display: none; }
+
+        @media (max-width: 600px) {
+            .card { padding: 25px; }
+            h1 { font-size: 1.6rem; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <div class="card">
+            <div class="top-nav">
+                <a href="index.html" class="home-btn">← Terug naar Gidsen</a>
+                <span class="day-badge" id="day-display">DAG 1</span>
+            </div>
+
+            <header>
+                <div class="subtitle" id="month-subtitle">TRAJECT: RUST & HERSTEL</div>
+                <h1 id="theme-title">...</h1>
+            </header>
+
+            <div class="scripture-box">
+                <span id="verse-text">Laden...</span>
+                <span class="reference" id="verse-ref">...</span>
+            </div>
+
+            <div class="action-box">
+                <span class="action-title">Oefening voor Vandaag</span>
+                <span id="action-text">...</span>
+            </div>
+
+            <label style="font-size:0.85rem; font-weight:bold; color:#888; display:block; margin-bottom:8px; text-transform: uppercase; letter-spacing: 1px;">Jouw reflectie:</label>
+            <textarea id="user-notes" placeholder="Wat spreekt tot je in de stilte? Schrijf het van je af..."></textarea>
+            <button class="btn-primary" id="save-btn" onclick="completeDay()">Dag Afronden</button>
+
+            <div id="night-section" class="night-thought">
+                <h3 style="margin:0 0 10px 0; font-size:1.1rem; color: #d6dbdf;">🌙 De Suizende Stilte</h3>
+                <p id="night-text" style="margin:0; line-height: 1.6;">...</p>
+            </div>
+
+            <div class="nav-buttons">
+                <button class="nav-btn" id="prev-btn" onclick="changeDay(-1)">← Vorige</button>
+                <button class="nav-btn" onclick="printJournal()">🖨️ Maak Boekje</button>
+                <button class="nav-btn" id="next-btn" onclick="changeDay(1)">Volgende →</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="printable-journal">
+        <div style="text-align:center; margin-bottom:40px;">
+            <h1>Mijn Reis met Elia</h1>
+            <p>Van de bergtop naar de stilte van de ziel.</p>
+        </div>
+        <div id="print-content"></div>
+    </div>
+
+    <script>
+        // CONFIGURATIE VOOR ELIA
+        // Thema's: Burn-out, Gods zorg, rust, stem van God, Sabbat, Hoop
+        
+        const journeyConfig = {
+            character: "Elia",
+            storageKey: "elia_journal", // Unieke opslag key
+            days: [
+                { theme: "De Aankondiging", verse: "Zowaar de HEER leeft, voor wiens aangezicht ik sta...", ref: "1 Koningen 17:1", action: "Elia wist voor Wie hij stond. Voor wiens 'publiek' leef jij? Probeer vandaag eens niet te pleasen, maar alleen te leven voor Gods oog.", night: "Je staat voor Zijn aangezicht. Niet om beoordeeld te worden, maar om gekend te zijn. Slaap in die veiligheid." },
+                { theme: "Afzondering", verse: "Ga weg vanhier... en verberg u bij de beek Krith.", ref: "1 Koningen 17:3", action: "Soms roept God ons uit de drukte. Schakel vandaag 1 uur je telefoon helemaal uit. Verberg je even bij God.", night: "Afzondering is geen straf, maar een medicijn. In de stilte bij de beek groeit je ziel." },
+                { theme: "Gods Voorziening", verse: "Ik heb de raven geboden u daar te onderhouden.", ref: "1 Koningen 17:4", action: "Maak je je zorgen over je onderhoud? Kijk naar buiten naar de vogels. Vertrouw erop dat God weet wat je nodig hebt.", night: "God gebruikt onverwachte manieren (raven) om voor je te zorgen. Laat je verrassen door Zijn creativiteit." },
+                { theme: "Als de beek opdroogt", verse: "En het gebeurde na verloop van dagen dat de beek uitdroogde.", ref: "1 Koningen 17:7", action: "Is er een zekerheid in je leven weggevallen? Raak niet in paniek. Een opgedroogde beek betekent vaak: 'Tijd om op te breken naar iets nieuws'.", night: "God is de bron die nooit opdroogt. Als aardse bronnen stoppen, stroomt Hij door." },
+                { theme: "Vragen om water", verse: "Haal toch een beetje water voor mij.", ref: "1 Koningen 17:10", action: "Durf jij om hulp te vragen als je leeg bent? Het is geen zwakte, maar menselijkheid. Vraag iemand om hulp vandaag.", night: "Elia was een profeet, maar hij had ook gewoon dorst. God kent jouw fysieke behoeften." },
+                { theme: "Geven uit tekort", verse: "De weduwe zei: Ik heb niets... alleen een handje meel.", ref: "1 Koningen 17:12", action: "Soms denken we dat we niets te bieden hebben. Deel vandaag toch iets kleins (een glimlach, tijd) uit je 'tekort'.", night: "God vult niet de potten die vol zijn, maar de potten die leeggeschonken worden." },
+                { theme: "De belofte van genoeg", verse: "Het meel in de pot zal niet opraken.", ref: "1 Koningen 17:14", action: "Leef vandaag in het vertrouwen van 'genoeg'. Niet te veel, niet te weinig. Precies genoeg voor vandaag.", night: "Morgen zorgt voor zichzelf. Voor vandaag is er genade genoeg. Rust in het 'heden'." },
+                { theme: "Leven en dood", verse: "Hij riep tot de HEER: Hebt U zelfs de weduwe kwaad gedaan door haar zoon te doden?", ref: "1 Koningen 17:20", action: "Elia worstelde met Gods rechtvaardigheid. Je mag je 'waarom'-vragen aan God stellen. Schrijf je grootste vraag op.", night: "God is niet bang voor jouw eerlijke vragen. Hij is de God van het leven, ook dwars door de dood heen." },
+                { theme: "De Strijd begint", verse: "Hoelang hinkt u nog op twee gedachten?", ref: "1 Koningen 18:21", action: "Compromissen slurpen energie. Maak vandaag een keuze over iets waar je al lang over twijfelt. Kies voor God.", night: "Een onverdeeld hart slaapt rustiger. Je hoeft niet meer te schipperen." },
+                { theme: "Het altaar herstellen", verse: "Hij herstelde het altaar van de HEER, dat omvergehaald was.", ref: "1 Koningen 18:30", action: "Is jouw 'geestelijk altaar' (je tijd met God) in verval geraakt? Leg vandaag één 'steen' terug. Begin klein.", night: "Herstel begint bij de basis. God wacht geduldig tot je het altaar weer opbouwt." },
+                { theme: "Vuur uit de hemel", verse: "Toen viel het vuur van de HEER neer.", ref: "1 Koningen 18:38", action: "Wij kunnen geen vuur maken, we kunnen alleen het hout stapelen. Doe wat jij kunt doen, en laat het resultaat aan God.", night: "Het vuur kwam niet door druk te doen, maar na een eenvoudig gebed. God hoort je." },
+                { theme: "De regen komt", verse: "Er is een geluid van een overvloedige regen.", ref: "1 Koningen 18:41", action: "Soms zie je nog niets (geen wolkje), maar hoor je de belofte al. Oefen vandaag in 'geloven wat je nog niet ziet'.", night: "Na de droogte komt de regen. God laat Zijn kinderen niet verdorren." },
+                { theme: "De kleine wolk", verse: "Zie, een wolkje als de hand van een man.", ref: "1 Koningen 18:44", action: "Veracht de kleine tekens van hoop niet. Zie je ergens een klein lichtpuntje? Dank God ervoor.", night: "Grote zegeningen beginnen vaak klein. Een wolkje wordt een stortbui van genade." },
+                { theme: "De inzinking", verse: "Het werd hem teveel. Hij ging onder een bremstruik zitten en bad om te mogen sterven.", ref: "1 Koningen 19:4", action: "Herken je dit gevoel? 'Ik kan niet meer'. Stop met rennen. Erken je grens vandaag.", night: "Burn-out is geen zonde. Het is een teken dat je te lang sterk bent geweest. Geef je over." },
+                { theme: "Gods recept: Slapen", verse: "Hij ging liggen en sliep.", ref: "1 Koningen 19:5", action: "God gaf geen preek, maar rust. Ga vanavond vroeg naar bed. Soms is slapen het meest geestelijke wat je kunt doen.", night: "Hij geeft het Zijn beminden in de slaap. Rust is een geschenk van de Schepper." },
+                { theme: "Gods recept: Eten", verse: "Sta op en eet, anders is de weg te zwaar voor je.", ref: "1 Koningen 19:7", action: "Zorg goed voor je lichaam (tempel). Eet vandaag bewust en gezond. Je hebt brandstof nodig voor je reis.", night: "God zorgt voor brood en water. Hij weet dat je van stof bent en kracht nodig hebt." },
+                { theme: "De Grot", verse: "Wat doe je hier, Elia?", ref: "1 Koningen 19:9", action: "God stelt de vraag: 'Waar ben je mee bezig?' Beantwoord die vraag vandaag eerlijk in je dagboek.", night: "Je mag schuilen in de grot, maar God zoekt je daar wel op. Niet om je te straffen, maar om je te vinden." },
+                { theme: "Niet in de storm", verse: "De HEER was niet in de wind... niet in de aardbeving... niet in het vuur.", ref: "1 Koningen 19:11", action: "Zoek God vandaag niet in spektakel of grote emoties. Zoek Hem in het gewone.", night: "God schreeuwt niet. Hij is aanwezig in de afwezigheid van lawaai." },
+                { theme: "De suizende stilte", verse: "Na het vuur klonk het suizen van een zachte stilte.", ref: "1 Koningen 19:12", action: "Wees 5 minuten helemaal stil. Geen muziek, geen woorden. Luister. Wat hoor je in je hart?", night: "In de stilte spreekt de Stem die je ziel heelt. Slaap in die rust." },
+                { theme: "Nieuwe opdracht", verse: "Ga terug, en zalf Elisa tot profeet in jouw plaats.", ref: "1 Koningen 19:16", action: "Je hoeft het niet alleen te doen. Wie kan jou helpen? Wie kun jij opleiden of betrekken?", night: "De last is niet alleen voor jouw schouders. God geeft helpers (Elisa)." },
+                { theme: "De mantel", verse: "Elia wierp zijn mantel naar Elisa.", ref: "1 Koningen 19:19", action: "Deel je kennis of ervaring vandaag met iemand anders. Mentorschap geeft energie.", night: "Wat jij hebt geleerd in de diepte, mag je doorgeven op de vlakte." },
+                { theme: "Naboth's Wijngaard", verse: "Sta op, daal af... want hij heeft de wijngaard in bezit genomen.", ref: "1 Koningen 21:18", action: "Elia moest opkomen voor rechtvaardigheid. Zie je onrecht om je heen? Spreek je uit of bid er voor.", night: "God is een God van recht. Hij ziet het onrecht en zal ten slotte rechtspreken." },
+                { theme: "Nederigheid", verse: "Hebt u gezien hoe Achab zich voor Mij vernederd heeft?", ref: "1 Koningen 21:29", action: "Zelfs een 'slechte' koning kreeg genade bij nederigheid. Oordeel niet te snel over anderen. God ziet het hart.", night: "Genade is er voor iedereen die buigt. Niemand is te ver weg voor Gods barmhartigheid." },
+                { theme: "Vuur en Genade", verse: "Als ik een man Gods ben, laat er dan vuur neerdalen.", ref: "2 Koningen 1:10", action: "Elia was soms hard. Jezus leerde later: 'Geen vuur, maar liefde'. Kies vandaag voor de zachte weg van Jezus.", night: "De wet (Elia) en de profeten getuigen, maar Jezus brengt de genade volmaakt." },
+                { theme: "De Jordaan", verse: "Elia nam zijn mantel, sloeg op het water en het werd verdeeld.", ref: "2 Koningen 2:8", action: "Sta je voor een barrière? Vraag God om een weg waar geen weg lijkt te zijn.", night: "God maakt een pad door de diepste rivieren. Je gaat naar de overkant." },
+                { theme: "Vraag wat je wilt", verse: "Vraag wat ik voor je doen mag, voordat ik weggenomen word.", ref: "2 Koningen 2:9", action: "Elisa vroeg een dubbel deel van de Geest. Durf groot te vragen voor je geestelijke leven.", night: "De Geest wordt niet met mate gegeven. God is royaal." },
+                { theme: "De Hemelvaart", verse: "Zie, een vurige wagen met paarden... zo voer Elia ten hemel.", ref: "2 Koningen 2:11", action: "Denk aan de hoop van de wederkomst. Op een dag zullen wij ook 'opgehaald' worden. Leef met die verwachting.", night: "De dood is niet het einde. Voor wie gelooft, staat de wagen klaar. Maranatha." },
+                { theme: "De Mantel blijft achter", verse: "Hij raapte de mantel van Elia op.", ref: "2 Koningen 2:13", action: "Wat wil jij achterlaten voor de mensen na jou? Welke 'mantel' weef jij vandaag met je daden?", night: "Je erfenis is niet wat je op de bank hebt, maar wat je in de harten van anderen hebt gezaaid." },
+                { theme: "Terugkeer op de Berg", verse: "En daar verscheen Mozes en Elia, die met Jezus spraken.", ref: "Mattheüs 17:3", action: "Elia stond eeuwen later naast Jezus op de berg. God vergeet zijn dienaren niet. Je werk is niet vergeefs.", night: "Jouw leven is verborgen met Christus. Je bent deel van een eeuwig verhaal." },
+                { theme: "De Elia-boodschap", verse: "Zie, Ik zend u de profeet Elia... om de harten van de vaders terug te brengen.", ref: "Maleachi 4:5", action: "Herstel van relaties is de kern van de eindtijd-boodschap. Bel iemand op waarmee het contact verwaterd is.", night: "God wil harten verbinden. Slaap in de vrede van verzoening." },
+                { theme: "Rust gevonden", verse: "Kom naar Mij, allen die vermoeid zijn, en Ik zal u rust geven.", ref: "Mattheüs 11:28", action: "Je reis met Elia zit erop. Je hebt geleerd dat na de storm de stilte komt. Dank God voor Zijn rust.", night: "Je hoeft niet meer te rennen. Je mag zijn. Rust zacht, geliefd kind van God." }
+            ]
+        };
+
+        // KERN LOGICA
+        let currentDay = 1;
+        
+        window.onload = function() {
+            // Laad dag 1
+            loadDay(1);
+        };
+
+        function loadDay(dayIndex) {
+            currentDay = dayIndex;
+            const data = journeyConfig.days[dayIndex - 1];
+            
+            // Teksten vullen
+            document.getElementById('day-display').innerText = `DAG ${dayIndex}`;
+            document.getElementById('theme-title').innerText = data.theme;
+            document.getElementById('verse-text').innerText = `"${data.verse}"`;
+            document.getElementById('verse-ref').innerText = data.ref;
+            document.getElementById('action-text').innerText = data.action;
+            document.getElementById('night-text').innerText = data.night;
+
+            // Notitie ophalen
+            const savedNote = localStorage.getItem(`${journeyConfig.storageKey}_day_${dayIndex}`);
+            document.getElementById('user-notes').value = savedNote ? savedNote : "";
+            
+            // Nachtgedachte tonen als er al een notitie is
+            const nightSec = document.getElementById('night-section');
+            if(savedNote && savedNote.length > 2) nightSec.style.display = 'block';
+            else nightSec.style.display = 'none';
+
+            // Knoppen status
+            document.getElementById('prev-btn').disabled = (dayIndex === 1);
+            document.getElementById('next-btn').disabled = (dayIndex === journeyConfig.days.length);
+        }
+
+        function completeDay() {
+            const noteText = document.getElementById('user-notes').value;
+            if(noteText.trim() === "") {
+                alert("Schrijf een korte reflectie voordat je de dag afrondt.");
+                return;
+            }
+            
+            localStorage.setItem(`${journeyConfig.storageKey}_day_${currentDay}`, noteText);
+            
+            const nightSec = document.getElementById('night-section');
+            nightSec.style.display = 'block';
+            nightSec.scrollIntoView({behavior: "smooth"});
+            
+            const btn = document.getElementById('save-btn');
+            const oldText = btn.innerText;
+            btn.innerText = "✓ Opgeslagen";
+            btn.style.background = "#27ae60"; // Groen
+            
+            setTimeout(() => {
+                btn.innerText = oldText;
+                btn.style.background = "var(--btn-gradient)";
+            }, 2000);
+        }
+
+        function changeDay(offset) {
+            const newDay = currentDay + offset;
+            if(newDay >= 1 && newDay <= journeyConfig.days.length) {
+                loadDay(newDay);
+            }
+        }
+
+        function printJournal() {
+            const container = document.getElementById('print-content');
+            container.innerHTML = ""; // Leegmaken
+
+            journeyConfig.days.forEach((day, index) => {
+                const dayNum = index + 1;
+                const savedNote = localStorage.getItem(`${journeyConfig.storageKey}_day_${dayNum}`) || "(Nog geen reflectie geschreven)";
+                
+                const entry = document.createElement('div');
+                entry.className = 'print-entry';
+                entry.innerHTML = `
+                    <div class="print-header">Dag ${dayNum}: ${day.theme}</div>
+                    <div style="font-style:italic; margin-bottom:10px;">"${day.verse}" (${day.ref})</div>
+                    <div style="margin-bottom:10px; font-weight:bold;">Oefening: ${day.action}</div>
+                    <div style="background:#f9f9f9; padding:10px; border-left:3px solid #ccc;">
+                        <strong>Mijn reflectie:</strong><br>${savedNote}
+                    </div>
+                `;
+                container.appendChild(entry);
+            });
+            window.print();
+        }
+    </script>
+</body>
+</html>

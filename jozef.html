@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>31 Dagen met Jozef: Veerkracht & Vergeving</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Lato:wght@300;400;700&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            /* Jozef Thema: Egyptisch Goud, Nijl-blauw & Linnen */
+            --primary-color: #0d47a1; /* Diep koninklijk blauw */
+            --primary-light: #5472d3; 
+            --accent-color: #fbc02d;  /* Goud/Oker */
+            --pastel-bg: #fffbf0;     /* Papyrus wit */
+            --glass-bg: rgba(255, 255, 255, 0.96);
+            --btn-gradient: linear-gradient(135deg, #0d47a1 0%, #002171 100%);
+            --radius: 30px;
+        }
+
+        body, html {
+            margin: 0; padding: 0; height: 100%;
+            font-family: 'Lato', sans-serif;
+            color: #1a237e;
+            background-color: var(--pastel-bg);
+        }
+
+        .container {
+            min-height: 100vh; display: flex; justify-content: center; align-items: center; padding: 20px;
+        }
+
+        .card {
+            background: var(--glass-bg);
+            border-radius: var(--radius);
+            padding: 40px;
+            max-width: 600px; width: 100%;
+            box-shadow: 0 20px 50px rgba(13, 71, 161, 0.15);
+            position: relative;
+            border-top: 5px solid var(--accent-color);
+            border: 1px solid #e3f2fd;
+        }
+
+        header { text-align: center; margin-bottom: 25px; }
+
+        .top-nav {
+            display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;
+        }
+
+        .home-btn {
+            text-decoration: none; color: var(--primary-light); font-weight: bold; font-size: 0.9rem; transition: 0.3s;
+        }
+        .home-btn:hover { color: var(--accent-color); }
+
+        h1 { 
+            font-family: 'Playfair Display', serif; 
+            color: var(--primary-color); 
+            margin: 5px 0; 
+            font-size: 2rem; 
+        }
+        
+        .subtitle { 
+            font-size: 0.8rem; text-transform: uppercase; letter-spacing: 3px; color: var(--accent-color); font-weight: bold; 
+        }
+
+        .day-badge {
+            background: var(--primary-color); color: white; padding: 5px 15px; border-radius: 20px; font-size: 0.8rem; letter-spacing: 1px;
+        }
+
+        .scripture-box {
+            text-align: center; margin: 30px 0; font-size: 1.25rem; line-height: 1.6; color: #0d47a1; font-family: 'Playfair Display', serif; font-style: italic;
+        }
+        .reference { 
+            display: block; margin-top: 15px; font-weight: bold; font-style: normal; font-size: 0.85rem; color: var(--accent-color); font-family: 'Lato', sans-serif; text-transform: uppercase; 
+        }
+
+        .action-box {
+            background: #fffde7; border-left: 4px solid var(--accent-color);
+            padding: 20px; border-radius: 10px; margin-bottom: 25px;
+            box-shadow: 0 2px 15px rgba(0,0,0,0.03);
+        }
+        .action-title { font-weight: bold; color: var(--primary-color); text-transform: uppercase; font-size: 0.75rem; display: block; margin-bottom: 8px; letter-spacing: 1px;}
+
+        textarea {
+            width: 100%; height: 120px; padding: 15px; border-radius: 15px; border: 2px solid #e3f2fd;
+            font-family: 'Lato', sans-serif; font-size: 1rem; margin-bottom: 15px; resize: vertical; outline: none; transition: 0.3s;
+            background: #fafafa; color: #1a237e;
+        }
+        textarea:focus { border-color: var(--accent-color); background: #fff; }
+
+        .btn-primary {
+            background: var(--btn-gradient); color: white; border: none; padding: 15px 30px;
+            font-size: 1rem; border-radius: 50px; cursor: pointer; width: 100%; font-weight: bold; letter-spacing: 0.5px;
+            box-shadow: 0 5px 15px rgba(13, 71, 161, 0.2); transition: 0.3s;
+        }
+        .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 8px 20px rgba(13, 71, 161, 0.3); }
+
+        .night-thought {
+            margin-top: 30px; background: var(--primary-color); color: #e3f2fd; padding: 25px;
+            border-radius: 20px; text-align: center; display: none; animation: fadeIn 0.6s ease;
+        }
+        
+        .nav-buttons {
+            display: flex; justify-content: space-between; margin-top: 30px; padding-top: 20px; border-top: 1px solid #eee;
+        }
+        .nav-btn { background: none; border: none; cursor: pointer; color: #90a4ae; font-weight: bold; font-size: 0.9rem; transition: 0.3s; }
+        .nav-btn:hover:not(:disabled) { color: var(--accent-color); }
+        .nav-btn:disabled { opacity: 0.3; cursor: default; }
+
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        
+        /* Print Styles */
+        @media print {
+            body * { visibility: hidden; }
+            #printable-journal, #printable-journal * { visibility: visible; }
+            #printable-journal { position: absolute; left: 0; top: 0; width: 100%; color: black; padding: 40px;}
+            .print-entry { margin-bottom: 30px; border-bottom: 1px solid #ccc; padding-bottom: 20px; page-break-inside: avoid; }
+            .print-header { font-weight: bold; font-size: 1.2em; margin-bottom: 5px; }
+        }
+        #printable-journal { display: none; }
+
+        @media (max-width: 600px) {
+            .card { padding: 25px; }
+            h1 { font-size: 1.6rem; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <div class="card">
+            <div class="top-nav">
+                <a href="index.html" class="home-btn">← Terug naar Gidsen</a>
+                <span class="day-badge" id="day-display">DAG 1</span>
+                </div>
+
+            <header>
+                <div class="subtitle" id="month-subtitle">TRAJECT: VEERKRACHT & VERGEVING</div>
+                <h1 id="theme-title">...</h1>
+            </header>
+
+            <div class="scripture-box">
+                <span id="verse-text">Laden...</span>
+                <span class="reference" id="verse-ref">...</span>
+            </div>
+
+            <div class="action-box">
+                <span class="action-title">Gods spoor vandaag</span>
+                <span id="action-text">...</span>
+            </div>
+
+            <label style="font-size:0.85rem; font-weight:bold; color:#5472d3; display:block; margin-bottom:8px; text-transform: uppercase; letter-spacing: 1px;">Mijn reflectie:</label>
+            <textarea id="user-notes" placeholder="Hoe zie jij Gods hand in jouw situatie?"></textarea>
+            <button class="btn-primary" id="save-btn" onclick="completeDay()">Dag Afronden</button>
+
+            <div id="night-section" class="night-thought">
+                <h3 style="margin:0 0 10px 0; font-size:1.1rem; color: #fbc02d;">✨ Dromen in het Donker</h3>
+                <p id="night-text" style="margin:0; line-height: 1.6;">...</p>
+            </div>
+
+            <div class="nav-buttons">
+                <button class="nav-btn" id="prev-btn" onclick="changeDay(-1)">← Vorige</button>
+                <button class="nav-btn" onclick="printJournal()">🖨️ Reisverslag</button>
+                <button class="nav-btn" id="next-btn" onclick="changeDay(1)">Volgende →</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="printable-journal">
+        <div style="text-align:center; margin-bottom:40px;">
+            <h1 style="color:#0d47a1;">Mijn Reis met Jozef</h1>
+            <p>Van de put naar het paleis: Groeien door tegenslag heen.</p>
+        </div>
+        <div id="print-content"></div>
+    </div>
+
+    <script>
+        // CONFIGURATIE VOOR JOZEF
+        
+        const journeyConfig = {
+            character: "Jozef",
+            storageKey: "jozef_journal", 
+            days: [
+                { theme: "Geliefd kind", verse: "Israël had Jozef lief, meer dan al zijn zonen.", ref: "Genesis 37:3", action: "Je bent geliefd door de Vader, niet om wat je doet, maar om wie je bent. Schrijf op: 'Ik ben geliefd'. Laat dat je basis zijn.", night: "De liefde van de Vader is de mantel die je warm houdt, ook als de wereld koud is." },
+                { theme: "De Dromer", verse: "Luister toch naar deze droom die ik gehad heb.", ref: "Genesis 37:6", action: "Koester je dromen. Heeft God je iets laten zien over je toekomst? Schrijf het op en bewaar het in je hart, ook als anderen het niet begrijpen.", night: "God spreekt in de nacht. Dromen zijn fluisteringen van de hemel." },
+                { theme: "Jaloezie in de buurt", verse: "Zijn broers haatten hem en konden niet vriendelijk met hem spreken.", ref: "Genesis 37:4", action: "Word je niet begrepen of benijd? Reageer niet met haat terug. Zegen degenen die je vervloeken. Dat is de weg van Jezus.", night: "Mensen kunnen je jas afpakken, maar niet je roeping." },
+                { theme: "De Put", verse: "Ze namen hem en wierpen hem in de put; de put was leeg.", ref: "Genesis 37:24", action: "Zit je in een dieptepunt? Een 'lege put'? Roep God aan. Zelfs als je geen water ziet, is Hij de Bron die bij je is.", night: "In de diepte leer je omhoog kijken. De sterren zijn het best zichtbaar vanuit het donker." },
+                { theme: "Verkocht", verse: "Zij verkochten Jozef voor twintig zilverstukken.", ref: "Genesis 37:28", action: "Voel je je verraden of 'goedkoop' behandeld? Bedenk dat Jezus ook werd verkocht voor zilver. Je bent in goed gezelschap.", night: "Je waarde wordt niet bepaald door de prijs die mensen je geven, maar door de prijs die God betaalde (Zijn Zoon)." },
+                { theme: "God is mee", verse: "De HEER was met Jozef, zodat hij een voorspoedig man werd.", ref: "Genesis 39:2", action: "Succes hangt niet af van je locatie (Egypte), maar van je connectie (God). Vraag God om Zijn zegen over je werk vandaag.", night: "Je bent nooit alleen. Zelfs in een vreemd land wandelt Hij naast je." },
+                { theme: "Dienstbaarheid", verse: "Jozef vond genade in zijn ogen en hij bediende hem.", ref: "Genesis 39:4", action: "Doe je werk uitmuntend, ook als het niet je droombaan is. Wees trouw in het kleine. Dien zoals Jezus diende.", night: "God ziet je inzet, ook als je baas het niet ziet." },
+                { theme: "Verleiding weerstaan", verse: "Hoe zou ik dit grote kwaad kunnen doen en zondigen tegen God?", ref: "Genesis 39:9", action: "Jozef rende weg voor zonde. Is er een verleiding (lust, macht, geld) waar jij voor moet wegrennen? Doe het vandaag. Vluchten is soms dapper.", night: "Een zuiver geweten is het zachtste kussen om op te slapen." },
+                { theme: "Onschuldig gestraft", verse: "Jozefs meester nam hem en zette hem in de gevangenis.", ref: "Genesis 39:20", action: "Soms doe je het goede en krijg je straf. Word niet bitter. God is Rechter. Laat je zaak aan Hem over.", night: "Beter onschuldig in de cel met God, dan schuldig in het paleis zonder Hem." },
+                { theme: "Trouw in de bajes", verse: "De overste van de gevangenis gaf alle gevangenen in de hand van Jozef.", ref: "Genesis 39:22", action: "Zelfs in de gevangenis bloeide Jozef. Bloei waar je geplant bent. Wie kun jij vandaag helpen, ook al heb je het zelf zwaar?", night: "Je omstandigheden bepalen niet je karakter. Jij bepaalt hoe je reageert." },
+                { theme: "De vergeten belofte", verse: "Toch dacht de opperschenker niet aan Jozef, maar hij vergat hem.", ref: "Genesis 40:23", action: "Wachten op mensen levert teleurstelling op. Wacht op God. Voel je je vergeten? God heeft je naam in Zijn handpalmen gegrift.", night: "Mensen vergeten, God onthoudt. Hij komt op Zijn tijd." },
+                { theme: "Twee jaar wachten", verse: "Het gebeurde na verloop van twee volle jaren...", ref: "Genesis 41:1", action: "Geduld is een spier die getraind moet worden. Gebruik je wachttijd als voorbereidingstijd. Lees, leer, bid.", night: "God is nooit te laat. Als de tijd rijp is, beweegt Hij snel." },
+                { theme: "Geroepen voor de koning", verse: "Zij haalden hem haastig uit de kerker.", ref: "Genesis 41:14", action: "Ben jij klaar als je roeping komt? Zorg dat je geestelijk 'geschoren en gewassen' bent (gereinigd en voorbereid).", night: "Van de kerker naar de troon in één dag. Zo snel kan God je lot keren." },
+                { theme: "Niet ik, maar God", verse: "Het is niet aan mij! God zal de farao antwoorden.", ref: "Genesis 41:16", action: "Als je succes hebt of een compliment krijgt, wijs direct naar Boven. Geef God de eer. Dat houdt je nederig en veilig.", night: "Je bent een instrument in Zijn hand. De muziek is van Hem." },
+                { theme: "Wijsheid in crisis", verse: "God heeft u dit alles bekendgemaakt; er is niemand zo verstandig als u.", ref: "Genesis 41:39", action: "De wereld zoekt wijsheid. De Geest van God maakt je wijzer dan je leraren. Vraag om inzicht voor de problemen van vandaag.", night: "Gods Geest rust op jou. Je bent een licht in een donkere wereld." },
+                { theme: "Nieuwe naam, nieuwe kleren", verse: "Farao noemde de naam van Jozef: Safenat-Paneach (Redder van de wereld).", ref: "Genesis 41:45", action: "God geeft je een nieuwe identiteit. Je bent niet meer 'de slaaf' of 'de gevangene', maar 'koningskind'. Leef daarnaar.", night: "Het oude is voorbij, zie, alles is nieuw geworden." },
+                { theme: "Manasse: God doet vergeten", verse: "God heeft mij al mijn moeite en het hele huis van mijn vader laten vergeten.", ref: "Genesis 41:51", action: "Vraag God om de scherpe kantjes van je pijnlijke herinneringen weg te nemen. Laat het verleden rusten.", night: "Genezing is mogelijk. Je littekens worden getuigenissen." },
+                { theme: "Efraïm: God doet vrucht dragen", verse: "God heeft mij vruchtbaar gemaakt in het land van mijn verdrukking.", ref: "Genesis 41:52", action: "Kijk naar wat je hebt bereikt ondanks je pijn. Waar zie je vrucht? Dank God voor je groei.", night: "Druk brengt olie voort; persing brengt wijn. Je pijn is niet voor niets geweest." },
+                { theme: "De broers komen", verse: "Jozef herkende zijn broers, maar zij herkenden hem niet.", ref: "Genesis 42:8", action: "Soms brengt God mensen uit je verleden terug. Raak niet in paniek. God heeft de regie. Vraag om wijsheid hoe te reageren.", night: "Jij bent veranderd, gegroeid. Je bekijkt de situatie nu van bovenaf (als heerser over je emoties)." },
+                { theme: "De test", verse: "Jullie zijn spionnen!", ref: "Genesis 42:9", action: "Jozef testte of zijn broers veranderd waren. Wees niet naïef in vertrouwen. Kijk naar de vruchten van iemands leven (bekering).", night: "Liefde is niet blind. Ware verzoening vraagt om waarheid." },
+                { theme: "Emotie tonen", verse: "Hij wendde zich van hen af en huilde.", ref: "Genesis 42:24", action: "Sterke leiders mogen huilen. Stop je emoties niet weg voor God. Tranen wassen de ziel schoon.", night: "Jezus huilde ook. Je tranen zijn veilig bij Hem." },
+                { theme: "Benjamin", verse: "God zij u genadig, mijn zoon.", ref: "Genesis 43:29", action: "Jozefs hart brak van liefde voor zijn broertje. Koester je familie, je broers en zussen in het geloof. Liefde is de sterkste band.", night: "Broederliefde blijft. Het is een voorproefje van de hemel." },
+                { theme: "Juda staat op", verse: "Laat uw dienaar toch in de plaats van de jongen blijven.", ref: "Genesis 44:33", action: "Juda bood zichzelf aan als plaatsvervanger. Dit is het hart van het evangelie. Wees bereid iets op te offeren voor een ander.", night: "Er is Een die Zichzelf gaf in jouw plaats: Jezus, de Leeuw van Juda." },
+                { theme: "De onthulling", verse: "Ik ben Jozef! Leeft mijn vader nog?", ref: "Genesis 45:3", action: "Het masker mag af. Wees jezelf. Kwetsbaarheid is kracht. Deel je getuigenis met iemand.", night: "Waarheid brengt vrijheid. Je hoeft je niet meer te verbergen." },
+                { theme: "De kern: Gods plan", verse: "Jullie hebben mij hier niet naartoe gestuurd, maar God.", ref: "Genesis 45:8", action: "Kijk naar je levenslijn. Zie je de rode draad? God was erbij in de put, in de cel en in het paleis. Dank Hem voor Zijn leiding.", night: "Toeval bestaat niet voor een kind van God. Alles werkt mee ten goede." },
+                { theme: "Zorg voor vader", verse: "Kom naar mij toe, wacht niet... ik zal u daar onderhouden.", ref: "Genesis 45:9-11", action: "Eer je ouders. Zorg voor de ouderen in je omgeving. Jozef gebruikte zijn macht om te dienen.", night: "Zorgzaamheid is een koninklijke eigenschap." },
+                { theme: "Vergeving is compleet", verse: "Hij kuste al zijn broers en huilde met hen.", ref: "Genesis 45:15", action: "Vergeving is een keuze om de schuld los te laten. Omhels (in je hart) degene die je pijn deed. Laat het los. Je bent vrij.", night: "Wie vergeeft, lijkt het meest op Jezus." },
+                { theme: "Gosen: De beste plek", verse: "Jullie zullen in het land Gosen wonen.", ref: "Genesis 45:10", action: "God geeft Zijn kinderen het beste deel, zelfs in Egypte (de wereld). Geniet van Gods zegeningen zonder je er aan te hechten.", night: "Je woont in de wereld, maar je bent niet van de wereld. Gosen is een veilige haven." },
+                { theme: "Het kwaad ten goede gekeerd", verse: "Jullie hebben wel kwaad tegen mij bedacht, maar God heeft dat ten goede gedacht.", ref: "Genesis 50:20", action: "Dit is de sleuteltekst. Wat de vijand bedoelde om je te breken, gebruikt God om je te bouwen. Geloof dat vandaag.", night: "God schrijft het laatste hoofdstuk. En dat is een goed hoofdstuk." },
+                { theme: "Profetie van de uittocht", verse: "God zal zeker naar jullie omzien... neem mijn beenderen mee.", ref: "Genesis 50:25", action: "Kijk vooruit! Jozef wist: dit is niet ons eindstation. Wij zijn op weg naar het Beloofde Land. Leef met die hoop.", night: "Wij wachten op een stad met fundamenten. De dood houdt ons niet vast." },
+                { theme: "Einde reis", verse: "In een kist in Egypte... maar met hoop.", ref: "Genesis 50:26", action: "Je reis met Jozef zit erop. Je hebt geleerd dat geen put te diep is voor Gods liefde. Ga en wees een zegen.", night: "Slaap zacht. God is met je, van de wieg tot het graf en tot in de eeuwigheid." }
+            ]
+        };
+
+        // BASIS LOGICA
+        let currentDay = 1;
+
+        window.onload = function() {
+            loadDay(1);
+        };
+
+        function loadDay(dayIndex) {
+            currentDay = dayIndex;
+            const data = journeyConfig.days[dayIndex - 1];
+            
+            document.getElementById('day-display').innerText = `DAG ${dayIndex}`;
+            document.getElementById('theme-title').innerText = data.theme;
+            document.getElementById('verse-text').innerText = `"${data.verse}"`;
+            document.getElementById('verse-ref').innerText = data.ref;
+            document.getElementById('action-text').innerText = data.action;
+            document.getElementById('night-text').innerText = data.night;
+
+            const savedNote = localStorage.getItem(`${journeyConfig.storageKey}_day_${dayIndex}`);
+            document.getElementById('user-notes').value = savedNote ? savedNote : "";
+            
+            const nightSec = document.getElementById('night-section');
+            if(savedNote && savedNote.length > 2) nightSec.style.display = 'block';
+            else nightSec.style.display = 'none';
+
+            document.getElementById('prev-btn').disabled = (dayIndex === 1);
+            document.getElementById('next-btn').disabled = (dayIndex === journeyConfig.days.length);
+        }
+
+        function completeDay() {
+            const noteText = document.getElementById('user-notes').value;
+            if(noteText.trim() === "") {
+                alert("Schrijf een korte gedachte op voordat je opslaat.");
+                return;
+            }
+            localStorage.setItem(`${journeyConfig.storageKey}_day_${currentDay}`, noteText);
+            
+            const nightSec = document.getElementById('night-section');
+            nightSec.style.display = 'block';
+            nightSec.scrollIntoView({behavior: "smooth"});
+            
+            const btn = document.getElementById('save-btn');
+            const oldText = btn.innerText;
+            btn.innerText = "✓ Opgeslagen";
+            btn.style.background = "#27ae60"; 
+            
+            setTimeout(() => {
+                btn.innerText = oldText;
+                btn.style.background = "var(--btn-gradient)";
+            }, 2000);
+        }
+
+        function changeDay(offset) {
+            const newDay = currentDay + offset;
+            if(newDay >= 1 && newDay <= journeyConfig.days.length) {
+                loadDay(newDay);
+            }
+        }
+
+        function printJournal() {
+            const container = document.getElementById('print-content');
+            container.innerHTML = ""; 
+
+            journeyConfig.days.forEach((day, index) => {
+                const dayNum = index + 1;
+                const savedNote = localStorage.getItem(`${journeyConfig.storageKey}_day_${dayNum}`) || "(Nog geen notitie)";
+                
+                const entry = document.createElement('div');
+                entry.className = 'print-entry';
+                entry.innerHTML = `
+                    <div class="print-header">Dag ${dayNum}: ${day.theme}</div>
+                    <div style="font-style:italic; margin-bottom:10px;">"${day.verse}" (${day.ref})</div>
+                    <div style="margin-bottom:10px; font-weight:bold;">Actie: ${day.action}</div>
+                    <div style="background:#f9f9f9; padding:10px; border-left:3px solid #ccc;">
+                        <strong>Mijn gedachte:</strong><br>${savedNote}
+                    </div>
+                `;
+                container.appendChild(entry);
+            });
+            window.print();
+        }
+    </script>
+</body>
+</html>

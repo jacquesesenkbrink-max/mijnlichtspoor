@@ -1,0 +1,360 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>31 Dagen met Maria: Devotie & Verwachting</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Lato:wght@300;400;700&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            /* Maria Thema: Koningsblauw, Zilver, Maanlicht & Stilte */
+            --primary-color: #1a5276; /* Diep kalm blauw */
+            --primary-light: #5499c7; 
+            --accent-color: #f1c40f;  /* Subtiel goud */
+            --pastel-bg: #f4f6f7;     /* Koel wit/grijs */
+            --glass-bg: rgba(255, 255, 255, 0.96);
+            --btn-gradient: linear-gradient(135deg, #1a5276 0%, #0e2f44 100%);
+            --radius: 40px; /* Zachte, vrouwelijke vormen */
+        }
+
+        body, html {
+            margin: 0; padding: 0; height: 100%;
+            font-family: 'Lato', sans-serif;
+            color: #154360;
+            background-color: var(--pastel-bg);
+            transition: background 1s ease;
+        }
+
+        /* Achtergrondlaag */
+        #bg-image {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            z-index: -2; background-size: cover; background-position: center;
+            opacity: 0; transition: opacity 1s ease-in-out;
+        }
+        
+        #bg-overlay {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            z-index: -1; transition: backdrop-filter 1s ease;
+            background: rgba(244, 246, 247, 0.6); 
+        }
+
+        .container {
+            min-height: 100vh; display: flex; justify-content: center; align-items: center; padding: 20px;
+        }
+
+        .card {
+            background: var(--glass-bg);
+            border-radius: var(--radius);
+            padding: 40px;
+            max-width: 600px; width: 100%;
+            box-shadow: 0 20px 50px rgba(26, 82, 118, 0.15);
+            position: relative;
+            border-top: 5px solid var(--primary-light);
+        }
+
+        header { text-align: center; margin-bottom: 25px; }
+
+        .top-nav {
+            display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;
+        }
+
+        .home-btn {
+            text-decoration: none; color: var(--primary-light); font-weight: bold; font-size: 0.9rem; transition: 0.3s;
+        }
+        .home-btn:hover { color: var(--primary-color); }
+
+        h1 { 
+            font-family: 'Playfair Display', serif; 
+            color: var(--primary-color); 
+            margin: 5px 0; 
+            font-size: 2rem; 
+        }
+        
+        .subtitle { 
+            font-size: 0.8rem; text-transform: uppercase; letter-spacing: 3px; color: var(--primary-light); font-weight: bold; 
+        }
+
+        .day-badge {
+            background: var(--primary-color); color: white; padding: 5px 15px; border-radius: 20px; font-size: 0.8rem; letter-spacing: 1px;
+        }
+
+        .scripture-box {
+            text-align: center; margin: 30px 0; font-size: 1.25rem; line-height: 1.6; color: #1a5276; font-family: 'Playfair Display', serif; font-style: italic;
+        }
+        .reference { 
+            display: block; margin-top: 15px; font-weight: bold; font-style: normal; font-size: 0.85rem; color: var(--primary-light); font-family: 'Lato', sans-serif; text-transform: uppercase; 
+        }
+
+        .action-box {
+            background: #ebf5fb; border-left: 4px solid var(--primary-light);
+            padding: 20px; border-radius: 10px; margin-bottom: 25px;
+            box-shadow: 0 2px 15px rgba(0,0,0,0.03);
+        }
+        .action-title { font-weight: bold; color: var(--primary-color); text-transform: uppercase; font-size: 0.75rem; display: block; margin-bottom: 8px; letter-spacing: 1px;}
+
+        textarea {
+            width: 100%; height: 120px; padding: 15px; border-radius: 15px; border: 2px solid #d4e6f1;
+            font-family: 'Lato', sans-serif; font-size: 1rem; margin-bottom: 15px; resize: vertical; outline: none; transition: 0.3s;
+            background: #fafafa; color: #154360;
+        }
+        textarea:focus { border-color: var(--primary-color); background: #fff; }
+
+        .btn-primary {
+            background: var(--btn-gradient); color: white; border: none; padding: 15px 30px;
+            font-size: 1rem; border-radius: 50px; cursor: pointer; width: 100%; font-weight: bold; letter-spacing: 0.5px;
+            box-shadow: 0 5px 15px rgba(26, 82, 118, 0.2); transition: 0.3s;
+        }
+        .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 8px 20px rgba(26, 82, 118, 0.3); }
+
+        .night-thought {
+            margin-top: 30px; background: var(--primary-color); color: #d4e6f1; padding: 25px;
+            border-radius: 20px; text-align: center; display: none; animation: fadeIn 0.6s ease;
+        }
+        
+        .nav-buttons {
+            display: flex; justify-content: space-between; margin-top: 30px; padding-top: 20px; border-top: 1px solid #eee;
+        }
+        .nav-btn { background: none; border: none; cursor: pointer; color: #a9cce3; font-weight: bold; font-size: 0.9rem; transition: 0.3s; }
+        .nav-btn:hover:not(:disabled) { color: var(--primary-color); }
+        .nav-btn:disabled { opacity: 0.3; cursor: default; }
+
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        
+        /* Print Styles */
+        @media print {
+            body * { visibility: hidden; }
+            #printable-journal, #printable-journal * { visibility: visible; }
+            #printable-journal { position: absolute; left: 0; top: 0; width: 100%; color: black; padding: 40px;}
+            .print-entry { margin-bottom: 30px; border-bottom: 1px solid #ccc; padding-bottom: 20px; page-break-inside: avoid; }
+            .print-header { font-weight: bold; font-size: 1.2em; margin-bottom: 5px; }
+        }
+        #printable-journal { display: none; }
+
+        @media (max-width: 600px) {
+            .card { padding: 25px; }
+            h1 { font-size: 1.6rem; }
+        }
+    </style>
+</head>
+<body>
+
+    <div id="bg-image"></div>
+    <div id="bg-overlay"></div>
+
+    <div class="container">
+        <div class="card">
+            <div class="top-nav">
+                <a href="index.html" class="home-btn">← Terug naar Gidsen</a>
+                <span class="day-badge" id="day-display">DAG 1</span>
+                <button onclick="togglePhotos()" id="photo-toggle" style="border:none; background:none; cursor:pointer; font-size:1.2rem;" title="Achtergrond aan/uit">📷</button>
+            </div>
+
+            <header>
+                <div class="subtitle" id="month-subtitle">TRAJECT: DEVOTIE & VERWACHTING</div>
+                <h1 id="theme-title">...</h1>
+            </header>
+
+            <div class="scripture-box">
+                <span id="verse-text">Laden...</span>
+                <span class="reference" id="verse-ref">...</span>
+            </div>
+
+            <div class="action-box">
+                <span class="action-title">In de stilte</span>
+                <span id="action-text">...</span>
+            </div>
+
+            <label style="font-size:0.85rem; font-weight:bold; color:#5499c7; display:block; margin-bottom:8px; text-transform: uppercase; letter-spacing: 1px;">Mijn overdenking:</label>
+            <textarea id="user-notes" placeholder="Wat bewaar jij vandaag in je hart?"></textarea>
+            <button class="btn-primary" id="save-btn" onclick="completeDay()">Dag Afronden</button>
+
+            <div id="night-section" class="night-thought">
+                <h3 style="margin:0 0 10px 0; font-size:1.1rem; color: #a9cce3;">🕊️ Woord in de Nacht</h3>
+                <p id="night-text" style="margin:0; line-height: 1.6;">...</p>
+            </div>
+
+            <div class="nav-buttons">
+                <button class="nav-btn" id="prev-btn" onclick="changeDay(-1)">← Vorige</button>
+                <button class="nav-btn" onclick="printJournal()">🖨️ Reisverslag</button>
+                <button class="nav-btn" id="next-btn" onclick="changeDay(1)">Volgende →</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="printable-journal">
+        <div style="text-align:center; margin-bottom:40px;">
+            <h1 style="color:#1a5276;">Mijn Reis met Maria</h1>
+            <p>Ja zeggen tegen God: Een weg van overgave en vrede.</p>
+        </div>
+        <div id="print-content"></div>
+    </div>
+
+    <script>
+        // CONFIGURATIE VOOR MARIA
+        // Thema's: Overgave, Advent/Verwachting, Moederschap, Lijden, Magnificat (Recht)
+        
+        const journeyConfig = {
+            character: "Maria",
+            storageKey: "maria_journal", // Unieke opslag key
+            days: [
+                { theme: "De begenadigde", verse: "Wees gegroet, begenadigde, de Heer is met u.", ref: "Lukas 1:28", action: "Je bent 'begenadigd'. Niet omdat je perfect bent, maar omdat God voor jou koos. Schrijf vandaag op een briefje: 'Ik ben geliefd en gewild' en leg het op je nachtkastje.", night: "Genade betekent dat Gods glimlach op je rust, nog voordat je iets gepresteerd hebt." },
+                { theme: "De verstoring", verse: "Zij raakte in de war door deze woorden.", ref: "Lukas 1:29", action: "Soms breekt God in onze plannen in. Is er iets in je leven dat anders loopt dan gedacht? Probeer vandaag niet te vechten tegen de verandering, maar vraag: 'Heer, wat wilt U hiermee?'", night: "Wees niet bang voor heilige verstoringen. Ze zijn het begin van een wonder." },
+                { theme: "Geen angst", verse: "Wees niet bevreesd, Maria.", ref: "Lukas 1:30", action: "Angst is de grootste vijand van geloof. Adem diep in en uit. Zeg bij elke uitademing: 'Ik laat mijn angst los'.", night: "Waar de Liefde binnenkomt, moet de angst vertrekken." },
+                { theme: "Hoe zal dit zijn?", verse: "Hoe zal dit mogelijk zijn...?", ref: "Lukas 1:34", action: "Je mag vragen stellen aan God. Geloof is niet blind alles slikken. Stel vandaag je eerlijke vragen aan God, maar blijf open voor Zijn antwoord.", night: "God wordt niet boos om je vragen, zolang je hart maar open blijft voor Zijn wonder." },
+                { theme: "Het Grote Ja", verse: "Mij geschiede naar uw woord.", ref: "Lukas 1:38", action: "Dit is het kerngebed van overgave. Is er een situatie waar je tegen vecht? Probeer eens zachtjes te zeggen: 'Heer, laat Uw wil gebeuren'.", night: "Overgave is geen zwakte, het is de hoogste vorm van kracht." },
+                { theme: "Op weg gaan", verse: "Maria stond op en reisde met spoed naar het bergland.", ref: "Lukas 1:39", action: "Geloof zet je in beweging. Blijf niet zitten met je zegen, maar deel het. Bel of bezoek vandaag iemand die (net als Elisabeth) bemoediging nodig heeft.", night: "Gods Geest maakt ons mensen die 'opstaan en gaan'." },
+                { theme: "De ontmoeting", verse: "Toen Elisabeth de groet van Maria hoorde, sprong het kindje op in haar buik.", ref: "Lukas 1:41", action: "Zoek mensen bij wie jouw geest 'opspringt' van vreugde. Geestelijke vriendschap is cruciaal. Dank God voor een vriend(in) die God ook kent.", night: "Waar twee mensen vol van de Geest elkaar ontmoeten, is Jezus in het midden." },
+                { theme: "Magnificat: Mijn ziel maakt groot", verse: "Mijn ziel maakt de Heer groot.", ref: "Lukas 1:46", action: "Waar focus jij op? Problemen of God? Gebruik je ziel als een vergrootglas: Richt het op God en Hij wordt groter in je beleving.", night: "Lofprijs verandert je perspectief, niet je omstandigheden." },
+                { theme: "Magnificat: Oog voor de nederigen", verse: "Hij heeft oog gehad voor de nederigheid van zijn dienares.", ref: "Lukas 1:48", action: "God houdt van nederigheid. Wees vandaag niet bezig met 'gezien worden'. Doe iets goeds in het geheim.", night: "Wie zichzelf klein maakt, wordt door God groot geacht." },
+                { theme: "Magnificat: De omkering", verse: "Hongerigen heeft Hij met goederen vervuld, rijken heeft Hij leeg weggezonden.", ref: "Lukas 1:53", action: "Maria zong over gerechtigheid. Deel vandaag van je overvloed met iemand die 'honger' heeft (fysiek of naar aandacht).", night: "Gods koninkrijk zet de wereld op zijn kop: wie geeft, ontvangt." },
+                { theme: "Ruimte maken", verse: "Er was voor hen geen plaats in de herberg.", ref: "Lukas 2:7", action: "Is er ruimte in jouw 'herberg' (je agenda/hart) voor Jezus? Maak vandaag bewust 15 minuten vrij waarin niets 'moet'.", night: "Jezus dringt Zich niet op. Hij komt alleen waar Hij welkom is." },
+                { theme: "De stilte van de geboorte", verse: "En zij baarde haar eerstgeboren Zoon.", ref: "Lukas 2:7", action: "In de stilte gebeuren de grootste dingen. Zet vandaag de radio/tv/telefoon uit tijdens het eten. Vier de stilte.", night: "God kwam niet in de storm, maar in het suizen van een zachte stilte." },
+                { theme: "Bewaren in het hart", verse: "Maria bewaarde al deze woorden en overwoog ze in haar hart.", ref: "Lukas 2:19", action: "Wees geen 'vergeetachtig hoorder'. Schrijf één gedachte of tekst op die je vandaag raakte en lees die vanavond nog eens.", night: "Meditatie is het herkauwen van Gods beloften totdat ze voeding worden voor je ziel." },
+                { theme: "De toewijding", verse: "Ze brachten Hem naar Jeruzalem om Hem aan de Heere voor te stellen.", ref: "Lukas 2:22", action: "Wijd vandaag opnieuw je dierbaarste bezit (je kinderen, je werk, je droom) aan God. 'Heer, het is van U'.", night: "Wat je aan God geeft, is veilig. Wat je krampachtig vasthoudt, kun je verliezen." },
+                { theme: "Een zwaard door de ziel", verse: "Ook door uw eigen ziel zal een zwaard gaan.", ref: "Lukas 2:35", action: "Liefde brengt pijn met zich mee. Ben je bang om gekwetst te worden? Durf toch lief te hebben. God heelt de wonden.", night: "God spaart ons niet voor verdriet, maar Hij draagt ons er wel doorheen." },
+                { theme: "Loslaten (in de tempel)", verse: "Kind, waarom hebt U ons dit aangedaan?", ref: "Lukas 2:48", action: "Soms doet God (of een kind) iets wat je niet snapt. Oefen in loslaten. Je kunt de ander niet controleren.", night: "Jezus moet zijn in de dingen van Zijn Vader. Soms betekent dat: loslaten van jouw verwachtingen." },
+                { theme: "Gewone trouw", verse: "Hij ging met hen mee naar Nazareth en was hun onderdanig.", ref: "Lukas 2:51", action: "Maria leefde 30 jaar in de anonimiteit met Jezus. Waardeer het 'gewone' leven van wassen, koken en werken. God is daar ook.", night: "Heiligheid wordt gekweekt in de keuken en op de werkplaats, niet alleen in de kerk." },
+                { theme: "Cana: Er is geen wijn meer", verse: "Ze hebben geen wijn meer.", ref: "Johannes 2:3", action: "Breng je gebrek bij Jezus. Waar ben jij 'op'? Energie? Geduld? Zeg het simpelweg tegen Hem: 'Heer, ik heb geen ... meer'.", night: "Jezus verwijt je je tekort niet. Hij ziet het als een kans voor een wonder." },
+                { theme: "De beste raad", verse: "Wat Hij u ook zegt, doe dat.", ref: "Johannes 2:5", action: "Dit is de beste preek ooit. Is er iets wat Jezus je al eerder heeft gezegd, maar wat je nog niet hebt gedaan? Doe het vandaag.", night: "Gehoorzaamheid is de sleutel die de deur naar het wonder opent." },
+                { theme: "Water wordt wijn", verse: "Jij hebt de goede wijn tot nu bewaard.", ref: "Johannes 2:10", action: "God bewaart het beste voor het laatst. Heb hoop voor je toekomst. Bij God wordt het leven rijker, niet armer.", night: "De wereld geeft eerst zoet, dan bitter. God geeft soms eerst bitter (bekering), maar altijd zoet (eeuwig leven) op het eind." },
+                { theme: "Op zoek naar Jezus", verse: "Uw moeder en broers staan buiten en willen U zien.", ref: "Lukas 8:20", action: "Soms voelt Jezus ver weg of 'onbereikbaar'. Blijf zoeken, blijf kloppen. Laat je niet tegenhouden door de menigte.", night: "Jezus zegt: wie mijn wil doet, is mijn moeder en broer. Je hoort bij de familie." },
+                { theme: "Bij het kruis", verse: "Bij het kruis van Jezus stonden zijn moeder...", ref: "Johannes 19:25", action: "Blijf staan als het donker wordt. Loop niet weg voor het lijden van anderen. Jouw aanwezigheid is soms de enige troost die je kunt geven.", night: "In het diepste donker is God het dichtst bij. Hij ziet je staan." },
+                { theme: "Vrouw, zie uw zoon", verse: "Vrouw, zie uw zoon. Zoon, zie uw moeder.", ref: "Johannes 19:26", action: "Zelfs in Zijn doodsstrijd zorgde Jezus voor Zijn moeder. Hij zorgt ook voor jou. Vertrouw je toekomst aan Hem toe.", night: "Jezus vergeet de Zijnen nooit. Hij regelt zorg, zelfs vanaf het kruis." },
+                { theme: "Stille Zaterdag", verse: "Ze rustten op de sabbat, overeenkomstig het gebod.", ref: "Lukas 23:56", action: "Na de dood van Jezus rustte Maria. Zelfs in diep verdriet is er Gods rustdag. Stop met rennen en 'moeten'. Rust in God.", night: "Sabbat is het anker in de storm van rouw. God heeft de tijd in handen." },
+                { theme: "De Opstanding", verse: "Hij is hier niet, Hij is opgewekt!", ref: "Lukas 24:6", action: "Stel je de vreugde van Maria voor. De dood is niet het einde! Laat die hoop vandaag je humeur bepalen.", night: "De tranen van de nacht maken plaats voor het gejuich in de morgen." },
+                { theme: "Bidden in de bovenzaal", verse: "Dezen bleven allen eensgezind volharden in het bidden, met Maria, de moeder van Jezus.", ref: "Handelingen 1:14", action: "Maria bad *met* de gemeente, niet boven de gemeente. Zoek de verbinding met je medegelovigen. Bid samen om de Geest.", night: "Een biddende kerk is een krachtige kerk. Jij bent een levende steen in dat gebouw." },
+                { theme: "De belofte van de Geest", verse: "Jullie zullen kracht ontvangen.", ref: "Handelingen 1:8", action: "Maria ontving de Geest bij de conceptie én bij Pinksteren. We hebben de Geest elke dag opnieuw nodig. Vraag om een nieuwe vervulling.", night: "De Geest waait waarheen Hij wil. Zet je zeilen bij." },
+                { theme: "Een leven van dienstbaarheid", verse: "Zie, de dienares van de Heer.", ref: "Lukas 1:38", action: "Dienstbaarheid is geen slavernij, het is vrijheid in Christus. Doe vandaag iets kleins voor een ander en zeg in jezelf: 'Voor U, Heer'.", night: "Groot is hij die dient." },
+                { theme: "Verwachting van de Wederkomst", verse: "Maranatha! Kom Here Jezus.", ref: "Openbaring 22:20", action: "Advent betekent komst. Leef vandaag met het oog op de lucht. Hij komt terug om alles nieuw te maken.", night: "Nog een korte tijd, en Hij die komen zal, zal komen. Slaap in hoop." },
+                { theme: "De kroon", verse: "Wees trouw tot in de dood, en Ik zal u de kroon van het leven geven.", ref: "Openbaring 2:10", action: "Maria's leven was niet makkelijk, maar wel zinvol. Volhard in je geloof. De finishlijn is in zicht.", night: "De strijd is hier, de kroon is daar. Houd moed." },
+                { theme: "Terugblik", verse: "Want Hij die machtig is, heeft grote dingen aan mij gedaan.", ref: "Lukas 1:49", action: "Kijk terug op de maand. Wat voor grote dingen heeft God aan jou gedaan? Schrijf je eigen 'Magnificat' (lofzang).", night: "Gezegend ben jij, die geloofd heeft. Welterusten." }
+            ]
+        };
+
+        // BASIS LOGICA
+        let currentDay = 1;
+        let photosEnabled = true;
+
+        window.onload = function() {
+            const savedPhotoPref = localStorage.getItem('photosEnabled_global');
+            if(savedPhotoPref !== null) photosEnabled = (savedPhotoPref === 'true');
+            loadDay(1);
+            updatePhotoIcon();
+        };
+
+        function loadDay(dayIndex) {
+            currentDay = dayIndex;
+            const data = journeyConfig.days[dayIndex - 1];
+            
+            document.getElementById('day-display').innerText = `DAG ${dayIndex}`;
+            document.getElementById('theme-title').innerText = data.theme;
+            document.getElementById('verse-text').innerText = `"${data.verse}"`;
+            document.getElementById('verse-ref').innerText = data.ref;
+            document.getElementById('action-text').innerText = data.action;
+            document.getElementById('night-text').innerText = data.night;
+
+            const savedNote = localStorage.getItem(`${journeyConfig.storageKey}_day_${dayIndex}`);
+            document.getElementById('user-notes').value = savedNote ? savedNote : "";
+            
+            const nightSec = document.getElementById('night-section');
+            if(savedNote && savedNote.length > 2) nightSec.style.display = 'block';
+            else nightSec.style.display = 'none';
+
+            document.getElementById('prev-btn').disabled = (dayIndex === 1);
+            document.getElementById('next-btn').disabled = (dayIndex === journeyConfig.days.length);
+
+            updateBackground(dayIndex);
+        }
+
+        function updateBackground(dayIndex) {
+            const bg = document.getElementById('bg-image');
+            const overlay = document.getElementById('bg-overlay');
+            
+            if(photosEnabled) {
+                // Keywords: blue, stars, silence, mother, light, candle
+                const imgUrl = `https://picsum.photos/seed/maria_${dayIndex}_blue/1920/1080`;
+                
+                const img = new Image();
+                img.src = imgUrl;
+                img.onload = () => {
+                    bg.style.backgroundImage = `url('${imgUrl}')`;
+                    bg.style.opacity = 0.8;
+                };
+                overlay.style.backdropFilter = 'blur(3px)';
+            } else {
+                bg.style.opacity = 0;
+                overlay.style.backdropFilter = 'blur(0px)';
+            }
+        }
+
+        function togglePhotos() {
+            photosEnabled = !photosEnabled;
+            localStorage.setItem('photosEnabled_global', photosEnabled);
+            updatePhotoIcon();
+            updateBackground(currentDay);
+        }
+
+        function updatePhotoIcon() {
+            const btn = document.getElementById('photo-toggle');
+            btn.innerHTML = photosEnabled ? "📷" : "🚫";
+            btn.title = photosEnabled ? "Zet foto's uit" : "Zet foto's aan";
+        }
+
+        function completeDay() {
+            const noteText = document.getElementById('user-notes').value;
+            if(noteText.trim() === "") {
+                alert("Schrijf een korte gedachte op voordat je opslaat.");
+                return;
+            }
+            localStorage.setItem(`${journeyConfig.storageKey}_day_${currentDay}`, noteText);
+            
+            const nightSec = document.getElementById('night-section');
+            nightSec.style.display = 'block';
+            nightSec.scrollIntoView({behavior: "smooth"});
+            
+            const btn = document.getElementById('save-btn');
+            const oldText = btn.innerText;
+            btn.innerText = "✓ Opgeslagen";
+            btn.style.background = "#27ae60"; 
+            
+            setTimeout(() => {
+                btn.innerText = oldText;
+                btn.style.background = "var(--btn-gradient)";
+            }, 2000);
+        }
+
+        function changeDay(offset) {
+            const newDay = currentDay + offset;
+            if(newDay >= 1 && newDay <= journeyConfig.days.length) {
+                loadDay(newDay);
+            }
+        }
+
+        function printJournal() {
+            const container = document.getElementById('print-content');
+            container.innerHTML = ""; 
+
+            journeyConfig.days.forEach((day, index) => {
+                const dayNum = index + 1;
+                const savedNote = localStorage.getItem(`${journeyConfig.storageKey}_day_${dayNum}`) || "(Nog geen notitie)";
+                
+                const entry = document.createElement('div');
+                entry.className = 'print-entry';
+                entry.innerHTML = `
+                    <div class="print-header">Dag ${dayNum}: ${day.theme}</div>
+                    <div style="font-style:italic; margin-bottom:10px;">"${day.verse}" (${day.ref})</div>
+                    <div style="margin-bottom:10px; font-weight:bold;">Actie: ${day.action}</div>
+                    <div style="background:#f9f9f9; padding:10px; border-left:3px solid #ccc;">
+                        <strong>Mijn gedachte:</strong><br>${savedNote}
+                    </div>
+                `;
+                container.appendChild(entry);
+            });
+            window.print();
+        }
+    </script>
+</body>
+</html>

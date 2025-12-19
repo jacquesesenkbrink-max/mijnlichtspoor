@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>31 Dagen met Nehemia: Bouwen & Visie</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Lato:wght@300;400;700&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            /* Nehemia Thema: Steen, Baksteen, Blauwdruk & Kracht */
+            --primary-color: #37474f; /* Leisteen grijs */
+            --primary-light: #62727b; 
+            --accent-color: #e64a19;  /* Baksteen oranje */
+            --pastel-bg: #eceff1;     /* Beton/Grijs wit */
+            --glass-bg: rgba(255, 255, 255, 0.96);
+            --btn-gradient: linear-gradient(135deg, #37474f 0%, #102027 100%);
+            --radius: 10px; /* Iets hoekiger voor 'bouw' gevoel */
+        }
+
+        body, html {
+            margin: 0; padding: 0; height: 100%;
+            font-family: 'Lato', sans-serif;
+            color: #263238;
+            background-color: var(--pastel-bg);
+        }
+
+        .container {
+            min-height: 100vh; display: flex; justify-content: center; align-items: center; padding: 20px;
+        }
+
+        .card {
+            background: var(--glass-bg);
+            border-radius: var(--radius);
+            padding: 40px;
+            max-width: 600px; width: 100%;
+            box-shadow: 0 20px 50px rgba(55, 71, 79, 0.2);
+            position: relative;
+            border-bottom: 6px solid var(--accent-color); /* Fundament onderaan */
+            border: 1px solid #cfd8dc;
+        }
+
+        header { text-align: center; margin-bottom: 25px; }
+
+        .top-nav {
+            display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;
+        }
+
+        .home-btn {
+            text-decoration: none; color: var(--primary-light); font-weight: bold; font-size: 0.9rem; transition: 0.3s;
+        }
+        .home-btn:hover { color: var(--accent-color); }
+
+        h1 { 
+            font-family: 'Playfair Display', serif; 
+            color: var(--primary-color); 
+            margin: 5px 0; 
+            font-size: 2rem; 
+            font-weight: 700;
+        }
+        
+        .subtitle { 
+            font-size: 0.8rem; text-transform: uppercase; letter-spacing: 3px; color: var(--accent-color); font-weight: bold; 
+        }
+
+        .day-badge {
+            background: var(--primary-color); color: white; padding: 5px 15px; border-radius: 5px; font-size: 0.8rem; letter-spacing: 1px;
+        }
+
+        .scripture-box {
+            text-align: center; margin: 30px 0; font-size: 1.25rem; line-height: 1.6; color: #37474f; font-family: 'Playfair Display', serif; font-style: italic;
+        }
+        .reference { 
+            display: block; margin-top: 15px; font-weight: bold; font-style: normal; font-size: 0.85rem; color: var(--accent-color); font-family: 'Lato', sans-serif; text-transform: uppercase; 
+        }
+
+        .action-box {
+            background: #fff; border-left: 5px solid var(--accent-color);
+            padding: 20px; border-radius: 5px; margin-bottom: 25px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+        }
+        .action-title { font-weight: bold; color: var(--primary-color); text-transform: uppercase; font-size: 0.75rem; display: block; margin-bottom: 8px; letter-spacing: 1px;}
+
+        textarea {
+            width: 100%; height: 120px; padding: 15px; border-radius: 5px; border: 2px solid #cfd8dc;
+            font-family: 'Lato', sans-serif; font-size: 1rem; margin-bottom: 15px; resize: vertical; outline: none; transition: 0.3s;
+            background: #fafafa; color: #263238;
+        }
+        textarea:focus { border-color: var(--primary-color); background: #fff; }
+
+        .btn-primary {
+            background: var(--btn-gradient); color: white; border: none; padding: 15px 30px;
+            font-size: 1rem; border-radius: 5px; cursor: pointer; width: 100%; font-weight: bold; letter-spacing: 0.5px;
+            box-shadow: 0 5px 15px rgba(55, 71, 79, 0.2); transition: 0.3s;
+        }
+        .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 8px 20px rgba(55, 71, 79, 0.3); }
+
+        .night-thought {
+            margin-top: 30px; background: var(--primary-color); color: #eceff1; padding: 25px;
+            border-radius: 5px; text-align: center; display: none; animation: fadeIn 0.6s ease;
+        }
+        
+        .nav-buttons {
+            display: flex; justify-content: space-between; margin-top: 30px; padding-top: 20px; border-top: 1px solid #cfd8dc;
+        }
+        .nav-btn { background: none; border: none; cursor: pointer; color: #90a4ae; font-weight: bold; font-size: 0.9rem; transition: 0.3s; }
+        .nav-btn:hover:not(:disabled) { color: var(--accent-color); }
+        .nav-btn:disabled { opacity: 0.3; cursor: default; }
+
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        
+        /* Print Styles */
+        @media print {
+            body * { visibility: hidden; }
+            #printable-journal, #printable-journal * { visibility: visible; }
+            #printable-journal { position: absolute; left: 0; top: 0; width: 100%; color: black; padding: 40px;}
+            .print-entry { margin-bottom: 30px; border-bottom: 1px solid #ccc; padding-bottom: 20px; page-break-inside: avoid; }
+            .print-header { font-weight: bold; font-size: 1.2em; margin-bottom: 5px; }
+        }
+        #printable-journal { display: none; }
+
+        @media (max-width: 600px) {
+            .card { padding: 25px; }
+            h1 { font-size: 1.6rem; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <div class="card">
+            <div class="top-nav">
+                <a href="index.html" class="home-btn">← Terug naar Gidsen</a>
+                <span class="day-badge" id="day-display">DAG 1</span>
+                </div>
+
+            <header>
+                <div class="subtitle" id="month-subtitle">TRAJECT: BOUWEN & VISIE</div>
+                <h1 id="theme-title">...</h1>
+            </header>
+
+            <div class="scripture-box">
+                <span id="verse-text">Laden...</span>
+                <span class="reference" id="verse-ref">...</span>
+            </div>
+
+            <div class="action-box">
+                <span class="action-title">Aan de slag</span>
+                <span id="action-text">...</span>
+            </div>
+
+            <label style="font-size:0.85rem; font-weight:bold; color:#62727b; display:block; margin-bottom:8px; text-transform: uppercase; letter-spacing: 1px;">Mijn plan:</label>
+            <textarea id="user-notes" placeholder="Welke muren wil jij herbouwen?"></textarea>
+            <button class="btn-primary" id="save-btn" onclick="completeDay()">Dag Afronden</button>
+
+            <div id="night-section" class="night-thought">
+                <h3 style="margin:0 0 10px 0; font-size:1.1rem; color: #ffab91;">🧱 Fundament voor de Nacht</h3>
+                <p id="night-text" style="margin:0; line-height: 1.6;">...</p>
+            </div>
+
+            <div class="nav-buttons">
+                <button class="nav-btn" id="prev-btn" onclick="changeDay(-1)">← Vorige</button>
+                <button class="nav-btn" onclick="printJournal()">🖨️ Logboek</button>
+                <button class="nav-btn" id="next-btn" onclick="changeDay(1)">Volgende →</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="printable-journal">
+        <div style="text-align:center; margin-bottom:40px;">
+            <h1 style="color:#37474f;">Mijn Reis met Nehemia</h1>
+            <p>Bidden en Werken: Muren herbouwen in gebroken tijden.</p>
+        </div>
+        <div id="print-content"></div>
+    </div>
+
+    <script>
+        // CONFIGURATIE VOOR NEHEMIA
+        
+        const journeyConfig = {
+            character: "Nehemia",
+            storageKey: "nehemia_journal", 
+            days: [
+                { theme: "Betrokkenheid", verse: "Toen ik deze woorden hoorde, ging ik zitten en weende.", ref: "Nehemia 1:4", action: "Nehemia hoorde slecht nieuws en het raakte hem. Laat jij je nog raken door de nood van anderen of je kerk? Vraag God om een 'zacht hart' vandaag.", night: "Bouwen begint niet met stenen, maar met tranen. Je compassie is het begin van herstel." },
+                { theme: "Eerst bidden, dan praten", verse: "Ik bad tot de God van de hemel en zei tegen de koning...", ref: "Nehemia 2:4", action: "Sta je voor een belangrijk gesprek? Schiet eerst een 'schietgebedje' naar Boven voordat je je mond opendoet.", night: "De kortste afstand tussen een probleem en een oplossing is de afstand tussen je knieën en de grond." },
+                { theme: "Wachten op het juiste moment", verse: "Ik was nooit eerder treurig geweest in zijn aanwezigheid.", ref: "Nehemia 2:1", action: "Timing is alles. Forceer je plannen niet. Wacht op Gods opening (kairos moment). Ben je ongeduldig? Oefen vandaag in wachten.", night: "God opent deuren die niemand kan sluiten. Slaap in het vertrouwen dat Hij de tijd in handen heeft." },
+                { theme: "Inspectie in de nacht", verse: "Ik trok 's nachts de Dalpoort uit... en inspecteerde de muren.", ref: "Nehemia 2:13", action: "Wees eerlijk over de staat van je leven. Waar liggen de puinhopen? Durf te kijken naar wat kapot is, zonder jezelf te veroordelen.", night: "Je kunt pas repareren wat je onder ogen hebt gezien. God schrikt niet van jouw puinhopen." },
+                { theme: "De Visie delen", verse: "Kom, laten we de muur van Jeruzalem herbouwen, zodat we geen voorwerp van smaad meer zijn.", ref: "Nehemia 2:17", action: "Je hebt anderen nodig. Deel vandaag je droom of doel met een vriend. Zeg: 'Laten we dit samen doen'.", night: "Een visie die gedeeld wordt, wordt vermenigvuldigd. Samen sta je sterk." },
+                { theme: "Iedereen bouwt mee", verse: "Naast hem bouwde Uzziël... en naast hem bouwde Hananja.", ref: "Nehemia 3:8", action: "In hoofdstuk 3 bouwt iedereen: parfumeurs, priesters, dochters. Niemand is te goed of te slecht om mee te helpen. Doe vandaag een simpele taak voor het geheel.", night: "God gebruikt elke steen. Je bent onmisbaar in Zijn bouwwerk." },
+                { theme: "Spot en Tegenstand", verse: "Wat doen die machteloze Joden? Willen ze stenen uit hopen puin tot leven wekken?", ref: "Nehemia 4:2", action: "Als je gaat bouwen, komt er kritiek. Laat je niet ontmoedigen door spotters. Reageer niet op negativiteit op social media of in gesprekken.", night: "Laat ze maar praten. Jij bent bezig met een groot werk. Luister naar Gods stem, niet naar Sanballat." },
+                { theme: "Bidden én Waken", verse: "Wij baden tot onze God en zetten dag en nacht een wacht uit.", ref: "Nehemia 4:9", action: "Ora et Labora (Bid en Werk). Doe je deur op slot én bid om bescherming. Wees vandaag zowel geestelijk als praktisch alert.", night: "Vertrouw op God, maar zet je kameel wel vast. Geloof en verstand gaan hand in hand." },
+                { theme: "Teveel puin", verse: "De kracht van de dragers schiet tekort, er is te veel puin.", ref: "Nehemia 4:10", action: "Voel je je overweldigd door de rommel? Ruim vandaag letterlijk één hoekje op. Begin klein. Puinruimen doe je steen voor steen.", night: "Als je moe bent, mag je rusten. Je hoeft niet alles in één dag af te hebben." },
+                { theme: "Strijd voor je huis", verse: "Vecht voor je broeders, je zonen, je dochters, je vrouwen en je huizen.", ref: "Nehemia 4:14", action: "Waar vecht jij voor? Je gezin? Je geloof? Laat de vijand geen terrein winnen in je huis. Bid vanavond vurig voor je familie.", night: "God is een Strijder voor jouw gezin. Hij staat tussen jou en het gevaar in." },
+                { theme: "Met één hand werken", verse: "Met de ene hand deden ze het werk, en met de andere hielden ze de werpspies vast.", ref: "Nehemia 4:17", action: "Leven is multitasken: bouwen en verdedigen. Bewaak je hart terwijl je je werk doet. Zing een lied terwijl je werkt.", night: "Het zwaard van de Geest (Gods woord) en de troffel (je werk). Je bent goed bewapend." },
+                { theme: "Interne problemen (Woeker)", verse: "Er was een luid geschreeuw van het volk... tegen hun broeders.", ref: "Nehemia 5:1", action: "Eerlijkheid duurt het langst. Behandel je anderen eerlijk? Betaal je schulden of beloftes vandaag nog.", night: "God haat onrecht, vooral tussen broeders. Slaap met een zuiver geweten over je financiën." },
+                { theme: "Het goede voorbeeld", verse: "Ik heb ook het brood van de landvoogd niet opgeëist.", ref: "Nehemia 5:18", action: "Nehemia vroeg geen geld, hoewel hij er recht op had. Wees vandaag gul. Geef iets weg waar je eigenlijk recht op hebt.", night: "Leiderschap is dienen, niet heersen. Je schat is in de hemel." },
+                { theme: "Afleiding", verse: "Kom, laten we elkaar ontmoeten in het dal (zeggen de vijanden).", ref: "Nehemia 6:2", action: "De vijand wil je afleiden met 'goede gesprekken' die tijdverspilling zijn. Zeg nee tegen nutteloze discussies vandaag.", night: "Laat je niet uit je tent lokken. Blijf op de muur." },
+                { theme: "Ik heb een groot werk", verse: "Ik ben bezig met een groot werk, ik kan niet omlaag komen.", ref: "Nehemia 6:3", action: "Leer deze zin uit je hoofd. Als afleiding komt, zeg: 'Ik ben bezig met een groot werk'. Jouw herstel/groei is belangrijk.", night: "Focus geeft rust. Je hoeft niet overal op te reageren." },
+                { theme: "Intimidatie", verse: "Ze wilden mij bang maken.", ref: "Nehemia 6:13", action: "Angst is een leugenaar. Doe vandaag precies datgene waar je bang voor bent (een belletje, een stap). Doorbreek de angst.", night: "God heeft ons geen geest van lafhartigheid gegeven, maar van kracht en liefde." },
+                { theme: "De muur is af", verse: "De muur werd voltooid in 52 dagen.", ref: "Nehemia 6:15", action: "Vier je successen! Heb je iets afgemaakt? Wees trots. God helpt je om te voltooien wat je begon.", night: "Wat onmogelijk leek, is mogelijk bij God. Hij is de Voleinder van je geloof." },
+                { theme: "Honger naar het Woord", verse: "Ze zeiden tegen Ezra dat hij het wetboek moest halen.", ref: "Nehemia 8:2", action: "Nu de muur staat, moet het hart gevuld worden. Lees vandaag de Bijbel niet uit plicht, maar uit honger. Zoek één tekst die je raakt.", night: "De muur beschermt, maar het Woord voedt." },
+                { theme: "Begrijpen wat je leest", verse: "Ze gaven uitleg... zodat men begreep wat er gelezen werd.", ref: "Nehemia 8:9", action: "Geloof is niet blind. Probeer te begrijpen wat je gelooft. Lees een toelichting of luister een preek over een moeilijk onderwerp.", night: "Inzicht geeft licht in de duisternis." },
+                { theme: "De Vreugde van de Heer", verse: "Wees niet bedroefd, want de vreugde van de HEER, dat is uw kracht.", ref: "Nehemia 8:11", action: "Ben je somber? Gods vreugde is je brandstof. Lach vandaag, zing, eet iets lekkers. Vreugde is een wapen.", night: "Verdriet mag er zijn, maar vreugde heeft het laatste woord. Droog je tranen en eet het vette." },
+                { theme: "Belijdenis", verse: "Ze stonden op en beleden hun zonden.", ref: "Nehemia 9:2", action: "Maak schoon schip. Is er iets tussen jou en God? Belijd het, en laat het daar. Begin opnieuw.", night: "Wie zijn zonden belijdt en laat, zal barmhartigheid verkrijgen." },
+                { theme: "God is vergevingsgezind", verse: "U bent een God van vergeving, genadig en barmhartig.", ref: "Nehemia 9:17", action: "Herinner jezelf aan Gods karakter. Hij is niet uit op je ondergang, maar op je herstel. Dank Hem voor Zijn geduld.", night: "Zijn barmhartigheid is elke morgen nieuw." },
+                { theme: "Het verbond vernieuwen", verse: "Vanwege dit alles sluiten wij een vast verbond.", ref: "Nehemia 10:1", action: "Schrijf je eigen 'verbond' met God. 'Heer, vandaag kies ik opnieuw voor U'. Zet je handtekening eronder.", night: "Je bent verbonden met de Allerhoogste. Dat contract is met bloed ondertekend." },
+                { theme: "Vrijwilligers gezocht", verse: "Het volk zegende alle mannen die zich vrijwillig aanboden om in Jeruzalem te wonen.", ref: "Nehemia 11:2", action: "Jeruzalem was gevaarlijk. Durf jij risico te nemen voor het Koninkrijk? Stap uit je comfortzone.", night: "De veiligste plek is in het centrum van Gods wil, ook als dat Jeruzalem is." },
+                { theme: "De inwijding", verse: "God had hen verblijd met grote blijdschap... de vrouwen en kinderen verheugden zich ook.", ref: "Nehemia 12:43", action: "Betrek je hele gezin of omgeving in je dankbaarheid. Maak muziek, vier het leven. Laat de buren je vreugde horen!", night: "Het geluid van vreugde reikt tot ver buiten de muren." },
+                { theme: "Orde in het huis", verse: "Toen begreep ik dat dit kwaad was... en ik gooide al het huisraad van Tobia naar buiten.", ref: "Nehemia 13:7-8", action: "Tobia (de vijand) zat in de tempel! Heb jij 'vijanden' (zonden, gewoontes) toegelaten in je hart? Gooi het huisraad naar buiten.", night: "Je hart is een tempel voor God alleen. Geen plek voor Tobia." },
+                { theme: "De Sabbat heiligen", verse: "Toen het donker werd voor de sabbat, zei ik dat de deuren gesloten moesten worden.", ref: "Nehemia 13:19", action: "Sabbat is een grens. Sluit vanavond (of vrijdagavond) de 'poorten' van je geest voor werk en stress. Bewaak je rust.", night: "De poort is dicht. De wereld blijft buiten. Binnen is er rust bij God." },
+                { theme: "Zuivere relaties", verse: "Ik reinigde hen van alles wat vreemd was.", ref: "Nehemia 13:30", action: "Met wie ga je om? 'Slechte omgang bederft goede zeden'. Zoek vrienden die je dichter bij God brengen.", night: "Je bent heilig, apart gezet. Koester die zuiverheid." },
+                { theme: "Verzorging van de Levieten", verse: "Waarom is het huis van God verlaten?", ref: "Nehemia 13:11", action: "Steun je kerk of gemeente. Niet alleen met geld, maar met aanwezigheid. Laat Gods huis niet verlaten zijn.", night: "Zorg voor het huis van God, en Hij zorgt voor jouw huis." },
+                { theme: "Denk aan mij", verse: "Denk aan mij, mijn God, ten goede.", ref: "Nehemia 13:31", action: "Dit was Nehemia's vaste gebed. Je mag vragen om Gods zegen over je werk. 'Heer, zie wat ik heb geprobeerd te doen'.", night: "God vergeet je arbeid van liefde niet. Je naam staat in Zijn boek." },
+                { theme: "De muur staat", verse: "Reflectie: Het werk is af.", ref: "Nehemia Einde", action: "Kijk terug op deze maand. Wat is er herbouwd in je leven? Dank God voor de stenen die weer op elkaar staan.", night: "Je bent een bouwer. Slaap zacht, de stad is veilig." }
+            ]
+        };
+
+        // BASIS LOGICA
+        let currentDay = 1;
+
+        window.onload = function() {
+            loadDay(1);
+        };
+
+        function loadDay(dayIndex) {
+            currentDay = dayIndex;
+            const data = journeyConfig.days[dayIndex - 1];
+            
+            document.getElementById('day-display').innerText = `DAG ${dayIndex}`;
+            document.getElementById('theme-title').innerText = data.theme;
+            document.getElementById('verse-text').innerText = `"${data.verse}"`;
+            document.getElementById('verse-ref').innerText = data.ref;
+            document.getElementById('action-text').innerText = data.action;
+            document.getElementById('night-text').innerText = data.night;
+
+            const savedNote = localStorage.getItem(`${journeyConfig.storageKey}_day_${dayIndex}`);
+            document.getElementById('user-notes').value = savedNote ? savedNote : "";
+            
+            const nightSec = document.getElementById('night-section');
+            if(savedNote && savedNote.length > 2) nightSec.style.display = 'block';
+            else nightSec.style.display = 'none';
+
+            document.getElementById('prev-btn').disabled = (dayIndex === 1);
+            document.getElementById('next-btn').disabled = (dayIndex === journeyConfig.days.length);
+        }
+
+        function completeDay() {
+            const noteText = document.getElementById('user-notes').value;
+            if(noteText.trim() === "") {
+                alert("Schrijf een korte gedachte op voordat je opslaat.");
+                return;
+            }
+            localStorage.setItem(`${journeyConfig.storageKey}_day_${currentDay}`, noteText);
+            
+            const nightSec = document.getElementById('night-section');
+            nightSec.style.display = 'block';
+            nightSec.scrollIntoView({behavior: "smooth"});
+            
+            const btn = document.getElementById('save-btn');
+            const oldText = btn.innerText;
+            btn.innerText = "✓ Opgeslagen";
+            btn.style.background = "#27ae60"; 
+            
+            setTimeout(() => {
+                btn.innerText = oldText;
+                btn.style.background = "var(--btn-gradient)";
+            }, 2000);
+        }
+
+        function changeDay(offset) {
+            const newDay = currentDay + offset;
+            if(newDay >= 1 && newDay <= journeyConfig.days.length) {
+                loadDay(newDay);
+            }
+        }
+
+        function printJournal() {
+            const container = document.getElementById('print-content');
+            container.innerHTML = ""; 
+
+            journeyConfig.days.forEach((day, index) => {
+                const dayNum = index + 1;
+                const savedNote = localStorage.getItem(`${journeyConfig.storageKey}_day_${dayNum}`) || "(Nog geen notitie)";
+                
+                const entry = document.createElement('div');
+                entry.className = 'print-entry';
+                entry.innerHTML = `
+                    <div class="print-header">Dag ${dayNum}: ${day.theme}</div>
+                    <div style="font-style:italic; margin-bottom:10px;">"${day.verse}" (${day.ref})</div>
+                    <div style="margin-bottom:10px; font-weight:bold;">Actie: ${day.action}</div>
+                    <div style="background:#f9f9f9; padding:10px; border-left:3px solid #ccc;">
+                        <strong>Mijn gedachte:</strong><br>${savedNote}
+                    </div>
+                `;
+                container.appendChild(entry);
+            });
+            window.print();
+        }
+    </script>
+</body>
+</html>

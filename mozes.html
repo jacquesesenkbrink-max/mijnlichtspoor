@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>31 Dagen met Mozes: Leiderschap & Geduld</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Lato:wght@300;400;700&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            /* Mozes Thema: Woestijn, Rots, Terracotta & Wet */
+            --primary-color: #5d4037; /* Donkerbruin (Aarde/Rots) */
+            --primary-light: #8d6e63; 
+            --accent-color: #d84315;  /* Terracotta/Vuur */
+            --pastel-bg: #fffbf0;     /* Zandkleur */
+            --glass-bg: rgba(255, 255, 255, 0.96);
+            --btn-gradient: linear-gradient(135deg, #5d4037 0%, #3e2723 100%);
+            --radius: 30px;
+        }
+
+        body, html {
+            margin: 0; padding: 0; height: 100%;
+            font-family: 'Lato', sans-serif;
+            color: #3e2723;
+            background-color: var(--pastel-bg);
+        }
+
+        .container {
+            min-height: 100vh; display: flex; justify-content: center; align-items: center; padding: 20px;
+        }
+
+        .card {
+            background: var(--glass-bg);
+            border-radius: var(--radius);
+            padding: 40px;
+            max-width: 600px; width: 100%;
+            box-shadow: 0 20px 50px rgba(93, 64, 55, 0.2);
+            position: relative;
+            border-top: 5px solid var(--accent-color);
+            border: 1px solid #efebe9;
+        }
+
+        header { text-align: center; margin-bottom: 25px; }
+
+        .top-nav {
+            display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;
+        }
+
+        .home-btn {
+            text-decoration: none; color: var(--primary-light); font-weight: bold; font-size: 0.9rem; transition: 0.3s;
+        }
+        .home-btn:hover { color: var(--accent-color); }
+
+        h1 { 
+            font-family: 'Playfair Display', serif; 
+            color: var(--primary-color); 
+            margin: 5px 0; 
+            font-size: 2rem; 
+        }
+        
+        .subtitle { 
+            font-size: 0.8rem; text-transform: uppercase; letter-spacing: 3px; color: var(--accent-color); font-weight: bold; 
+        }
+
+        .day-badge {
+            background: var(--primary-color); color: white; padding: 5px 15px; border-radius: 20px; font-size: 0.8rem; letter-spacing: 1px;
+        }
+
+        .scripture-box {
+            text-align: center; margin: 30px 0; font-size: 1.25rem; line-height: 1.6; color: #4e342e; font-family: 'Playfair Display', serif; font-style: italic;
+        }
+        .reference { 
+            display: block; margin-top: 15px; font-weight: bold; font-style: normal; font-size: 0.85rem; color: var(--accent-color); font-family: 'Lato', sans-serif; text-transform: uppercase; 
+        }
+
+        .action-box {
+            background: #fff3e0; border-left: 4px solid var(--accent-color);
+            padding: 20px; border-radius: 10px; margin-bottom: 25px;
+            box-shadow: 0 2px 15px rgba(0,0,0,0.03);
+        }
+        .action-title { font-weight: bold; color: var(--primary-color); text-transform: uppercase; font-size: 0.75rem; display: block; margin-bottom: 8px; letter-spacing: 1px;}
+
+        textarea {
+            width: 100%; height: 120px; padding: 15px; border-radius: 15px; border: 2px solid #efebe9;
+            font-family: 'Lato', sans-serif; font-size: 1rem; margin-bottom: 15px; resize: vertical; outline: none; transition: 0.3s;
+            background: #fafafa; color: #3e2723;
+        }
+        textarea:focus { border-color: var(--accent-color); background: #fff; }
+
+        .btn-primary {
+            background: var(--btn-gradient); color: white; border: none; padding: 15px 30px;
+            font-size: 1rem; border-radius: 50px; cursor: pointer; width: 100%; font-weight: bold; letter-spacing: 0.5px;
+            box-shadow: 0 5px 15px rgba(93, 64, 55, 0.2); transition: 0.3s;
+        }
+        .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 8px 20px rgba(93, 64, 55, 0.3); }
+
+        .night-thought {
+            margin-top: 30px; background: var(--primary-color); color: #efebe9; padding: 25px;
+            border-radius: 20px; text-align: center; display: none; animation: fadeIn 0.6s ease;
+        }
+        
+        .nav-buttons {
+            display: flex; justify-content: space-between; margin-top: 30px; padding-top: 20px; border-top: 1px solid #eee;
+        }
+        .nav-btn { background: none; border: none; cursor: pointer; color: #a1887f; font-weight: bold; font-size: 0.9rem; transition: 0.3s; }
+        .nav-btn:hover:not(:disabled) { color: var(--accent-color); }
+        .nav-btn:disabled { opacity: 0.3; cursor: default; }
+
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        
+        /* Print Styles */
+        @media print {
+            body * { visibility: hidden; }
+            #printable-journal, #printable-journal * { visibility: visible; }
+            #printable-journal { position: absolute; left: 0; top: 0; width: 100%; color: black; padding: 40px;}
+            .print-entry { margin-bottom: 30px; border-bottom: 1px solid #ccc; padding-bottom: 20px; page-break-inside: avoid; }
+            .print-header { font-weight: bold; font-size: 1.2em; margin-bottom: 5px; }
+        }
+        #printable-journal { display: none; }
+
+        @media (max-width: 600px) {
+            .card { padding: 25px; }
+            h1 { font-size: 1.6rem; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <div class="card">
+            <div class="top-nav">
+                <a href="index.html" class="home-btn">← Terug naar Gidsen</a>
+                <span class="day-badge" id="day-display">DAG 1</span>
+                </div>
+
+            <header>
+                <div class="subtitle" id="month-subtitle">TRAJECT: LEIDERSCHAP & GEDULD</div>
+                <h1 id="theme-title">...</h1>
+            </header>
+
+            <div class="scripture-box">
+                <span id="verse-text">Laden...</span>
+                <span class="reference" id="verse-ref">...</span>
+            </div>
+
+            <div class="action-box">
+                <span class="action-title">Opdracht in de woestijn</span>
+                <span id="action-text">...</span>
+            </div>
+
+            <label style="font-size:0.85rem; font-weight:bold; color:#8d6e63; display:block; margin-bottom:8px; text-transform: uppercase; letter-spacing: 1px;">Mijn reflectie:</label>
+            <textarea id="user-notes" placeholder="Hoe leidt God jou vandaag?"></textarea>
+            <button class="btn-primary" id="save-btn" onclick="completeDay()">Opslaan & Afsluiten</button>
+
+            <div id="night-section" class="night-thought">
+                <h3 style="margin:0 0 10px 0; font-size:1.1rem; color: #ffcc80;">🔥 Heilige Grond</h3>
+                <p id="night-text" style="margin:0; line-height: 1.6;">...</p>
+            </div>
+
+            <div class="nav-buttons">
+                <button class="nav-btn" id="prev-btn" onclick="changeDay(-1)">← Vorige</button>
+                <button class="nav-btn" onclick="printJournal()">🖨️ Reisverslag</button>
+                <button class="nav-btn" id="next-btn" onclick="changeDay(1)">Volgende →</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="printable-journal">
+        <div style="text-align:center; margin-bottom:40px;">
+            <h1 style="color:#5d4037;">Mijn Reis met Mozes</h1>
+            <p>Lessen uit de woestijn: Vertrouwen, Wet en Genade.</p>
+        </div>
+        <div id="print-content"></div>
+    </div>
+
+    <script>
+        // CONFIGURATIE VOOR MOZES
+        
+        const journeyConfig = {
+            character: "Mozes",
+            storageKey: "mozes_journal",
+            days: [
+                { theme: "Beschermd in het riet", verse: "Ze legde het kind erin en zette het mandje tussen het riet.", ref: "Exodus 2:3", action: "Kijk terug op je kindertijd. Waar heeft God je bewaard voor gevaar, zelfs toen je het niet wist? Dank Hem voor Zijn onzichtbare bescherming.", night: "God bouwt een arkje voor wat kwetsbaar is. Je bent veilig bij Hem." },
+                { theme: "De Keuze", verse: "Door het geloof heeft Mozes geweigerd een zoon van de dochter van de farao genoemd te worden.", ref: "Hebreeën 11:24", action: "Kies jij voor status of voor principes? Maak vandaag een keuze die misschien geld of aanzien kost, maar rust geeft in je geweten.", night: "De schatten van Egypte zijn tijdelijk. De beloning van God is eeuwig." },
+                { theme: "De Brandende Braamstruik", verse: "Doe je sandalen van je voeten, want de plaats waarop je staat is heilige grond.", ref: "Exodus 3:5", action: "Toon eerbied. Doe vandaag je schoenen uit in je gebedshoekje of kniel neer. Besef dat je in de aanwezigheid van de Koning bent.", night: "God is een verterend vuur, maar Hij verteert het struikje niet. Hij wil bij je zijn zonder je te vernietigen." },
+                { theme: "Wie ben ik?", verse: "Wie ben ik, dat ik naar de farao zou gaan?", ref: "Exodus 3:11", action: "Voel je je onbekwaam voor een taak? Dat is de beste startpositie. Zeg: 'Heer, ik kan het niet, maar U wel'.", night: "God roept niet de bekwamen, Hij bekwaamt de geroepenen. Rust in Zijn kracht." },
+                { theme: "IK ZAL ER ZIJN", verse: "Ik ben die Ik ben (IK ZAL ER ZIJN).", ref: "Exodus 3:14", action: "Gods naam is een werkwoord. Hij is erbij. Herhaal vandaag bij elke drempel die je overgaat: 'U bent erbij'.", night: "Hij is geen God van gisteren of morgen, maar van het NU. Hij is er vannacht." },
+                { theme: "Het Bloed aan de deur", verse: "Wanneer Ik het bloed zie, zal Ik u voorbijgaan.", ref: "Exodus 12:13", action: "Denk aan het offer van Jezus. Pleit vandaag niet op je eigen goedheid, maar op Zijn bloed. Dat is je enige veiligheid.", night: "Onder het bloed is er geen veroordeling. Slaap zonder angst voor de toekomst." },
+                { theme: "De Rode Zee", verse: "Wees niet bang, houd stand en zie de verlossing van de HEER.", ref: "Exodus 14:13", action: "Sta je voor een muur? Een zee? Stop met vechten. 'Houd stand'. Soms is stilstaan en vertrouwen de grootste daad van geloof.", night: "God maakt een weg waar geen weg is. Morgen kan de zee gespleten zijn." },
+                { theme: "Loflied", verse: "De HEER is mijn kracht en lied, Hij is mij tot heil geweest.", ref: "Exodus 15:2", action: "Zet een loflied op. Zing (of neurie) mee. Muziek breekt de geestelijke strijd. Vier je overwinningen.", night: "Na de strijd komt het lied. God heeft het paard en de ruiter (je vijanden) in de zee geworpen." },
+                { theme: "Bitter water (Mara)", verse: "De HEER wees hem een stuk hout; dat wierp hij in het water, en het water werd zoet.", ref: "Exodus 15:25", action: "Is er bitterheid in je leven? Werp het 'hout' (het kruis van Jezus) in je situatie. Zijn lijden maakt jouw lijden draagbaar.", night: "God is de Heelmeester. Hij maakt bitter water zoet." },
+                { theme: "Het Manna", verse: "Dit is het brood dat de HEER u te eten gegeven heeft.", ref: "Exodus 16:15", action: "Verzamel niet voor morgen (behalve voor de Sabbat). Leef vandaag. Wat heb je VANDAAG nodig? Vraag daar om.", night: "Zijn trouw is elke morgen nieuw. Ga slapen; morgen ligt er weer vers manna." },
+                { theme: "De Sabbat", verse: "Morgen is het rustdag, een heilige sabbat voor de HEER.", ref: "Exodus 16:23", action: "De Sabbat is een geschenk, geen last. Bereid je vandaag voor zodat je morgen echt vrij bent van werk en zorg.", night: "Rusten is een daad van vertrouwen. De wereld draait wel door zonder jouw werk, want God houdt hem vast." },
+                { theme: "Handen omhoog", verse: "Zolang Mozes zijn hand ophief, was Israël de sterkste.", ref: "Exodus 17:11", action: "Je kunt het niet alleen. Wie zijn jouw Aäron en Hur? Vraag iemand om je 'armen te ondersteunen' in gebed.", night: "Onze Voorbidder in de hemel, Jezus, laat Zijn armen nooit zakken. Hij pleit altijd voor jou." },
+                { theme: "Delegeren (Jethro)", verse: "Deze taak is te zwaar voor u; u kunt dit niet alleen doen.", ref: "Exodus 18:18", action: "Ben je een controlfreak? Laat vandaag één taak los en vertrouw die aan een ander toe. Geef ruimte.", night: "Je hoeft de wereld niet te redden. Dat heeft Jezus al gedaan. Jij bent slechts een medewerker." },
+                { theme: "Op adelaarsvleugels", verse: "U hebt gezien hoe Ik u op adelaarsvleugels gedragen heb.", ref: "Exodus 19:4", action: "Voel je je moe? Stel je voor dat je niet zelf loopt, maar gedragen wordt. Laat je gewicht zakken in Gods genade.", night: "Hij draagt je, zoals een vader zijn kind draagt, de hele weg." },
+                { theme: "De Tien Geboden: Liefde", verse: "Ik ben de HEER, uw God, die u uit slavernij geleid heeft.", ref: "Exodus 20:2", action: "De wet begint met genade (bevrijding), daarna komen de regels. Lees de 10 geboden vandaag eens als 10 beloftes van vrijheid.", night: "De wet is een hek rondom de afgrond, geplaatst door Liefde. Binnen het hek is veiligheid." },
+                { theme: "Het Gouden Kalf", verse: "Morgen is er een feest voor de HEER! (zeiden ze bij het afgodsbeeld).", ref: "Exodus 32:5", action: "Pas op voor 'eigen gemaakte religie'. Willen we God, of willen we een god die doet wat wij willen? Toets je hart.", night: "Geduld is moeilijk. Wacht op God, ook als Mozes lang wegblijft op de berg." },
+                { theme: "Voorbede", verse: "Vergeef hun toch hun zonde – en zo niet, delg mij dan maar uit Uw boek.", ref: "Exodus 32:32", action: "Dit is echt leiderschap: jezelf wegcijferen voor anderen. Bid voor iemand die jou pijn heeft gedaan of teleurstelt.", night: "Jezus werd 'uitgedelgd' zodat wij in het Boek des Levens konden staan. Wat een Liefde." },
+                { theme: "Toon mij Uw glorie", verse: "Toon mij toch Uw heerlijkheid.", ref: "Exodus 33:18", action: "Durf meer te vragen dan alleen 'brood en water'. Vraag God: 'Laat mij zien wie U bent'. Zoek Zijn aangezicht.", night: "God verbergt je in de rotsholte en bedekt je met Zijn hand. Dichterbij kun je niet komen." },
+                { theme: "Gods Karakter", verse: "De HEER, barmhartig en genadig, geduldig en rijk aan goedertierenheid.", ref: "Exodus 34:6", action: "Leer deze tekst uit je hoofd. Dit is wie God is. Als je twijfelt aan God, kom terug naar deze zin.", night: "God is vooral genadig. Zijn toorn duurt een ogenblik, Zijn goedgunstigheid een leven lang." },
+                { theme: "Een stralend gezicht", verse: "Mozes wist niet dat de huid van zijn gezicht straalde.", ref: "Exodus 34:29", action: "Mensen zien het als je bij God bent geweest. Spendeer tijd in stilte, en neem die 'glans' (vriendelijkheid, rust) mee naar buiten.", night: "Je hoeft zelf niet te stralen; je hoeft alleen Zijn licht te weerkaatsen." },
+                { theme: "Het Heiligdom: Wonen", verse: "En zij moeten voor Mij een heiligdom maken, zodat Ik in hun midden kan wonen.", ref: "Exodus 25:8", action: "God wil niet op afstand blijven, Hij wil 'inwoning'. Is jouw hart een heiligdom? Ruim de 'rommel' op vandaag.", night: "Immanuel: God met ons. Van de tabernacle tot het kruis, tot in jouw hart." },
+                { theme: "Vakmanschap", verse: "Ik heb Bezaleël vervuld met Gods Geest, met wijsheid en vakmanschap.", ref: "Exodus 31:3", action: "Creativiteit en handwerk zijn gaven van de Geest. Eer God vandaag met je handen (koken, klussen, typen).", night: "Alles wat je doet voor Hem, is een heilige dienst. Ook het vegen van de vloer." },
+                { theme: "De verkenning: Geloof vs Angst", verse: "Wij zagen daar reuzen... wij waren als sprinkhanen.", ref: "Numeri 13:33", action: "Kijk je naar de reuzen of naar God? 'Sprinkhaan-complex' komt als je God vergeet. Kijk naar Boven, dan worden reuzen klein.", night: "Met God zijn wij in de meerderheid. Wees niet bang om het land in te nemen." },
+                { theme: "Opstand (Korach)", verse: "U matigt u te veel aan!", ref: "Numeri 16:3", action: "Kritiek op leiderschap is makkelijk. Heb respect voor degenen die verantwoordelijkheid dragen, en bid voor hen in plaats van te klagen.", night: "God kiest de leiders. Laat het oordeel aan Hem." },
+                { theme: "De Rots slaan", verse: "Moeten wij voor u water uit deze rots laten komen?", ref: "Numeri 20:10", action: "Mozes verloor zijn geduld en nam Gods eer. Pas op voor boosheid als je moe bent. Tel tot tien. Geef God de eer.", night: "Zelfs de zachtmoedigste mens kan vallen. Genade is er, ook voor Mozes." },
+                { theme: "De Koperen Slang", verse: "Ieder die gebeten is en daarnaar kijkt, zal leven.", ref: "Numeri 21:8", action: "Ben je 'gebeten' door zonde of schuld? Kijk niet naar de wond. Kijk niet naar jezelf. Kijk naar Jezus aan het kruis.", night: "Kijken is genoeg. Geloof is je blik afwenden van jezelf en richten op Hem." },
+                { theme: "Opvolging (Jozua)", verse: "Neem Jozua bij u, een man in wie de Geest is.", ref: "Numeri 27:18", action: "Niemand is onmisbaar. Denk na over wie jou opvolgt. Investeer in de volgende generatie.", night: "Gods werk gaat door, ook als wij stoppen. Dat geeft rust." },
+                { theme: "Terugblik", verse: "Gedenk heel de weg waarop de HEER u geleid heeft.", ref: "Deuteronomium 8:2", action: "Kijk terug op je eigen 'woestijnreis'. Teken een tijdlijn van je leven en zet kruisjes waar God hielp.", night: "Eben-Haëzer: Tot hiertoe heeft de Heer ons geholpen." },
+                { theme: "De keuze voor het leven", verse: "Ik heb u het leven en de dood voorgehouden... kies dan het leven.", ref: "Deuteronomium 30:19", action: "Elke dag is een keuze. Kies vandaag bewust voor 'leven' (gezondheid, liefde, geloof) en tegen 'dood' (negativiteit, wrok).", night: "Het leven is een geschenk. Koester het." },
+                { theme: "De berg Nebo", verse: "De HEER liet hem het hele land zien.", ref: "Deuteronomium 34:1", action: "Soms mag je het beloofde land zien, maar er nog niet binnengaan. Heb vrede met Gods grens. Jouw taak zit erop.", night: "Mozes stierf in de armen van God en werd later opgewekt. Jouw einde is slechts een begin." },
+                { theme: "De Opstanding", verse: "Toch heeft de aartsengel Michaël... geredetwist over het lichaam van Mozes.", ref: "Judas 1:9", action: "De dood had niet het laatste woord. Mozes verscheen op de berg der verheerlijking. Geloof in de opstanding!", night: "Welterusten. Net als Mozes zul je ontwaken als de Stem je roept." }
+            ]
+        };
+
+        // BASIS LOGICA
+        let currentDay = 1;
+
+        window.onload = function() {
+            loadDay(1);
+        };
+
+        function loadDay(dayIndex) {
+            currentDay = dayIndex;
+            const data = journeyConfig.days[dayIndex - 1];
+            
+            document.getElementById('day-display').innerText = `DAG ${dayIndex}`;
+            document.getElementById('theme-title').innerText = data.theme;
+            document.getElementById('verse-text').innerText = `"${data.verse}"`;
+            document.getElementById('verse-ref').innerText = data.ref;
+            document.getElementById('action-text').innerText = data.action;
+            document.getElementById('night-text').innerText = data.night;
+
+            const savedNote = localStorage.getItem(`${journeyConfig.storageKey}_day_${dayIndex}`);
+            document.getElementById('user-notes').value = savedNote ? savedNote : "";
+            
+            const nightSec = document.getElementById('night-section');
+            if(savedNote && savedNote.length > 2) nightSec.style.display = 'block';
+            else nightSec.style.display = 'none';
+
+            document.getElementById('prev-btn').disabled = (dayIndex === 1);
+            document.getElementById('next-btn').disabled = (dayIndex === journeyConfig.days.length);
+        }
+
+        function completeDay() {
+            const noteText = document.getElementById('user-notes').value;
+            if(noteText.trim() === "") {
+                alert("Schrijf een korte gedachte op voordat je opslaat.");
+                return;
+            }
+            localStorage.setItem(`${journeyConfig.storageKey}_day_${currentDay}`, noteText);
+            
+            const nightSec = document.getElementById('night-section');
+            nightSec.style.display = 'block';
+            nightSec.scrollIntoView({behavior: "smooth"});
+            
+            const btn = document.getElementById('save-btn');
+            const oldText = btn.innerText;
+            btn.innerText = "✓ Opgeslagen";
+            btn.style.background = "#27ae60"; 
+            
+            setTimeout(() => {
+                btn.innerText = oldText;
+                btn.style.background = "var(--btn-gradient)";
+            }, 2000);
+        }
+
+        function changeDay(offset) {
+            const newDay = currentDay + offset;
+            if(newDay >= 1 && newDay <= journeyConfig.days.length) {
+                loadDay(newDay);
+            }
+        }
+
+        function printJournal() {
+            const container = document.getElementById('print-content');
+            container.innerHTML = ""; 
+
+            journeyConfig.days.forEach((day, index) => {
+                const dayNum = index + 1;
+                const savedNote = localStorage.getItem(`${journeyConfig.storageKey}_day_${dayNum}`) || "(Nog geen notitie)";
+                
+                const entry = document.createElement('div');
+                entry.className = 'print-entry';
+                entry.innerHTML = `
+                    <div class="print-header">Dag ${dayNum}: ${day.theme}</div>
+                    <div style="font-style:italic; margin-bottom:10px;">"${day.verse}" (${day.ref})</div>
+                    <div style="margin-bottom:10px; font-weight:bold;">Actie: ${day.action}</div>
+                    <div style="background:#f9f9f9; padding:10px; border-left:3px solid #ccc;">
+                        <strong>Mijn gedachte:</strong><br>${savedNote}
+                    </div>
+                `;
+                container.appendChild(entry);
+            });
+            window.print();
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>31 Dagen met David: Een Hart voor God</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Lato:wght@300;400;700&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            /* David Thema: Koningsrood, Goud, Harp & Hartstocht */
+            --primary-color: #7b241c; /* Diep bordeaux rood */
+            --primary-light: #c0392b; 
+            --accent-color: #f39c12;  /* Goud */
+            --pastel-bg: #fdedec;     /* Zacht roze/wit */
+            --glass-bg: rgba(255, 255, 255, 0.95);
+            --btn-gradient: linear-gradient(135deg, #7b241c 0%, #4a0404 100%);
+            --radius: 25px;
+        }
+
+        body, html {
+            margin: 0; padding: 0; height: 100%;
+            font-family: 'Lato', sans-serif;
+            color: #4a0404;
+            background-color: var(--pastel-bg);
+        }
+
+        .container {
+            min-height: 100vh; display: flex; justify-content: center; align-items: center; padding: 20px;
+        }
+
+        .card {
+            background: var(--glass-bg);
+            border-radius: var(--radius);
+            padding: 40px;
+            max-width: 600px; width: 100%;
+            box-shadow: 0 20px 50px rgba(123, 36, 28, 0.15);
+            position: relative;
+            border-top: 5px solid var(--accent-color);
+        }
+
+        header { text-align: center; margin-bottom: 25px; }
+
+        .top-nav {
+            display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;
+        }
+
+        .home-btn {
+            text-decoration: none; color: var(--primary-light); font-weight: bold; font-size: 0.9rem; transition: 0.3s;
+        }
+        .home-btn:hover { color: var(--accent-color); }
+
+        h1 { 
+            font-family: 'Playfair Display', serif; 
+            color: var(--primary-color); 
+            margin: 5px 0; 
+            font-size: 2rem; 
+        }
+        
+        .subtitle { 
+            font-size: 0.8rem; text-transform: uppercase; letter-spacing: 3px; color: var(--accent-color); font-weight: bold; 
+        }
+
+        .day-badge {
+            background: var(--primary-color); color: white; padding: 5px 15px; border-radius: 20px; font-size: 0.8rem; letter-spacing: 1px;
+        }
+
+        .scripture-box {
+            text-align: center; margin: 30px 0; font-size: 1.25rem; line-height: 1.6; color: #7b241c; font-family: 'Playfair Display', serif; font-style: italic;
+        }
+        .reference { 
+            display: block; margin-top: 15px; font-weight: bold; font-style: normal; font-size: 0.85rem; color: var(--accent-color); font-family: 'Lato', sans-serif; text-transform: uppercase; 
+        }
+
+        .action-box {
+            background: #fff; border-left: 4px solid var(--primary-color);
+            padding: 20px; border-radius: 10px; margin-bottom: 25px;
+            box-shadow: 0 2px 15px rgba(0,0,0,0.03);
+        }
+        .action-title { font-weight: bold; color: var(--primary-light); text-transform: uppercase; font-size: 0.75rem; display: block; margin-bottom: 8px; letter-spacing: 1px;}
+
+        textarea {
+            width: 100%; height: 120px; padding: 15px; border-radius: 15px; border: 2px solid #fadbd8;
+            font-family: 'Lato', sans-serif; font-size: 1rem; margin-bottom: 15px; resize: vertical; outline: none; transition: 0.3s;
+            background: #fafafa; color: #4a0404;
+        }
+        textarea:focus { border-color: var(--accent-color); background: #fff; }
+
+        .btn-primary {
+            background: var(--btn-gradient); color: white; border: none; padding: 15px 30px;
+            font-size: 1rem; border-radius: 50px; cursor: pointer; width: 100%; font-weight: bold; letter-spacing: 0.5px;
+            box-shadow: 0 5px 15px rgba(123, 36, 28, 0.2); transition: 0.3s;
+        }
+        .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 8px 20px rgba(123, 36, 28, 0.3); }
+
+        .night-thought {
+            margin-top: 30px; background: var(--primary-color); color: #fdedec; padding: 25px;
+            border-radius: 20px; text-align: center; display: none; animation: fadeIn 0.6s ease;
+        }
+        
+        .nav-buttons {
+            display: flex; justify-content: space-between; margin-top: 30px; padding-top: 20px; border-top: 1px solid #e6b0aa;
+        }
+        .nav-btn { background: none; border: none; cursor: pointer; color: #c0392b; font-weight: bold; font-size: 0.9rem; transition: 0.3s; }
+        .nav-btn:hover:not(:disabled) { color: var(--accent-color); }
+        .nav-btn:disabled { opacity: 0.3; cursor: default; }
+
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        
+        /* Print Styles */
+        @media print {
+            body * { visibility: hidden; }
+            #printable-journal, #printable-journal * { visibility: visible; }
+            #printable-journal { position: absolute; left: 0; top: 0; width: 100%; color: black; padding: 40px;}
+            .print-entry { margin-bottom: 30px; border-bottom: 1px solid #ccc; padding-bottom: 20px; page-break-inside: avoid; }
+            .print-header { font-weight: bold; font-size: 1.2em; margin-bottom: 5px; }
+        }
+        #printable-journal { display: none; }
+
+        @media (max-width: 600px) {
+            .card { padding: 25px; }
+            h1 { font-size: 1.6rem; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <div class="card">
+            <div class="top-nav">
+                <a href="index.html" class="home-btn">← Terug naar Gidsen</a>
+                <span class="day-badge" id="day-display">DAG 1</span>
+            </div>
+
+            <header>
+                <div class="subtitle" id="month-subtitle">TRAJECT: EEN HART VOOR GOD</div>
+                <h1 id="theme-title">...</h1>
+            </header>
+
+            <div class="scripture-box">
+                <span id="verse-text">Laden...</span>
+                <span class="reference" id="verse-ref">...</span>
+            </div>
+
+            <div class="action-box">
+                <span class="action-title">Hartsgesteldheid</span>
+                <span id="action-text">...</span>
+            </div>
+
+            <label style="font-size:0.85rem; font-weight:bold; color:#c0392b; display:block; margin-bottom:8px; text-transform: uppercase; letter-spacing: 1px;">Mijn gebed:</label>
+            <textarea id="user-notes" placeholder="Stort je hart uit voor God..."></textarea>
+            <button class="btn-primary" id="save-btn" onclick="completeDay()">Dag Afronden</button>
+
+            <div id="night-section" class="night-thought">
+                <h3 style="margin:0 0 10px 0; font-size:1.1rem; color: #f39c12;">🎸 Lied in de Nacht</h3>
+                <p id="night-text" style="margin:0; line-height: 1.6;">...</p>
+            </div>
+
+            <div class="nav-buttons">
+                <button class="nav-btn" id="prev-btn" onclick="changeDay(-1)">← Vorige</button>
+                <button class="nav-btn" onclick="printJournal()">🖨️ Mijn Psalmen</button>
+                <button class="nav-btn" id="next-btn" onclick="changeDay(1)">Volgende →</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="printable-journal">
+        <div style="text-align:center; margin-bottom:40px;">
+            <h1 style="color:#7b241c;">Mijn Reis met David</h1>
+            <p>Eerlijk worden voor God: Van herder tot koning.</p>
+        </div>
+        <div id="print-content"></div>
+    </div>
+
+    <script>
+        // CONFIGURATIE VOOR DAVID
+        // Thema's: Hart, Aanbidding, Zonde & Vergeving, Angst, Vertrouwen, Vriendschap
+        
+        const journeyConfig = {
+            character: "David",
+            storageKey: "david_journal", 
+            days: [
+                { theme: "De Herder", verse: "De HEER is mijn herder, het ontbreekt mij aan niets.", ref: "Psalm 23:1", action: "Je hoeft niet zelf de weg te zoeken. De Herder leidt je. Geef de controle vandaag bewust uit handen. Zeg: 'Heer, U leidt'.", night: "Hij doet mij neerliggen in grazige weiden. Rust zacht, het gras is groen." },
+                { theme: "Niet wat voor ogen is", verse: "De mens ziet wat voor ogen is, maar de HEER ziet het hart aan.", ref: "1 Samuel 16:7", action: "God keurde de sterke broers af en koos de kleine David. Voel je je klein of over het hoofd gezien? God ziet jouw hart. Dat is genoeg.", night: "Je bent gekend en geliefd om wie je bent, niet om wat je presteert." },
+                { theme: "Reuzen verslaan", verse: "Jij komt naar mij met een zwaard... maar ik kom in de Naam van de HEER.", ref: "1 Samuel 17:45", action: "Wat is jouw Goliath (angst, verslaving, schuld)? Praat niet over hoe groot de reus is, maar hoe groot God is. Spreek de Naam van Jezus uit.", night: "De strijd is niet van jou, maar van God. De overwinning staat vast." },
+                { theme: "Muziek voor de ziel", verse: "David nam de harp en speelde... en Saul vond verlichting.", ref: "1 Samuel 16:23", action: "Muziek heeft kracht. Zet vandaag aanbiddingsmuziek op en laat het je geest tot rust brengen. Zing mee, ook al kun je niet zingen.", night: "God geeft lofzangen in de nacht." },
+                { theme: "Vriendschap", verse: "De ziel van Jonathan werd verknocht aan de ziel van David.", ref: "1 Samuel 18:1", action: "Heb je een 'Jonathan'? Iemand bij wie je veilig bent? Stuur die persoon een bedankje. Of bid om zo'n vriend.", night: "Jezus is de Vriend die dichterbij komt dan een broeder." },
+                { theme: "Wachten op Gods tijd", verse: "Ik zal mijn hand niet aan mijn heer slaan, want hij is de gezalfde.", ref: "1 Samuel 24:11", action: "David doodde Saul niet, hoewel hij de kans had. Forceer geen deuren. Wacht op Gods timing. Laat het recht aan Hem over.", night: "Wie wacht op de Heer, krijgt nieuwe kracht." },
+                { theme: "Verlangen naar Zijn huis", verse: "Eén ding heb ik gevraagd... dat ik mag wonen in het huis van de HEER.", ref: "Psalm 27:4", action: "Maak van je huis een tempel. Steek een kaars aan, open je Bijbel. Wees stil. Je bent nu in Zijn huis.", night: "Thuis bij God is de veiligste plek op aarde." },
+                { theme: "Eerlijk over angst", verse: "Ten dage dat ik vrees, vertrouw ik op U.", ref: "Psalm 56:4", action: "Dappere mensen zijn niet mensen zonder angst, maar mensen die met hun angst naar God gaan. Vertel God waar je bang voor bent.", night: "Onder Zijn vleugels vind je een toevlucht." },
+                { theme: "De Val (Bathseba)", verse: "Ik heb gezondigd tegen de HEER.", ref: "2 Samuel 12:13", action: "Stop met smoesjes. Als je fout zit, geef het toe. 'Ik zat fout'. Dat is het begin van herstel. God veracht een gebroken hart niet.", night: "Waar zonde toenam, is genade meer dan overvloedig geworden." },
+                { theme: "Schep een rein hart", verse: "Schep mij een rein hart, o God.", ref: "Psalm 51:12", action: "Vraag God niet om spullen, maar om een nieuw hart. Een hart van vlees in plaats van steen. Hij is de Hartchirurg.", night: "Hij wast witter dan sneeuw. Je bent schoon." },
+                { theme: "Gods alwetendheid", verse: "HEER, U doorgrondt en kent mij.", ref: "Psalm 139:1", action: "Je kunt je niet verstoppen, en dat hoeft ook niet. Hij kent je donkerste gedachten en houdt toch van je. Rust in die aanvaarding.", night: "Zelfs de duisternis is voor Hem als het licht." },
+                { theme: "Vergeving proeven", verse: "Welzalig is de man wiens overtreding vergeven is.", ref: "Psalm 32:1", action: "Schuld is zwaar. Vergeving is licht. Heb je vergeving gevraagd? Geloof dan ook dat je het hebt gekregen. Sta op en leef.", night: "Zo ver het oosten is van het westen, zo ver heeft Hij onze overtredingen van ons gedaan." },
+                { theme: "Dansen voor de Heer", verse: "David huppelde uit alle macht voor het aangezicht van de HEER.", ref: "2 Samuel 6:14", action: "Schaam je niet voor je enthousiasme. Wees blij in God. Trek je niets aan van wat mensen vinden (zoals Michal).", night: "Vreugde is de kracht van de Heer." },
+                { theme: "Dankbaarheid", verse: "Loof de HEER, mijn ziel, en vergeet niet één van zijn weldaden.", ref: "Psalm 103:2", action: "Tel je zegeningen, één voor één. Schrijf er 5 op. Dankbaarheid is het beste medicijn tegen somberheid.", night: "Wie dankt, betaalt de rente van Gods gaven." },
+                { theme: "De nachtwacht", verse: "Als ik aan U denk op mijn bed, over U peins in de nachtwaken.", ref: "Psalm 63:7", action: "Kun je niet slapen? Maak er een gebedswake van. Praat met God in het donker. Hij is wakker.", night: "In de schaduw van Uw vleugels zal ik jubelen." },
+                { theme: "Gods Woord", verse: "Uw woord is een lamp voor mijn voet.", ref: "Psalm 119:105", action: "Zonder licht struikel je. Lees vandaag één vers en neem dat mee als 'zaklamp' voor je dag.", night: "De ingang van Uw woorden geeft licht." },
+                { theme: "Verraad", verse: "Zelfs mijn vredegenoot, op wie ik vertrouwde... heeft de hiel tegen mij opgeheven.", ref: "Psalm 41:10", action: "Ben je gekwetst door een vriend? Jezus kent dat (Judas). Breng je pijn bij Hem. Hij begrijpt verraad als geen ander.", night: "Hij heelt de gebrokenen van hart en verbindt hun wonden." },
+                { theme: "Dorst naar God", verse: "Zoals een hert schreeuwt naar de waterstromen, zo schreeuwt mijn ziel tot U.", ref: "Psalm 42:2", action: "Erken je dorst. Niets op aarde kan die ten diepste lessen. Drink van het Levende Water.", night: "Zijn trouw is elke morgen nieuw." },
+                { theme: "Gods bescherming", verse: "De engel van de HEER legert zich rondom wie Hem vrezen.", ref: "Psalm 34:8", action: "Je bent niet alleen. Gods engelen zijn om je heen. Vraag God om je geestelijke ogen te openen voor Zijn bescherming.", night: "Hij geeft Zijn engelen opdracht om je te bewaren." },
+                { theme: "Oud en grijs", verse: "Verlaat mij niet, ook niet als ik oud en grijs ben.", ref: "Psalm 71:18", action: "Ben je bang voor de toekomst of ouderdom? God blijft dezelfde. Hij draagt je tot in de grijze haren.", night: "Ik ben met u, al de dagen, tot de voleinding van de wereld." },
+                { theme: "Eenheid", verse: "Zie, hoe goed en hoe lieflijk is het als broeders eendrachtig samenwonen.", ref: "Psalm 133:1", action: "Zoek verbinding. Bel iemand op, drink samen koffie. Eenheid gebiedt de zegen van de Heer.", night: "Samen zijn we het lichaam van Christus." },
+                { theme: "De schepping", verse: "De hemel vertelt Gods eer.", ref: "Psalm 19:2", action: "Maak een wandeling. Kijk naar de wolken, de bomen. Zie Gods handtekening in de natuur.", night: "Als ik Uw hemel zie, het werk van Uw vingers... wat is de mens?" },
+                { theme: "Vertrouwen in nood", verse: "Ik hef mijn ogen op naar de bergen, waar komt mijn hulp vandaan?", ref: "Psalm 121:1", action: "Kijk niet naar het probleem (de berg), maar kijk hoger. Je hulp komt van de Maker van de bergen.", night: "De Heer is je bewaarder, de Heer is je schaduw." },
+                { theme: "Zachtmoedigheid", verse: "Hij leidt de zachtmoedigen in het recht.", ref: "Psalm 25:9", action: "Je hoeft niet te schreeuwen om gehoord te worden. Wees vandaag zachtmoedig. Dat is kracht onder controle.", night: "De zachtmoedigen zullen de aarde beërven." },
+                { theme: "Smaaktest", verse: "Proef en zie dat de HEER goed is.", ref: "Psalm 34:9", action: "Geloof is niet alleen theorie, je moet het proeven. Denk terug aan een moment waarop God goed voor je was. Geniet na.", night: "Zijn goedertierenheid is beter dan het leven." },
+                { theme: "De Rots", verse: "Leid mij op een rots die voor mij te hoog is.", ref: "Psalm 61:3", action: "Als het water stijgt, zet God je op een Rots. Jezus is die Rots. Ga op Hem staan door geloof.", night: "Wie op de Rots bouwt, wankelt niet." },
+                { theme: "Kinderlijk geloof", verse: "Ik heb mijn ziel tot rust gebracht, als een gespeend kind bij zijn moeder.", ref: "Psalm 131:2", action: "Stop met piekeren en analyseren. Kruip als een kind op schoot bij God. Stil en veilig.", night: "In Uw armen ben ik veilig." },
+                { theme: "De Toekomst", verse: "Ik zal in het huis van de HEER blijven tot in lengte van dagen.", ref: "Psalm 23:6", action: "Dit leven is niet alles. We zijn op weg naar Huis. Laat die hoop je vandaag moed geven.", night: "Straks zullen we Hem zien zoals Hij is." },
+                { theme: "Laatste woorden", verse: "Hij heeft met mij een eeuwig verbond gemaakt.", ref: "2 Samuel 23:5", action: "Gods verbond met jou staat vast. Niet door jouw trouw, maar door Zijn trouw. Rust in dat verbond.", night: "Gods beloften wankelen niet." },
+                { theme: "Lofprijs als slot", verse: "Alles wat adem heeft, love de HEER!", ref: "Psalm 150:6", action: "Je hebt adem, dus je hebt een reden om te prijzen. Eindig deze reis met een 'Hallelujah'.", night: "Zingend ga ik de nacht in." },
+                { theme: "Man naar Gods hart", verse: "Reflectie: David was niet perfect, maar zijn hart was op God gericht.", ref: "Reflectie", action: "Je hoeft niet perfect te zijn. Richt je hart vandaag opnieuw op Hem. Dat is genoeg.", night: "Welterusten, man/vrouw naar Gods hart." }
+            ]
+        };
+
+        // BASIS LOGICA
+        let currentDay = 1;
+
+        window.onload = function() {
+            loadDay(1);
+        };
+
+        function loadDay(dayIndex) {
+            currentDay = dayIndex;
+            const data = journeyConfig.days[dayIndex - 1];
+            
+            document.getElementById('day-display').innerText = `DAG ${dayIndex}`;
+            document.getElementById('theme-title').innerText = data.theme;
+            document.getElementById('verse-text').innerText = `"${data.verse}"`;
+            document.getElementById('verse-ref').innerText = data.ref;
+            document.getElementById('action-text').innerText = data.action;
+            document.getElementById('night-text').innerText = data.night;
+
+            const savedNote = localStorage.getItem(`${journeyConfig.storageKey}_day_${dayIndex}`);
+            document.getElementById('user-notes').value = savedNote ? savedNote : "";
+            
+            const nightSec = document.getElementById('night-section');
+            if(savedNote && savedNote.length > 2) nightSec.style.display = 'block';
+            else nightSec.style.display = 'none';
+
+            document.getElementById('prev-btn').disabled = (dayIndex === 1);
+            document.getElementById('next-btn').disabled = (dayIndex === journeyConfig.days.length);
+        }
+
+        function completeDay() {
+            const noteText = document.getElementById('user-notes').value;
+            if(noteText.trim() === "") {
+                alert("Schrijf een korte gedachte op voordat je opslaat.");
+                return;
+            }
+            localStorage.setItem(`${journeyConfig.storageKey}_day_${currentDay}`, noteText);
+            
+            const nightSec = document.getElementById('night-section');
+            nightSec.style.display = 'block';
+            nightSec.scrollIntoView({behavior: "smooth"});
+            
+            const btn = document.getElementById('save-btn');
+            const oldText = btn.innerText;
+            btn.innerText = "✓ Opgeslagen";
+            btn.style.background = "#27ae60"; 
+            
+            setTimeout(() => {
+                btn.innerText = oldText;
+                btn.style.background = "var(--btn-gradient)";
+            }, 2000);
+        }
+
+        function changeDay(offset) {
+            const newDay = currentDay + offset;
+            if(newDay >= 1 && newDay <= journeyConfig.days.length) {
+                loadDay(newDay);
+            }
+        }
+
+        function printJournal() {
+            const container = document.getElementById('print-content');
+            container.innerHTML = ""; 
+
+            journeyConfig.days.forEach((day, index) => {
+                const dayNum = index + 1;
+                const savedNote = localStorage.getItem(`${journeyConfig.storageKey}_day_${dayNum}`) || "(Nog geen notitie)";
+                
+                const entry = document.createElement('div');
+                entry.className = 'print-entry';
+                entry.innerHTML = `
+                    <div class="print-header">Dag ${dayNum}: ${day.theme}</div>
+                    <div style="font-style:italic; margin-bottom:10px;">"${day.verse}" (${day.ref})</div>
+                    <div style="margin-bottom:10px; font-weight:bold;">Actie: ${day.action}</div>
+                    <div style="background:#f9f9f9; padding:10px; border-left:3px solid #ccc;">
+                        <strong>Mijn gedachte:</strong><br>${savedNote}
+                    </div>
+                `;
+                container.appendChild(entry);
+            });
+            window.print();
+        }
+    </script>
+</body>
+</html>

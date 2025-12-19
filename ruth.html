@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>31 Dagen met Ruth: Trouw & Verbondenheid</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Lato:wght@300;400;700&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            /* Ruth Thema: Oogst, Warmte, Aarde & Goud */
+            --primary-color: #795548; /* Warme aardtint/Bruin */
+            --primary-light: #a1887f; 
+            --accent-color: #f39c12;  /* Goudgeel (Tarwe/Oogst) */
+            --pastel-bg: #fefcf5;     /* Crème wit */
+            --glass-bg: rgba(255, 255, 255, 0.96);
+            --btn-gradient: linear-gradient(135deg, #d35400 0%, #795548 100%);
+            --radius: 30px;
+        }
+
+        body, html {
+            margin: 0; padding: 0; height: 100%;
+            font-family: 'Lato', sans-serif;
+            color: #4e342e;
+            background-color: var(--pastel-bg);
+        }
+
+        .container {
+            min-height: 100vh; display: flex; justify-content: center; align-items: center; padding: 20px;
+        }
+
+        .card {
+            background: var(--glass-bg);
+            border-radius: var(--radius);
+            padding: 40px;
+            max-width: 600px; width: 100%;
+            box-shadow: 0 15px 40px rgba(121, 85, 72, 0.1);
+            position: relative;
+            border-top: 5px solid var(--accent-color);
+            border: 1px solid #efebe9;
+        }
+
+        header { text-align: center; margin-bottom: 25px; }
+
+        .top-nav {
+            display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;
+        }
+
+        .home-btn {
+            text-decoration: none; color: var(--primary-light); font-weight: bold; font-size: 0.9rem; transition: 0.3s;
+        }
+        .home-btn:hover { color: var(--accent-color); }
+
+        h1 { 
+            font-family: 'Playfair Display', serif; 
+            color: var(--primary-color); 
+            margin: 5px 0; 
+            font-size: 2rem; 
+        }
+        
+        .subtitle { 
+            font-size: 0.8rem; text-transform: uppercase; letter-spacing: 3px; color: var(--accent-color); font-weight: bold; 
+        }
+
+        .day-badge {
+            background: var(--accent-color); color: white; padding: 5px 15px; border-radius: 20px; font-size: 0.8rem; letter-spacing: 1px;
+        }
+
+        .scripture-box {
+            text-align: center; margin: 30px 0; font-size: 1.25rem; line-height: 1.6; color: #5d4037; font-family: 'Playfair Display', serif; font-style: italic;
+        }
+        .reference { 
+            display: block; margin-top: 15px; font-weight: bold; font-style: normal; font-size: 0.85rem; color: var(--accent-color); font-family: 'Lato', sans-serif; text-transform: uppercase; 
+        }
+
+        .action-box {
+            background: #fff8e1; border-left: 4px solid var(--accent-color);
+            padding: 20px; border-radius: 10px; margin-bottom: 25px;
+            box-shadow: 0 2px 15px rgba(0,0,0,0.03);
+        }
+        .action-title { font-weight: bold; color: var(--primary-color); text-transform: uppercase; font-size: 0.75rem; display: block; margin-bottom: 8px; letter-spacing: 1px;}
+
+        textarea {
+            width: 100%; height: 120px; padding: 15px; border-radius: 15px; border: 2px solid #efebe9;
+            font-family: 'Lato', sans-serif; font-size: 1rem; margin-bottom: 15px; resize: vertical; outline: none; transition: 0.3s;
+            background: #fafafa; color: #4e342e;
+        }
+        textarea:focus { border-color: var(--accent-color); background: #fff; }
+
+        .btn-primary {
+            background: var(--btn-gradient); color: white; border: none; padding: 15px 30px;
+            font-size: 1rem; border-radius: 50px; cursor: pointer; width: 100%; font-weight: bold; letter-spacing: 0.5px;
+            box-shadow: 0 5px 15px rgba(211, 84, 0, 0.2); transition: 0.3s;
+        }
+        .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 8px 20px rgba(211, 84, 0, 0.3); }
+
+        .night-thought {
+            margin-top: 30px; background: var(--primary-color); color: #efebe9; padding: 25px;
+            border-radius: 20px; text-align: center; display: none; animation: fadeIn 0.6s ease;
+        }
+        
+        .nav-buttons {
+            display: flex; justify-content: space-between; margin-top: 30px; padding-top: 20px; border-top: 1px solid #eee;
+        }
+        .nav-btn { background: none; border: none; cursor: pointer; color: #a1887f; font-weight: bold; font-size: 0.9rem; transition: 0.3s; }
+        .nav-btn:hover:not(:disabled) { color: var(--accent-color); }
+        .nav-btn:disabled { opacity: 0.3; cursor: default; }
+
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        
+        /* Print Styles */
+        @media print {
+            body * { visibility: hidden; }
+            #printable-journal, #printable-journal * { visibility: visible; }
+            #printable-journal { position: absolute; left: 0; top: 0; width: 100%; color: black; padding: 40px;}
+            .print-entry { margin-bottom: 30px; border-bottom: 1px solid #ccc; padding-bottom: 20px; page-break-inside: avoid; }
+            .print-header { font-weight: bold; font-size: 1.2em; margin-bottom: 5px; }
+        }
+        #printable-journal { display: none; }
+
+        @media (max-width: 600px) {
+            .card { padding: 25px; }
+            h1 { font-size: 1.6rem; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <div class="card">
+            <div class="top-nav">
+                <a href="index.html" class="home-btn">← Terug naar Gidsen</a>
+                <span class="day-badge" id="day-display">DAG 1</span>
+                </div>
+
+            <header>
+                <div class="subtitle" id="month-subtitle">TRAJECT: TROUW & VERBONDENHEID</div>
+                <h1 id="theme-title">...</h1>
+            </header>
+
+            <div class="scripture-box">
+                <span id="verse-text">Laden...</span>
+                <span class="reference" id="verse-ref">...</span>
+            </div>
+
+            <div class="action-box">
+                <span class="action-title">Stap in verbinding</span>
+                <span id="action-text">...</span>
+            </div>
+
+            <label style="font-size:0.85rem; font-weight:bold; color:#a1887f; display:block; margin-bottom:8px; text-transform: uppercase; letter-spacing: 1px;">Mijn gedachten:</label>
+            <textarea id="user-notes" placeholder="Wat betekent trouw voor jou vandaag?"></textarea>
+            <button class="btn-primary" id="save-btn" onclick="completeDay()">Opslaan & Rusten</button>
+
+            <div id="night-section" class="night-thought">
+                <h3 style="margin:0 0 10px 0; font-size:1.1rem; color: #ffecb3;">🌾 Onder Zijn Vleugels</h3>
+                <p id="night-text" style="margin:0; line-height: 1.6;">...</p>
+            </div>
+
+            <div class="nav-buttons">
+                <button class="nav-btn" id="prev-btn" onclick="changeDay(-1)">← Vorige</button>
+                <button class="nav-btn" onclick="printJournal()">🖨️ Reisverslag</button>
+                <button class="nav-btn" id="next-btn" onclick="changeDay(1)">Volgende →</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="printable-journal">
+        <div style="text-align:center; margin-bottom:40px;">
+            <h1 style="color:#795548;">Mijn Reis met Ruth</h1>
+            <p>Over trouw, vriendschap en Gods voorzienigheid.</p>
+        </div>
+        <div id="print-content"></div>
+    </div>
+
+    <script>
+        // CONFIGURATIE VOOR RUTH
+        
+        const journeyConfig = {
+            character: "Ruth",
+            storageKey: "ruth_journal", 
+            days: [
+                { theme: "De Keuze", verse: "Waar u gaat, zal ik gaan, en waar u slaapt, zal ik slapen.", ref: "Ruth 1:16", action: "Trouw is een keuze, geen gevoel. Kies vandaag bewust voor loyaliteit aan iemand die dicht bij je staat. Stuur een berichtje: 'Ik ben er voor je'.", night: "Je hoeft de weg niet alleen te gaan. God gaat met je mee, en Hij geeft mensen om samen mee te reizen." },
+                { theme: "Bitterheid en Verlies", verse: "Noem mij geen Naomi (lieflijkheid), maar Mara (bitterheid), want de Almachtige heeft mij grote bitterheid aangedaan.", ref: "Ruth 1:20", action: "Soms voelt het leven bitter. Stop je verdriet niet weg. Schrijf vandaag één ding op dat pijn doet en leg het open voor God.", night: "God wordt niet boos om jouw eerlijkheid. Hij kent de smaak van tranen. Hij is erbij in het dal." },
+                { theme: "Terugkeer naar het Broodhuis", verse: "Ze kwamen in Bethlehem (Huis van Brood) aan bij het begin van de oogst.", ref: "Ruth 1:22", action: "Na honger komt oogst. Heb je geestelijke honger? Lees vandaag een stukje uit de Bijbel (het Levende Brood) om te voeden.", night: "Je bent aangekomen op een plek waar weer hoop is. De oogst staat klaar." },
+                { theme: "Oprapen wat overblijft", verse: "Laat mij toch naar de akker gaan en aren rapen.", ref: "Ruth 2:2", action: "Ruth was niet te trots om klein werk te doen. Doe vandaag een nederig klusje in huis of op je werk, zonder te klagen.", night: "God zegent de handen die werken. In het kleine begint het grote." },
+                { theme: "De toevallige ontmoeting", verse: "Het overkwam haar bij toeval dat zij op het stuk land van Boaz kwam.", ref: "Ruth 2:3", action: "Bij God bestaat toeval niet. Denk terug aan een 'toevallige' ontmoeting die belangrijk was. Dank God voor Zijn regie.", night: "Terwijl jij liep, stuurde God je stappen. Hij werkt in de details van jouw dag." },
+                { theme: "Schuilen onder vleugels", verse: "De HEER, onder Wiens vleugels u bent komen schuilen.", ref: "Ruth 2:12", action: "Stel je voor hoe een kuiken onder de vleugels van een moeder vogel kruipt. Zoek vandaag 5 minuten die beschutting in gebed.", night: "Onder Zijn vleugels ben je veilig voor de nacht. Geen storm kan daar komen." },
+                { theme: "Genade voor een vreemdeling", verse: "Waarom heb ik genade gevonden in uw ogen, hoewel ik een vreemdeling ben?", ref: "Ruth 2:10", action: "Is er iemand in je omgeving die zich 'buitenstaander' voelt? Doe iets om die persoon zich welkom te laten voelen.", night: "Ooit waren wij vreemdelingen, maar door Jezus zijn we huisgenoten van God geworden." },
+                { theme: "Meer dan genoeg", verse: "Ze at tot ze verzadigd was en hield nog over.", ref: "Ruth 2:14", action: "Deel van je overvloed. Heb je eten over? Geld over? Tijd over? Geef het weg aan iemand die het nodig heeft.", night: "Bij God is er altijd 'over'. Zijn genade raakt nooit op." },
+                { theme: "Zorg voor familie", verse: "Ze haalde het tevoorschijn en gaf haar schoonmoeder wat ze overhad.", ref: "Ruth 2:18", action: "Eer je ouders of ouderen. Bel vandaag je (schoon)ouders of een ouder iemand in de gemeente gewoon zomaar op.", night: "Zorg dragen voor elkaar is de kern van het verbond. Slaap in de vrede van verbondenheid." },
+                { theme: "De Losser", verse: "Die man is nauw aan ons verwant, hij is een van onze lossers.", ref: "Ruth 2:20", action: "Denk na over het woord 'Verlosser'. Jezus heeft jou 'vrijgekocht'. Je bent van Hem. Wat doet dat met je gevoel van eigenwaarde?", night: "Je bent niet van jezelf, je bent duur gekocht. Je bent oneindig kostbaar." },
+                { theme: "Wachten en werken", verse: "Zo bleef ze bij de maaiers van Boaz om te rapen, tot het einde van de oogst.", ref: "Ruth 2:23", action: "Volharden is soms saai. Blijf trouw in wat je doet, ook als je nog geen resultaat ziet. Geef niet op.", night: "Trouw in het kleine wordt beloond in het grote. Rust uit van je trouwe dienst vandaag." },
+                { theme: "Een rustplaats zoeken", verse: "Mijn dochter, zou ik voor jou geen rustplaats zoeken, zodat het je goed gaat?", ref: "Ruth 3:1", action: "Gun jij anderen rust en geluk? Bid vandaag specifiek voor het geluk van iemand anders.", night: "God zoekt voor jou een rustplaats. Hij wil dat het je goed gaat." },
+                { theme: "Schoonheid van binnen", verse: "Was je en zalf je... en ga naar de dorsvloer.", ref: "Ruth 3:3", action: "Verzorg jezelf vandaag. Je bent een tempel van de Heilige Geest. Maar weet dat je echte schoonheid in je karakter zit.", night: "Je bent mooi in Zijn ogen. Gewassen en gezalfd door Zijn genade." },
+                { theme: "Aan zijn voeten", verse: "Ze ging erheen... en ging aan zijn voeteneind liggen.", ref: "Ruth 3:7", action: "Dit is een daad van overgave. Leg in gedachten je leven aan de voeten van Jezus neer. 'Heer, hier ben ik'.", night: "Aan Zijn voeten is de veiligste plek op aarde. Daar begint herstel." },
+                { theme: "Spreid uw vleugel", verse: "Spreid uw vleugel uit over uw dienares, want u bent de losser.", ref: "Ruth 3:9", action: "Vraag God concreet om bescherming over je huis en gezin. 'Heer, dek ons toe met Uw genade'.", night: "Jezus is onze Boaz. Hij heeft Zijn armen aan het kruis gespreid om jou te beschermen." },
+                { theme: "Een deugdzame vrouw", verse: "Iedereen in de poort weet dat u een deugdzame vrouw bent.", ref: "Ruth 3:11", action: "Wat is jouw reputatie? Werk aan je karakter. Wees vandaag eerlijk en betrouwbaar in alles wat je zegt.", night: "Mensen kijken naar de buitenkant, maar God ziet het hart - en jouw getuigenis wordt gezien." },
+                { theme: "Rustig wachten", verse: "Wacht rustig af, mijn dochter, totdat je weet hoe de zaak uitvalt.", ref: "Ruth 3:18", action: "Spannende tijden? Oefen in 'stil wachten'. God is bezig met jouw zaak, ook als jij niets kunt doen.", night: "De man zal niet rusten voordat hij het in orde heeft gemaakt. Jezus rust niet totdat jij veilig bent." },
+                { theme: "De Poort", verse: "Boaz ging naar de poort en ging daar zitten.", ref: "Ruth 4:1", action: "In de poort werden zaken gedaan. Bid voor leiders en beslissers in de maatschappij en in de kerk.", night: "Er is een Pleitbezorger in de hemelse poort die jouw zaak verdedigt: Jezus Christus." },
+                { theme: "De lossing", verse: "Ik heb het land gekocht... en ook Ruth heb ik gekocht.", ref: "Ruth 4:9-10", action: "Je bent 'gekocht en betaald'. Je verleden is niet meer bepalend. Je hebt een nieuwe eigenaar. Leef als een vrij mens.", night: "De prijs is betaald. De erfenis is veiliggesteld. Slaap in die zekerheid." },
+                { theme: "Gezegend huwelijk", verse: "De HEER make deze vrouw als Rachel en Lea, die het huis van Israël gebouwd hebben.", ref: "Ruth 4:11", action: "Bid voor de huwelijken in je omgeving. Vraag om trouw en zegen in gezinnen.", night: "God is de bouwer van het huis. Als Hij het huis niet bouwt, werken de bouwers tevergeefs." },
+                { theme: "Nieuw leven", verse: "De HEER gaf haar dat ze zwanger werd en een zoon baarde.", ref: "Ruth 4:13", action: "Dank God voor nieuw leven, voor kinderen, voor nieuwe seizoenen. Waar zie jij iets 'nieuws' ontstaan?", night: "Uit de bitterheid van hoofdstuk 1 is nieuw leven gekomen. God schrijft altijd een hoopvol einde." },
+                { theme: "Hersteller van het leven", verse: "Hij zal zijn een hersteller van uw levenslust en een verzorger van uw ouderdom.", ref: "Ruth 4:15", action: "Voel je je oud of moe? God kan je levenslust herstellen. Vraag Hem om nieuwe energie en vreugde.", night: "Hij vernieuwt je kracht als die van een arend. Hij draagt je tot in de ouderdom." },
+                { theme: "De geslachtslijn", verse: "Obed verwekte Isaï, en Isaï verwekte David.", ref: "Ruth 4:22", action: "Ruth, de Moabitische, werd de overgrootmoeder van David én van Jezus. Niemand is uitgesloten van Gods familie.", night: "Jouw geschiedenis staat niet in de weg voor Gods toekomst. Je hoort erbij." },
+                { theme: "Vreugde delen", verse: "De buurvrouwen gaven hem een naam.", ref: "Ruth 4:17", action: "Deel je blijdschap. Heb je iets goeds meegemaakt? Vertel het aan je buren of vrienden. Getuig van Gods goedheid.", night: "Gedeelde vreugde is dubbele vreugde. God glimlacht over Zijn kinderen." },
+                { theme: "Van honger naar volheid", verse: "Terugblik: Ze ging leeg weg, maar kwam vol terug.", ref: "Ruth 1 vs 4", action: "Kijk terug op je leven. Waar heeft God je leegte gevuld? Schrijf een dankgebed.", night: "Hij vult de hongerige met goede gaven. Slaap met een verzadigde ziel." },
+                { theme: "Trouw in vriendschap", verse: "Vrienden zijn er om elkaar te scherpen.", ref: "Spreuken 27:17", action: "Ruth en Naomi waren vriendinnen voor het leven. Investeer vandaag in een diepe vriendschap.", night: "Jezus is de Vriend die dichterbij komt dan een broeder." },
+                { theme: "De voorzienigheid", verse: "Mijn God zal in al uw behoeften voorzien.", ref: "Filippenzen 4:19", action: "Maak je geen zorgen over morgen. Kijk naar het verhaal van Ruth: alles kwam op zijn pootjes terecht.", night: "Hij die voor de mussen zorgt en voor Ruth zorgde, zorgt ook voor jou." },
+                { theme: "De grens over", verse: "Ruth verliet haar volk en haar goden.", ref: "Ruth 1:15", action: "Is er iets 'ouds' dat je nog vasthoudt (gewoontes, bijgeloof, angst)? Laat het achter bij de grens en stap Gods land binnen.", night: "In Zijn land vloeit melk en honing. Je hebt de goede keuze gemaakt." },
+                { theme: "Respect ontvangen", verse: "Laat niemand haar lastig vallen.", ref: "Ruth 2:15", action: "Boaz beschermde Ruth. Kom vandaag op voor iemand die kwetsbaar is. Wees een beschermer.", night: "God heeft Zijn engelen geboden om jou te bewaren op al je wegen." },
+                { theme: "Een Naam bouwen", verse: "Moge uw naam beroemd worden in Bethlehem.", ref: "Ruth 4:11", action: "Welke 'naam' (reputatie) laat jij achter? Kies vandaag voor integriteit boven gewin.", night: "Je naam staat geschreven in het Boek des Levens. Dat is de grootste roem." },
+                { theme: "Rust gevonden", verse: "De Heer geve u dat u rust vindt.", ref: "Ruth 1:9", action: "Je reis met Ruth zit erop. Je hebt ontdekt dat trouw wordt beloond en dat God voorziet. Rust in Zijn liefde.", night: "De Losser heeft je thuisgebracht. Welterusten, geliefde van de Heer." }
+            ]
+        };
+
+        // BASIS LOGICA
+        let currentDay = 1;
+
+        window.onload = function() {
+            loadDay(1);
+        };
+
+        function loadDay(dayIndex) {
+            currentDay = dayIndex;
+            const data = journeyConfig.days[dayIndex - 1];
+            
+            document.getElementById('day-display').innerText = `DAG ${dayIndex}`;
+            document.getElementById('theme-title').innerText = data.theme;
+            document.getElementById('verse-text').innerText = `"${data.verse}"`;
+            document.getElementById('verse-ref').innerText = data.ref;
+            document.getElementById('action-text').innerText = data.action;
+            document.getElementById('night-text').innerText = data.night;
+
+            const savedNote = localStorage.getItem(`${journeyConfig.storageKey}_day_${dayIndex}`);
+            document.getElementById('user-notes').value = savedNote ? savedNote : "";
+            
+            const nightSec = document.getElementById('night-section');
+            if(savedNote && savedNote.length > 2) nightSec.style.display = 'block';
+            else nightSec.style.display = 'none';
+
+            document.getElementById('prev-btn').disabled = (dayIndex === 1);
+            document.getElementById('next-btn').disabled = (dayIndex === journeyConfig.days.length);
+        }
+
+        function completeDay() {
+            const noteText = document.getElementById('user-notes').value;
+            if(noteText.trim() === "") {
+                alert("Schrijf een korte gedachte op voordat je opslaat.");
+                return;
+            }
+            localStorage.setItem(`${journeyConfig.storageKey}_day_${currentDay}`, noteText);
+            
+            const nightSec = document.getElementById('night-section');
+            nightSec.style.display = 'block';
+            nightSec.scrollIntoView({behavior: "smooth"});
+            
+            const btn = document.getElementById('save-btn');
+            const oldText = btn.innerText;
+            btn.innerText = "✓ Opgeslagen";
+            btn.style.background = "#27ae60"; 
+            
+            setTimeout(() => {
+                btn.innerText = oldText;
+                btn.style.background = "var(--btn-gradient)";
+            }, 2000);
+        }
+
+        function changeDay(offset) {
+            const newDay = currentDay + offset;
+            if(newDay >= 1 && newDay <= journeyConfig.days.length) {
+                loadDay(newDay);
+            }
+        }
+
+        function printJournal() {
+            const container = document.getElementById('print-content');
+            container.innerHTML = ""; 
+
+            journeyConfig.days.forEach((day, index) => {
+                const dayNum = index + 1;
+                const savedNote = localStorage.getItem(`${journeyConfig.storageKey}_day_${dayNum}`) || "(Nog geen notitie)";
+                
+                const entry = document.createElement('div');
+                entry.className = 'print-entry';
+                entry.innerHTML = `
+                    <div class="print-header">Dag ${dayNum}: ${day.theme}</div>
+                    <div style="font-style:italic; margin-bottom:10px;">"${day.verse}" (${day.ref})</div>
+                    <div style="margin-bottom:10px; font-weight:bold;">Actie: ${day.action}</div>
+                    <div style="background:#f9f9f9; padding:10px; border-left:3px solid #ccc;">
+                        <strong>Mijn gedachte:</strong><br>${savedNote}
+                    </div>
+                `;
+                container.appendChild(entry);
+            });
+            window.print();
+        }
+    </script>
+</body>
+</html>

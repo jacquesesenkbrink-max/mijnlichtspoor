@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>31 Dagen met Petrus: Vallen & Opstaan</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Lato:wght@300;400;700&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            /* Petrus Thema: Oceaan, Diepte, Rots & Hoop */
+            --primary-color: #154360; /* Diep oceaanblauw */
+            --primary-light: #5dade2; 
+            --accent-color: #f39c12;  /* Goud/Zand */
+            --pastel-bg: #ebf5fb;     /* Zeemist/Lichtblauw */
+            --glass-bg: rgba(255, 255, 255, 0.96);
+            --btn-gradient: linear-gradient(135deg, #154360 0%, #1a5276 100%);
+            --radius: 30px;
+        }
+
+        body, html {
+            margin: 0; padding: 0; height: 100%;
+            font-family: 'Lato', sans-serif;
+            color: #1b2631;
+            background-color: var(--pastel-bg);
+        }
+
+        .container {
+            min-height: 100vh; display: flex; justify-content: center; align-items: center; padding: 20px;
+        }
+
+        .card {
+            background: var(--glass-bg);
+            border-radius: var(--radius);
+            padding: 40px;
+            max-width: 600px; width: 100%;
+            box-shadow: 0 20px 50px rgba(21, 67, 96, 0.1);
+            position: relative;
+            border-top: 5px solid var(--accent-color);
+            border: 1px solid #aed6f1;
+        }
+
+        header { text-align: center; margin-bottom: 25px; }
+
+        .top-nav {
+            display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;
+        }
+
+        .home-btn {
+            text-decoration: none; color: var(--primary-light); font-weight: bold; font-size: 0.9rem; transition: 0.3s;
+        }
+        .home-btn:hover { color: var(--accent-color); }
+
+        h1 { 
+            font-family: 'Playfair Display', serif; 
+            color: var(--primary-color); 
+            margin: 5px 0; 
+            font-size: 2rem; 
+        }
+        
+        .subtitle { 
+            font-size: 0.8rem; text-transform: uppercase; letter-spacing: 3px; color: var(--accent-color); font-weight: bold; 
+        }
+
+        .day-badge {
+            background: var(--primary-color); color: white; padding: 5px 15px; border-radius: 20px; font-size: 0.8rem; letter-spacing: 1px;
+        }
+
+        .scripture-box {
+            text-align: center; margin: 30px 0; font-size: 1.25rem; line-height: 1.6; color: #154360; font-family: 'Playfair Display', serif; font-style: italic;
+        }
+        .reference { 
+            display: block; margin-top: 15px; font-weight: bold; font-style: normal; font-size: 0.85rem; color: var(--accent-color); font-family: 'Lato', sans-serif; text-transform: uppercase; 
+        }
+
+        .action-box {
+            background: #fdfefe; border-left: 4px solid var(--primary-light);
+            padding: 20px; border-radius: 10px; margin-bottom: 25px;
+            box-shadow: 0 2px 15px rgba(0,0,0,0.03);
+        }
+        .action-title { font-weight: bold; color: var(--primary-color); text-transform: uppercase; font-size: 0.75rem; display: block; margin-bottom: 8px; letter-spacing: 1px;}
+
+        textarea {
+            width: 100%; height: 120px; padding: 15px; border-radius: 15px; border: 2px solid #aed6f1;
+            font-family: 'Lato', sans-serif; font-size: 1rem; margin-bottom: 15px; resize: vertical; outline: none; transition: 0.3s;
+            background: #fafafa; color: #1b2631;
+        }
+        textarea:focus { border-color: var(--primary-color); background: #fff; }
+
+        .btn-primary {
+            background: var(--btn-gradient); color: white; border: none; padding: 15px 30px;
+            font-size: 1rem; border-radius: 50px; cursor: pointer; width: 100%; font-weight: bold; letter-spacing: 0.5px;
+            box-shadow: 0 5px 15px rgba(21, 67, 96, 0.2); transition: 0.3s;
+        }
+        .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 8px 20px rgba(21, 67, 96, 0.3); }
+
+        .night-thought {
+            margin-top: 30px; background: var(--primary-color); color: #ebf5fb; padding: 25px;
+            border-radius: 20px; text-align: center; display: none; animation: fadeIn 0.6s ease;
+        }
+        
+        .nav-buttons {
+            display: flex; justify-content: space-between; margin-top: 30px; padding-top: 20px; border-top: 1px solid #eee;
+        }
+        .nav-btn { background: none; border: none; cursor: pointer; color: #85929e; font-weight: bold; font-size: 0.9rem; transition: 0.3s; }
+        .nav-btn:hover:not(:disabled) { color: var(--accent-color); }
+        .nav-btn:disabled { opacity: 0.3; cursor: default; }
+
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        
+        /* Print Styles */
+        @media print {
+            body * { visibility: hidden; }
+            #printable-journal, #printable-journal * { visibility: visible; }
+            #printable-journal { position: absolute; left: 0; top: 0; width: 100%; color: black; padding: 40px;}
+            .print-entry { margin-bottom: 30px; border-bottom: 1px solid #ccc; padding-bottom: 20px; page-break-inside: avoid; }
+            .print-header { font-weight: bold; font-size: 1.2em; margin-bottom: 5px; }
+        }
+        #printable-journal { display: none; }
+
+        @media (max-width: 600px) {
+            .card { padding: 25px; }
+            h1 { font-size: 1.6rem; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <div class="card">
+            <div class="top-nav">
+                <a href="index.html" class="home-btn">← Terug naar Gidsen</a>
+                <span class="day-badge" id="day-display">DAG 1</span>
+                </div>
+
+            <header>
+                <div class="subtitle" id="month-subtitle">TRAJECT: VALLEN & OPSTAAN</div>
+                <h1 id="theme-title">...</h1>
+            </header>
+
+            <div class="scripture-box">
+                <span id="verse-text">Laden...</span>
+                <span class="reference" id="verse-ref">...</span>
+            </div>
+
+            <div class="action-box">
+                <span class="action-title">De stap van Petrus</span>
+                <span id="action-text">...</span>
+            </div>
+
+            <label style="font-size:0.85rem; font-weight:bold; color:#5dade2; display:block; margin-bottom:8px; text-transform: uppercase; letter-spacing: 1px;">Mijn reflectie:</label>
+            <textarea id="user-notes" placeholder="Wat herken je van jezelf in Petrus?"></textarea>
+            <button class="btn-primary" id="save-btn" onclick="completeDay()">Dag Afronden</button>
+
+            <div id="night-section" class="night-thought">
+                <h3 style="margin:0 0 10px 0; font-size:1.1rem; color: #f39c12;">⚓ Anker voor de Nacht</h3>
+                <p id="night-text" style="margin:0; line-height: 1.6;">...</p>
+            </div>
+
+            <div class="nav-buttons">
+                <button class="nav-btn" id="prev-btn" onclick="changeDay(-1)">← Vorige</button>
+                <button class="nav-btn" onclick="printJournal()">🖨️ Reisverslag</button>
+                <button class="nav-btn" id="next-btn" onclick="changeDay(1)">Volgende →</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="printable-journal">
+        <div style="text-align:center; margin-bottom:40px;">
+            <h1 style="color:#154360;">Mijn Reis met Petrus</h1>
+            <p>Van visser tot rots: Een weg van genade.</p>
+        </div>
+        <div id="print-content"></div>
+    </div>
+
+    <script>
+        // CONFIGURATIE VOOR PETRUS
+        
+        const journeyConfig = {
+            character: "Petrus",
+            storageKey: "petrus_journal",
+            days: [
+                { theme: "De Roeping", verse: "Kom achter Mij aan, dan zal ik vissers van mensen van jullie maken.", ref: "Mattheüs 4:19", action: "Wat ben jij op dit moment aan het 'vasthouden' (werk, zorgen, ambitie)? Stel je voor dat je het net even laat vallen om je handen vrij te maken.", night: "Soms moet je iets ouds loslaten om het nieuwe te kunnen pakken. Rust vannacht zonder je netten." },
+                { theme: "Erkennen wie je bent", verse: "Ga weg van mij, Heer, want ik ben een zondig mens.", ref: "Lukas 5:8", action: "Wees vandaag eens helemaal eerlijk tegen jezelf over een fout die je maakte. Zonder oordeel, alleen erkenning.", night: "Jezus ging niet weg toen Petrus zijn fouten bekende. Hij blijft ook bij jou, precies zoals je bent." },
+                { theme: "De Storm", verse: "Heer, red mij!", ref: "Mattheüs 14:30", action: "Heb je het gevoel dat je zinkt in een situatie? Roep vandaag simpelweg: 'Help'. Het hoeft geen lang gebed te zijn.", night: "Zijn hand is sneller dan de golven. Voordat je kopje onder gaat, heeft Hij je al vast." },
+                { theme: "Moed en Twijfel", verse: "Kleingelovige, waarom heb je getwijfeld?", ref: "Mattheüs 14:31", action: "Doe vandaag één klein ding dat je eigenlijk een beetje spannend vindt. Stap uit de boot.", night: "Twijfel hoort bij het geloof. Het feit dat je nat bent geworden, betekent dat je tenminste hebt gelopen." },
+                { theme: "De Belijdenis", verse: "U bent de messias, de Zoon van de levende God.", ref: "Mattheüs 16:16", action: "Wie is Jezus voor jou? Probeer het eens in één zin op te schrijven, zonder moeilijke kerktaal.", night: "Op dit fundament kan gebouwd worden. Jouw inzicht is een rots, ook als je je een kiezelsteen voelt." },
+                { theme: "Onbegrip", verse: "Je bent voor mij een struikelblok... je denken is niet dat van God.", ref: "Mattheüs 16:23", action: "Wanneer dacht je te weten hoe het moest, maar zat je fout? Oefen vandaag in 'niet alles zeker weten'.", night: "Het geeft niet als je Gods plannen niet begrijpt. Hij vraagt vertrouwen, geen volledige analyse." },
+                { theme: "De Hoge Berg", verse: "Heer, het is goed dat wij hier zijn.", ref: "Mattheüs 17:4", action: "Zoek vandaag een moment van schoonheid (natuur, muziek) en geniet er 5 minuten van zonder foto's te maken.", night: "Piekervaringen zijn prachtig, maar in het dal wordt het leven geleefd. Neem het licht van de berg mee je slaap in." },
+                { theme: "Hoe vaak vergeven?", verse: "Niet tot zevenmaal toe, maar tot zeventig maal zevenmaal.", ref: "Mattheüs 18:22", action: "Is er iemand waar je een 'streepje' bij hebt staan? Veeg het streepje vandaag uit in je gedachten.", night: "Vergeving maakt je hart lichter. Slaap zonder wrok, dat slaapt een stuk zachter." },
+                { theme: "Wij hebben alles verlaten", verse: "Kijk, wij hebben alles achtergelaten en zijn U gevolgd.", ref: "Mattheüs 19:27", action: "Kijk eens om je heen in je huis. Wat is je dierbaar? Dank God dat je het hebt, maar houd het losjes vast.", night: "Je loon is niet wat je bezit, maar Wie je kent. Je bent schatrijk in Hem." },
+                { theme: "De voetwassing", verse: "Heer, U gaat mij toch niet de voeten wassen?", ref: "Johannes 13:6", action: "Doe vandaag een klusje dat eigenlijk 'onder je niveau' is of wat niemand ziet. Dien in stilte.", night: "Liefde buigt zich neer. Laat je vannacht door Hem verzorgen en reinigen van het stof van de dag." },
+                { theme: "Grote woorden", verse: "Al zouden allen U afvallen, ik nooit!", ref: "Mattheüs 26:33", action: "Pas op met het woord 'nooit' of 'altijd' vandaag. Wees mild in je beloftes naar jezelf en anderen.", night: "Je hoeft jezelf niet te overschreeuwen. Hij weet wat er in je hart leeft, ook als je faalt." },
+                { theme: "Slapen in Gethsemane", verse: "Kon je niet één uur met Mij waken?", ref: "Markus 14:37", action: "Ben je moe? Geef het toe. Vecht er niet tegen, maar bied je vermoeidheid aan God aan.", night: "Zelfs Petrus viel in slaap op het cruciale moment. God is niet boos, Hij weet dat je van stof bent." },
+                { theme: "Het Zwaard", verse: "Steek je zwaard in de schede.", ref: "Johannes 18:11", action: "Reageer je soms fel als je je aangevallen voelt? Tel vandaag tot 10 voordat je reageert op irritatie.", night: "Je hoeft Gods koninkrijk niet met geweld te verdedigen. Leg je wapens neer en rust." },
+                { theme: "Op afstand volgen", verse: "Petrus volgde Hem op een afstand.", ref: "Mattheüs 26:58", action: "Voelt God ver weg? Zet één stapje dichterbij door een kaarsje aan te steken of een lied te luisteren.", night: "Ook op afstand houdt Hij je in het oog. Je bent niet buiten beeld." },
+                { theme: "De Verloochening", verse: "Ik ken de mens niet!", ref: "Mattheüs 26:72", action: "Soms verbergen we ons geloof. Is er een moment vandaag waarop je eerlijk kunt uitkomen voor waar je voor staat?", night: "Je falen definieert je niet. Het is een hoofdstuk, niet het einde van het boek." },
+                { theme: "De Oogopslag", verse: "De Heer draaide zich om en keek Petrus aan.", ref: "Lukas 22:61", action: "Stel je voor dat Jezus je nu aankijkt. Niet boos, maar met verdriet en liefde. Wat doet die blik met je?", night: "In Zijn blik ligt geen veroordeling, maar een uitnodiging om terug te keren." },
+                { theme: "Bittere Tranen", verse: "En hij ging naar buiten en huilde bitter.", ref: "Lukas 22:62", action: "Houd je verdriet niet in. Als je moet huilen, huil. Tranen wassen de ziel schoon.", night: "Na het huilen komt de rust. God bewaart je tranen in een kruik. Slaap zacht." },
+                { theme: "Het lege graf", verse: "Petrus ging naar binnen en zag de linnen doeken liggen.", ref: "Johannes 20:6", action: "Kijk vandaag met verwondering naar iets dat 'dood' leek maar toch leeft (een knop aan een boom, een oude vriendschap).", night: "Het graf is leeg. De wanhoop heeft niet het laatste woord. Er is altijd hoop." },
+                { theme: "Terug naar het oude", verse: "Ik ga vissen.", ref: "Johannes 21:3", action: "Neig je bij stress naar oude gewoonten? Probeer vandaag bij stress even stil te staan in plaats van te vluchten.", night: "Je hoeft niet terug naar je oude leven. Er ligt een nieuwe toekomst klaar." },
+                { theme: "Het ontbijt", verse: "Kom en gebruik de maaltijd.", ref: "Johannes 21:12", action: "Eet vandaag met aandacht. Zie je voedsel als een geschenk en een moment van zorg van je Schepper.", night: "Hij zorgt voor je, zelfs als je Hem net hebt teleurgesteld. Hij heeft het vuur al aan." },
+                { theme: "Heb je mij lief?", verse: "Heer, U weet alle dingen, U weet dat ik U liefheb.", ref: "Johannes 21:17", action: "Zeg vandaag drie keer zachtjes tegen God: 'U weet dat ik U liefheb', ondanks alles.", night: "Liefde is het enige examen dat telt. En je bent geslaagd, door Hem." },
+                { theme: "Weid mijn lammeren", verse: "Weid mijn lammeren.", ref: "Johannes 21:15", action: "Wie in jouw omgeving is kwetsbaar? Geef die persoon vandaag wat extra aandacht of zorg.", night: "Je pijn is omgevormd tot een roeping. Jij kunt anderen helpen omdat je zelf gevallen bent." },
+                { theme: "Wat gebeurt er met hem?", verse: "Wat gaat dat jou aan? Volg jij Mij!", ref: "Johannes 21:22", action: "Vergelijk jezelf vandaag eens niet met een ander. Jouw pad is uniek.", night: "Kijk niet opzij naar de ander, maar vooruit naar Hem. Dat geeft rust in je hoofd." },
+                { theme: "Pinksteren", verse: "Petrus trad naar voren en verhief zijn stem.", ref: "Handelingen 2:14", action: "Durf je je stem te laten horen? Deel vandaag een positieve gedachte met iemand.", night: "De bange man is een dappere spreker geworden. Gods Geest maakt het verschil in jou." },
+                { theme: "Zilver en Goud", verse: "Zilver en goud heb ik niet, maar wat ik heb, geef ik u.", ref: "Handelingen 3:6", action: "Geef iets weg dat geen geld kost: tijd, aandacht, een glimlach of een gebed.", night: "Je bent rijker dan je denkt. Je hebt Jezus om weg te geven." },
+                { theme: "Gehoorzaamheid", verse: "Men moet God meer gehoorzamen dan mensen.", ref: "Handelingen 5:29", action: "Is er een regel of verwachting van anderen die je dwarszit? Vraag God wat Hij belangrijk vindt.", night: "Als je geweten zuiver is voor God, slaap je het rustigst. Ongeacht wat mensen vinden." },
+                { theme: "Geen onderscheid", verse: "Ik zie nu in dat God geen onderscheid maakt.", ref: "Handelingen 10:34", action: "Praat vandaag eens met iemand die buiten je eigen 'bubbel' of comfortzone valt.", night: "Gods liefde is groter dan onze hokjes. Laat je verrassen door Zijn ruimte." },
+                { theme: "De Gevangenis", verse: "De ketenen vielen van zijn handen.", ref: "Handelingen 12:7", action: "Waar zit jij 'gevangen'? Angst? Zorgen? Bid om een engel die je wakker maakt en de deuren opent.", night: "Soms gebeuren wonderen terwijl we slapen. Vertrouw op Zijn timing voor jouw bevrijding." },
+                { theme: "Levende stenen", verse: "Laat u als levende stenen gebruiken voor de bouw van een geestelijke tempel.", ref: "1 Petrus 2:5", action: "Je bent onderdeel van een groter geheel. Stuur een berichtje naar iemand uit je geloofsgemeenschap.", night: "Je staat niet alleen. Je bent ingemetseld in een muur van liefde." },
+                { theme: "Zorgen werpen", verse: "Werp al uw bekommernis op Hem, want Hij zorgt voor u.", ref: "1 Petrus 5:7", action: "Maak een prop van papier voor elke zorg die je hebt, en gooi ze letterlijk in de prullenbak.", night: "Hij is wakker, dus jij kunt gaan slapen. Hij draagt de zorg." },
+                { theme: "Groei", verse: "Groei in de genade en kennis van onze Heer en Redder Jezus Christus.", ref: "2 Petrus 3:18", action: "Kijk terug op de afgelopen maand. Waarin ben je gegroeid? Schrijf één punt op.", night: "De visser werd een herder. De twijfelaar een rots. God is nog niet klaar met jou. Welterusten." }
+            ]
+        };
+
+        // BASIS LOGICA
+        let currentDay = 1;
+
+        window.onload = function() {
+            loadDay(1);
+        };
+
+        function loadDay(dayIndex) {
+            currentDay = dayIndex;
+            const data = journeyConfig.days[dayIndex - 1];
+            
+            document.getElementById('day-display').innerText = `DAG ${dayIndex}`;
+            document.getElementById('theme-title').innerText = data.theme;
+            document.getElementById('verse-text').innerText = `"${data.verse}"`;
+            document.getElementById('verse-ref').innerText = data.ref;
+            document.getElementById('action-text').innerText = data.action;
+            document.getElementById('night-text').innerText = data.night;
+
+            const savedNote = localStorage.getItem(`${journeyConfig.storageKey}_day_${dayIndex}`);
+            document.getElementById('user-notes').value = savedNote ? savedNote : "";
+            
+            const nightSec = document.getElementById('night-section');
+            if(savedNote && savedNote.length > 2) nightSec.style.display = 'block';
+            else nightSec.style.display = 'none';
+
+            document.getElementById('prev-btn').disabled = (dayIndex === 1);
+            document.getElementById('next-btn').disabled = (dayIndex === journeyConfig.days.length);
+        }
+
+        function completeDay() {
+            const noteText = document.getElementById('user-notes').value;
+            if(noteText.trim() === "") {
+                alert("Schrijf een korte gedachte op voordat je opslaat.");
+                return;
+            }
+            localStorage.setItem(`${journeyConfig.storageKey}_day_${currentDay}`, noteText);
+            
+            const nightSec = document.getElementById('night-section');
+            nightSec.style.display = 'block';
+            nightSec.scrollIntoView({behavior: "smooth"});
+            
+            const btn = document.getElementById('save-btn');
+            const oldText = btn.innerText;
+            btn.innerText = "✓ Opgeslagen";
+            btn.style.background = "#27ae60"; 
+            
+            setTimeout(() => {
+                btn.innerText = oldText;
+                btn.style.background = "var(--btn-gradient)";
+            }, 2000);
+        }
+
+        function changeDay(offset) {
+            const newDay = currentDay + offset;
+            if(newDay >= 1 && newDay <= journeyConfig.days.length) {
+                loadDay(newDay);
+            }
+        }
+
+        function printJournal() {
+            const container = document.getElementById('print-content');
+            container.innerHTML = ""; 
+
+            journeyConfig.days.forEach((day, index) => {
+                const dayNum = index + 1;
+                const savedNote = localStorage.getItem(`${journeyConfig.storageKey}_day_${dayNum}`) || "(Nog geen notitie)";
+                
+                const entry = document.createElement('div');
+                entry.className = 'print-entry';
+                entry.innerHTML = `
+                    <div class="print-header">Dag ${dayNum}: ${day.theme}</div>
+                    <div style="font-style:italic; margin-bottom:10px;">"${day.verse}" (${day.ref})</div>
+                    <div style="margin-bottom:10px; font-weight:bold;">Actie: ${day.action}</div>
+                    <div style="background:#f9f9f9; padding:10px; border-left:3px solid #ccc;">
+                        <strong>Mijn gedachte:</strong><br>${savedNote}
+                    </div>
+                `;
+                container.appendChild(entry);
+            });
+            window.print();
+        }
+    </script>
+</body>
+</html>
