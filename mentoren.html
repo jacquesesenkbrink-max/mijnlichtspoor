@@ -41,11 +41,38 @@
             background-position: center;
             margin-bottom: 40px;
             border-bottom: 1px solid #eee;
+            position: relative; /* Nodig voor de positie van de home-knop */
+        }
+
+        /* Home Button Stijl */
+        .home-btn {
+            position: absolute;
+            top: 25px;
+            left: 25px;
+            background: rgba(255, 255, 255, 0.9);
+            color: var(--primary-dark);
+            padding: 10px 20px;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: bold;
+            font-size: 0.9rem;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            z-index: 100;
+        }
+
+        .home-btn:hover {
+            background: var(--primary-dark);
+            color: white;
+            transform: translateY(-3px);
+            box-shadow: 0 6px 20px rgba(44, 62, 80, 0.25);
         }
 
         .main-title { font-size: 3rem; margin-bottom: 15px; }
         
-        /* Aangepaste stijl voor de nieuwe subtitel */
         .subtitle { 
             font-size: 1.15rem; 
             color: #555; 
@@ -118,10 +145,7 @@
             transform: scale(1);
         }
 
-        /* Class om kaarten te verbergen */
         .mentor-card.hidden { display: none; }
-        
-        /* Class voor de animatie bij verschijnen */
         .mentor-card.show { animation: fadeInUp 0.5s ease forwards; }
 
         @keyframes fadeInUp {
@@ -211,6 +235,10 @@
 <body>
 
     <header>
+        <a href="index.html" class="home-btn">
+            <i class="fas fa-arrow-left"></i> Home
+        </a>
+
         <div class="container">
             <h1 class="main-title">Kies je Gids</h1>
             <p class="subtitle">
