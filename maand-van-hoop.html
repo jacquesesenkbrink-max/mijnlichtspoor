@@ -26,7 +26,6 @@
             margin: 0;
             padding: 0;
             height: 100%;
-            /* Klassiek lettertype voor een statige uitstraling */
             font-family: 'Merriweather', 'Times New Roman', serif; 
             color: var(--text-color);
             background-color: var(--paper-bg);
@@ -46,7 +45,6 @@
             background-position: center;
             opacity: 0; 
             transition: opacity 1s ease-in-out;
-            /* Filter voor een iets warmere, historische sfeer */
             filter: sepia(15%) contrast(95%) brightness(90%); 
         }
         
@@ -76,12 +74,11 @@
             padding: 50px 40px;
             max-width: 650px;
             width: 100%;
-            /* Klassieke schaduw, als een boek op tafel */
             box-shadow: 0 15px 35px rgba(23, 32, 42, 0.2); 
             border: 1px solid rgba(46, 64, 83, 0.1);
             position: relative;
             animation: floatUp 0.8s ease-out;
-            border-top: 5px solid var(--primary-color); /* Boekband effect */
+            border-top: 5px solid var(--primary-color);
         }
 
         @keyframes floatUp {
@@ -141,7 +138,7 @@
             margin: 10px 0;
             font-weight: normal;
             font-style: italic;
-            border-bottom: 2px solid var(--accent-color); /* Gouden onderstreping */
+            border-bottom: 2px solid var(--accent-color);
             display: inline-block;
             padding-bottom: 8px;
         }
@@ -181,6 +178,61 @@
             font-weight: bold;
             letter-spacing: 1px;
         }
+
+        /* --- NIEUWE STIJLEN VOOR HISTORISCHE VERDIEPING --- */
+        .context-btn {
+            background: transparent;
+            border: 1px solid var(--primary-light);
+            color: var(--primary-color);
+            padding: 5px 12px;
+            border-radius: 4px; /* Iets strakker voor de 'Heritage' look */
+            font-size: 0.75rem;
+            cursor: pointer;
+            margin-top: 15px;
+            font-family: 'Helvetica Neue', sans-serif;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            transition: all 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .context-btn:hover {
+            background: var(--primary-color);
+            color: white;
+        }
+
+        .context-box {
+            display: none; /* Standaard verborgen */
+            background-color: #fff;
+            border: 1px solid #d5d8dc;
+            border-left: 4px solid var(--accent-color); /* Goud accent */
+            border-radius: 4px;
+            padding: 20px;
+            margin-top: 5px;
+            margin-bottom: 25px;
+            font-size: 0.95rem;
+            color: #444;
+            line-height: 1.7; /* Iets meer ruimte voor leesbaarheid */
+            text-align: left;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+            animation: fadeIn 0.5s ease;
+            font-family: 'Merriweather', serif;
+        }
+
+        .context-header {
+            font-weight: bold;
+            color: var(--primary-color);
+            display: block;
+            margin-bottom: 8px;
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            border-bottom: 1px solid #eee;
+            padding-bottom: 5px;
+        }
+        /* ------------------------------------------------ */
 
         .action-box {
             background-color: #f4f6f6;
@@ -355,6 +407,7 @@
             .top-nav { justify-content: center; }
         }
     </style>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body>
 
@@ -378,6 +431,15 @@
             <div class="quote-box">
                 <span id="quote-text">Laden...</span>
                 <span class="reference" id="quote-author">...</span>
+                
+                <button class="context-btn" onclick="toggleContext()">
+                    <i class="fas fa-book-open"></i> 📖 Historische Context
+                </button>
+            </div>
+
+            <div id="context-display" class="context-box">
+                <span class="context-header">Van Pionier naar Nu</span>
+                <span id="context-text">...</span>
             </div>
 
             <div class="action-box">
@@ -416,48 +478,265 @@
     </div>
 
     <script>
-        // De Data: Gebaseerd op ZDA Pioniers & Theologie
+        // De Data: Uitgebreid met historische contexten
         const daysData = [
             // WEEK 1: RELATIE MET CHRISTUS
-            { theme: "Het Hart Openen", quote: "\"Bidden is het openen van het hart voor God als voor een vriend.\"", author: "Ellen G. White (Schreden naar Christus)", action: "Zoek vandaag een rustige plek en praat hardop tegen God, alsof Hij naast je zit. Vertel Hem je dag, niet als formule, maar als vriend.", night: "Je hebt vandaag gesproken met de Koning van het heelal, die jou Zijn vriend noemt." },
-            { theme: "Gods Liefde in de Natuur", quote: "\"God is liefde, staat geschreven op elke openbarstende knop, op elk blaadje van de ontluikende bloem.\"", author: "Ellen G. White", action: "Ga naar buiten. Vind één klein detail in de schepping (een blad, een wolk) en zie daarin Gods handtekening voor jou.", night: "Dezelfde Schepper die de sterren leidt, waakt vannacht over jouw ademhaling." },
-            { theme: "De Bijbel", quote: "\"De Bijbel is Gods stem die tot ons spreekt, even zeker als wanneer we Hem met onze oren zouden horen.\"", author: "Ellen G. White", action: "Lees één tekst die je al kent, maar lees hem langzaam, woord voor woord. Wat zegt Zijn stem *nu*?", night: "Zijn Woord is een lamp voor je voet, ook in het donker van de nacht." },
-            { theme: "Volharden", quote: "\"Wij hebben niets te vrezen voor de toekomst, tenzij wij vergeten hoe de Heer ons in het verleden heeft geleid.\"", author: "Ellen G. White", action: "Schrijf 3 momenten uit je leven op waarvan je nu ziet: 'Daar was God erbij', ook al voelde je dat toen misschien niet.", night: "De God van je verleden is ook de God van je toekomst." },
-            { theme: "De Gezegende Hoop", quote: "\"De komst van de Heer is de zoete hoop die mijn ziel verankert.\"", author: "William Miller", action: "Kijk naar de lucht. Stel je voor hoe het zou zijn als Hij vandaag terugkomt. Wat zou je Hem als eerste vragen?", night: "We zijn pelgrims op doorreis. Ooit zijn we echt thuis." },
-            { theme: "Geloof", quote: "\"Geloof is God op Zijn woord vertrouwen.\"", author: "A.T. Jones", action: "Is er een belofte in de Bijbel die je moeilijk vindt te geloven? Zeg hardop: 'Heer, ik geloof; kom mijn ongeloof te hulp'.", night: "Niet jouw gevoel, maar Zijn belofte is het fundament waarop je slaapt." },
-            { theme: "Rustdag", quote: "\"De Sabbat is een gouden gesp die God en Zijn volk verbindt.\"", author: "Ellen G. White", action: "Bereid je vandaag mentaal voor op rust. Wat kun je *laten* om morgen dichter bij Hem te zijn?", night: "Rust is geen leegte, het is de ruimte waarin God spreekt." },
+            { 
+                theme: "Het Hart Openen", 
+                quote: "\"Bidden is het openen van het hart voor God als voor een vriend.\"", 
+                author: "Ellen G. White (Schreden naar Christus)", 
+                context: "Ellen White schreef dit in een tijd waarin religie voor velen bestond uit strenge regels en een verre, toornige God. Haar benadering was revolutionair: ze omschreef God niet als een rechter, maar als een Vriend. In haar eigen leven, getekend door ziekte en verlies, was gebed geen formele plicht, maar haar 'ademhaling'. Ze nodigt ons uit om de formaliteit te laten vallen en intiem te worden met de Schepper.",
+                action: "Zoek vandaag een rustige plek en praat hardop tegen God, alsof Hij naast je zit. Vertel Hem je dag, niet als formule, maar als vriend.", 
+                night: "Je hebt vandaag gesproken met de Koning van het heelal, die jou Zijn vriend noemt." 
+            },
+            { 
+                theme: "Gods Liefde in de Natuur", 
+                quote: "\"God is liefde, staat geschreven op elke openbarstende knop, op elk blaadje van de ontluikende bloem.\"", 
+                author: "Ellen G. White", 
+                context: "De 19e eeuwse theologie zag de natuur vaak als gevaarlijk of 'gevallen'. Ellen White zag echter in elk detail van de schepping een liefdesbrief van God. Zelfs in een wereld die gebroken is door zonde, blijft de originele boodschap van de Schepper leesbaar voor wie wil kijken: Hij zorgt.",
+                action: "Ga naar buiten. Vind één klein detail in de schepping (een blad, een wolk) en zie daarin Gods handtekening voor jou.", 
+                night: "Dezelfde Schepper die de sterren leidt, waakt vannacht over jouw ademhaling." 
+            },
+            { 
+                theme: "De Bijbel", 
+                quote: "\"De Bijbel is Gods stem die tot ons spreekt, even zeker als wanneer we Hem met onze oren zouden horen.\"", 
+                author: "Ellen G. White", 
+                context: "Voor de pioniers was de Bijbel geen stoffig boek, maar een levende gids. Ze hadden geen uitgebreide theologische opleidingen; ze groeven zelf in het Woord. Dit citaat herinnert ons eraan dat God vandaag nog steeds spreekt. We lezen geen geschiedenis, we voeren een gesprek.",
+                action: "Lees één tekst die je al kent, maar lees hem langzaam, woord voor woord. Wat zegt Zijn stem *nu*?", 
+                night: "Zijn Woord is een lamp voor je voet, ook in het donker van de nacht." 
+            },
+            { 
+                theme: "Volharden", 
+                quote: "\"Wij hebben niets te vrezen voor de toekomst, tenzij wij vergeten hoe de Heer ons in het verleden heeft geleid.\"", 
+                author: "Ellen G. White", 
+                context: "Dit is misschien wel de bekendste uitspraak van Ellen White over de toekomst. Ze keek terug op een leven vol armoede, strijd en kritiek, maar zag daarin de rode draad van Gods leiding. Herinnering is het brandstof voor hoop. Als Hij toen trouw was, zal Hij dat morgen ook zijn.",
+                action: "Schrijf 3 momenten uit je leven op waarvan je nu ziet: 'Daar was God erbij', ook al voelde je dat toen misschien niet.", 
+                night: "De God van je verleden is ook de God van je toekomst." 
+            },
+            { 
+                theme: "De Gezegende Hoop", 
+                quote: "\"De komst van de Heer is de zoete hoop die mijn ziel verankert.\"", 
+                author: "William Miller", 
+                context: "William Miller is bekend van de 'Grote Teleurstelling' in 1844. Velen spotten met hem toen Jezus niet terugkwam. Maar het wonder is niet zijn vergissing in de datum, maar zijn volharding in het geloof. De Wederkomst was voor hem geen theorie, maar een 'zoete hoop' op hereniging. Dat anker hield hem vast, zelfs toen de hele wereld lachte.",
+                action: "Kijk naar de lucht. Stel je voor hoe het zou zijn als Hij vandaag terugkomt. Wat zou je Hem als eerste vragen?", 
+                night: "We zijn pelgrims op doorreis. Ooit zijn we echt thuis." 
+            },
+            { 
+                theme: "Geloof", 
+                quote: "\"Geloof is God op Zijn woord vertrouwen.\"", 
+                author: "A.T. Jones", 
+                context: "Alonzo T. Jones was een sleutelfiguur in de opwekking van 1888. Hij benadrukte dat geloof geen gevoel is, en geen intellectuele instemming. Geloof is een keuze om Gods belofte voor 'waar' aan te nemen, ongeacht wat je omstandigheden zeggen. Het is vertrouwen dat wat God zegt, ook gebeurt.",
+                action: "Is er een belofte in de Bijbel die je moeilijk vindt te geloven? Zeg hardop: 'Heer, ik geloof; kom mijn ongeloof te hulp'.", 
+                night: "Niet jouw gevoel, maar Zijn belofte is het fundament waarop je slaapt." 
+            },
+            { 
+                theme: "Rustdag", 
+                quote: "\"De Sabbat is een gouden gesp die God en Zijn volk verbindt.\"", 
+                author: "Ellen G. White", 
+                context: "Toen de vroege Adventisten de Sabbat herontdekten via Joseph Bates, zagen ze het niet als een last, maar als een herstel van de relatie met de Schepper. Een 'gesp' houdt dingen bij elkaar die anders uit elkaar zouden vallen. In onze gehaaste tijd is de Sabbat Gods manier om ons vast te klinken aan Zijn rust.",
+                action: "Bereid je vandaag mentaal voor op rust. Wat kun je *laten* om morgen dichter bij Hem te zijn?", 
+                night: "Rust is geen leegte, het is de ruimte waarin God spreekt." 
+            },
 
             // WEEK 2: KARAKTER & GROEI
-            { theme: "Het sterkste argument", quote: "\"Het sterkste argument voor het evangelie is een liefdevol en beminnelijk christen.\"", author: "Ellen G. White", action: "Wees vandaag bewust vriendelijk tegen iemand die dat niet 'verdient'. Wees het levende argument.", night: "Liefde overwint meer dan theologie. Je was vandaag een lichtje." },
-            { theme: "Kleine dingen", quote: "\"Het zijn de kleine dingen in het leven die het karakter vormen.\"", author: "James White", action: "Doe één huishoudelijk klusje met volledige aandacht en toewijding, als een dienst aan God.", night: "Grote heiligheid bestaat uit kleine daden van trouw." },
-            { theme: "Gezondheid", quote: "\"Zuivere lucht, zonlicht, onthouding, rust, beweging... dat zijn de ware geneesmiddelen.\"", author: "Ellen G. White", action: "Maak een wandeling van 20 minuten in de frisse lucht en dank God voor je lichaam.", night: "Je lichaam is een tempel. Rust goed uit om morgen weer te kunnen dienen." },
-            { theme: "Strijd en Overwinning", quote: "\"Elke overwinning op het 'ik' maakt de weg vlak voor hogere en nobelere overwinningen.\"", author: "J.N. Andrews", action: "Zeg vandaag 'nee' tegen één slechte gewoonte of gedachte. Vier die kleine overwinning.", night: "De strijd is de Heere's. In Hem ben je meer dan overwinnaar." },
-            { theme: "Rechtvaardiging", quote: "\"Christus in u, de hoop op heerlijkheid. Niet jij die werkt, maar Christus die in jou leeft.\"", author: "E.J. Waggoner", action: "Stop met 'proberen' een beter mens te zijn. Vraag Jezus simpelweg om Zijn leven door jou heen te leven.", night: "Zijn gerechtigheid is jouw dekmantel. Slaap gerust." },
-            { theme: "Dienstbaarheid", quote: "\"We zijn hier niet om gediend te worden, maar om te dienen.\"", author: "Ellen G. White", action: "Vraag aan iemand in je huis of op je werk: 'Kan ik iets voor je doen vandaag?'", night: "Wie geeft, ontvangt. Wie dient, lijkt op de Meester." },
-            { theme: "Moed", quote: "\"Heb goede moed; God leeft en Hij regeert.\"", author: "James White", action: "Lees Psalm 27. Laat de woorden 'De Heer is mijn licht' diep binnenkomen.", night: "De troon is niet leeg. God heeft de controle, ook als jij slaapt." },
+            { 
+                theme: "Het sterkste argument", 
+                quote: "\"Het sterkste argument voor het evangelie is een liefdevol en beminnelijk christen.\"", 
+                author: "Ellen G. White", 
+                context: "In de begintijd waren Adventisten vaak druk met debatteren en het 'bewijzen' van hun gelijk met Bijbelteksten. Ellen White waarschuwde: je kunt de discussie winnen, maar de ziel verliezen. Zonder liefde is waarheid hard en koud. Mensen worden niet overtuigd door logica, maar door de liefde van Jezus die ze in jou zien.",
+                action: "Wees vandaag bewust vriendelijk tegen iemand die dat niet 'verdient'. Wees het levende argument.", 
+                night: "Liefde overwint meer dan theologie. Je was vandaag een lichtje." 
+            },
+            { 
+                theme: "Kleine dingen", 
+                quote: "\"Het zijn de kleine dingen in het leven die het karakter vormen.\"", 
+                author: "James White", 
+                context: "James White was een man van actie en leiderschap, maar hij wist dat grote leiders gevormd worden in het verborgene. We dromen vaak van grootse daden voor God, maar heiligheid bestaat uit het trouw zijn in de dagelijkse, saaie klusjes. Daar wordt het goud van je karakter gezuiverd.",
+                action: "Doe één huishoudelijk klusje met volledige aandacht en toewijding, als een dienst aan God.", 
+                night: "Grote heiligheid bestaat uit kleine daden van trouw." 
+            },
+            { 
+                theme: "Gezondheid", 
+                quote: "\"Zuivere lucht, zonlicht, onthouding, rust, beweging... dat zijn de ware geneesmiddelen.\"", 
+                author: "Ellen G. White", 
+                context: "In een tijd waarin artsen nog kwik en arsenicum voorschreven, pleitten de Adventisten voor een radicale 'gezondheidshervorming'. Ze zagen het lichaam als de tempel van de Geest. Zorg voor je lichaam is geen obsessie met uiterlijk, maar een manier om je geest helder te houden voor communicatie met God.",
+                action: "Maak een wandeling van 20 minuten in de frisse lucht en dank God voor je lichaam.", 
+                night: "Je lichaam is een tempel. Rust goed uit om morgen weer te kunnen dienen." 
+            },
+            { 
+                theme: "Strijd en Overwinning", 
+                quote: "\"Elke overwinning op het 'ik' maakt de weg vlak voor hogere en nobelere overwinningen.\"", 
+                author: "J.N. Andrews", 
+                context: "John Nevins Andrews was de eerste zendeling van de kerk (naar Europa). Hij wist wat het kostte om het 'ik' opzij te zetten; hij offerde zijn comfort en toekomst op voor de missie. Hij leerde dat de grootste strijd niet tegen mensen is, maar tegen ons eigen egoïsme. Wie zichzelf overwint, kan de wereld aan.",
+                action: "Zeg vandaag 'nee' tegen één slechte gewoonte of gedachte. Vier die kleine overwinning.", 
+                night: "De strijd is de Heere's. In Hem ben je meer dan overwinnaar." 
+            },
+            { 
+                theme: "Rechtvaardiging", 
+                quote: "\"Christus in u, de hoop op heerlijkheid. Niet jij die werkt, maar Christus die in jou leeft.\"", 
+                author: "E.J. Waggoner", 
+                context: "Ellet Waggoner bracht in 1888 een schokkende boodschap aan een kerk die wettisch dreigde te worden. Hij leerde dat we niet gered worden door hoe goed wij ons best doen, maar door Christus toe te laten in ons leven. Het is geen 'verbeterd ik', maar een 'vervangen ik'. Dit is het geheim van ware rust in het geloof.",
+                action: "Stop met 'proberen' een beter mens te zijn. Vraag Jezus simpelweg om Zijn leven door jou heen te leven.", 
+                night: "Zijn gerechtigheid is jouw dekmantel. Slaap gerust." 
+            },
+            { 
+                theme: "Dienstbaarheid", 
+                quote: "\"We zijn hier niet om gediend te worden, maar om te dienen.\"", 
+                author: "Ellen G. White", 
+                context: "Jezus was de dienaar van allen. De pioniers, die vaak alles verkochten wat ze hadden om het evangelie te verspreiden, begrepen dit principe. Ware grootheid in het Koninkrijk wordt gemeten aan hoeveel je geeft, niet aan hoeveel je verzamelt.",
+                action: "Vraag aan iemand in je huis of op je werk: 'Kan ik iets voor je doen vandaag?'", 
+                night: "Wie geeft, ontvangt. Wie dient, lijkt op de Meester." 
+            },
+            { 
+                theme: "Moed", 
+                quote: "\"Heb goede moed; God leeft en Hij regeert.\"", 
+                author: "James White", 
+                context: "James White kreeg in zijn leven meerdere beroertes door overwerk en stress. Toch bleef hij dit herhalen. Het is makkelijk om moedig te zijn als alles goed gaat. Maar geloof is vasthouden aan de waarheid dat God regeert, zelfs als je lichaam of je omstandigheden schreeuwen dat het niet zo is.",
+                action: "Lees Psalm 27. Laat de woorden 'De Heer is mijn licht' diep binnenkomen.", 
+                night: "De troon is niet leeg. God heeft de controle, ook als jij slaapt." 
+            },
 
             // WEEK 3: VERDIEPING
-            { theme: "Het Kruis", quote: "\"Het offer van Christus als verzoening voor de zonde is de grote waarheid waaromheen alle andere waarheden zich scharen.\"", author: "Ellen G. White", action: "Teken of visualiseer een kruis. Leg in gedachten al je fouten van deze week aan de voet ervan.", night: "Het is volbracht. Er is geen veroordeling meer." },
-            { theme: "Invloed", quote: "\"Elke daad in ons leven is een zaadje dat vrucht draagt: goed of kwaad.\"", author: "Ellen G. White", action: "Plant vandaag een goed zaadje: stuur een bemoedigend kaartje of appje.", night: "De oogst komt later, maar het zaaien is vandaag gedaan." },
-            { theme: "Nieuw Licht", quote: "\"We moeten niet vastroesten in wat we weten. Er is altijd nieuw licht dat uit Gods Woord voortbreekt.\"", author: "Hiram Edson (vrij naar)", action: "Sta open voor een nieuw inzicht. Vraag God: 'Laat me iets zien wat ik nog niet zag'.", night: "God is oneindig. Morgen is er weer meer van Hem te ontdekken." },
-            { theme: "Vrede", quote: "\"Jezus zegt: Vrede laat Ik u. Niet de vrede die de wereld geeft, maar Mijn vrede.\"", author: "Ellen G. White", action: "Is er onrust in je hoofd? Adem diep in en fluister de naam 'Jezus'.", night: "Zijn vrede bewaakt je hart en je gedachten." },
-            { theme: "De Hoge Roeping", quote: "\"Hoger dan de hoogste menselijke gedachte reikt Gods ideaal voor Zijn kinderen.\"", author: "Ellen G. White", action: "Denk niet te klein over jezelf. God heeft een groot plan. Schrijf één droom op die je met Hem wilt bereiken.", night: "Je bent bestemd voor de hemel. Leef en slaap met die waardigheid." },
-            { theme: "Dankbaarheid", quote: "\"Niets bevordert de gezondheid van lichaam en ziel zozeer als een geest van dankbaarheid en lofprijs.\"", author: "Ellen G. White", action: "Zing (of neurie) een loflied, hoe zachtjes ook. Verander je sfeer door muziek.", night: "Een dankbaar hart is een zacht kussen." },
-            { theme: "Zelfverloochening", quote: "\"Het 'ik' is de grootste vijand die we hebben. Het moet dagelijks gekruisigd worden.\"", author: "Ellen G. White", action: "Laat vandaag je gelijk varen in een discussie, zelfs als je gelijk hebt. Kies voor vrede.", night: "Minder van jou betekent meer van Hem. Dat geeft rust." },
+            { 
+                theme: "Het Kruis", 
+                quote: "\"Het offer van Christus als verzoening voor de zonde is de grote waarheid waaromheen alle andere waarheden zich scharen.\"", 
+                author: "Ellen G. White", 
+                context: "Soms verliezen we ons in details van profetieën of leefregels. Ellen White brengt ons hier terug naar de kern. Zonder het Kruis is de Sabbat zinloos en de Wederkomst angstaanjagend. Het Kruis is het centrum van het heelal en het centrum van ons geloof.",
+                action: "Teken of visualiseer een kruis. Leg in gedachten al je fouten van deze week aan de voet ervan.", 
+                night: "Het is volbracht. Er is geen veroordeling meer." 
+            },
+            { 
+                theme: "Invloed", 
+                quote: "\"Elke daad in ons leven is een zaadje dat vrucht draagt: goed of kwaad.\"", 
+                author: "Ellen G. White", 
+                context: "Dit is de wet van de oogst. We denken vaak dat kleine daden er niet toe doen, maar de eeuwigheid zal de oogst laten zien van elk vriendelijk woord en elke daad van trouw. Je hebt meer invloed op de mensen om je heen dan je zelf beseft.",
+                action: "Plant vandaag een goed zaadje: stuur een bemoedigend kaartje of appje.", 
+                night: "De oogst komt later, maar het zaaien is vandaag gedaan." 
+            },
+            { 
+                theme: "Nieuw Licht", 
+                quote: "\"We moeten niet vastroesten in wat we weten. Er is altijd nieuw licht dat uit Gods Woord voortbreekt.\"", 
+                author: "Hiram Edson (vrij naar)", 
+                context: "Hiram Edson was degene die na de teleurstelling van 1844 in een korenveld het inzicht kreeg over het hemels heiligdom. Hij durfde zijn oude ideeën los te laten toen God hem iets nieuws toonde. God is oneindig; er is altijd meer van Hem te ontdekken als we nederig blijven.",
+                action: "Sta open voor een nieuw inzicht. Vraag God: 'Laat me iets zien wat ik nog niet zag'.", 
+                night: "God is oneindig. Morgen is er weer meer van Hem te ontdekken." 
+            },
+            { 
+                theme: "Vrede", 
+                quote: "\"Jezus zegt: Vrede laat Ik u. Niet de vrede die de wereld geeft, maar Mijn vrede.\"", 
+                author: "Ellen G. White", 
+                context: "Wereldse vrede is de afwezigheid van problemen. Gods vrede is Zijn aanwezigheid *in* de problemen. Ellen White schreef dit terwijl ze zelf vaak onder vuur lag. Ze wist dat ware rust niet komt van omstandigheden, maar van het vertrouwen in de Persoon van Christus.",
+                action: "Is er onrust in je hoofd? Adem diep in en fluister de naam 'Jezus'.", 
+                night: "Zijn vrede bewaakt je hart en je gedachten." 
+            },
+            { 
+                theme: "De Hoge Roeping", 
+                quote: "\"Hoger dan de hoogste menselijke gedachte reikt Gods ideaal voor Zijn kinderen.\"", 
+                author: "Ellen G. White", 
+                context: "God heeft ambitie voor jou. Niet wereldse ambitie (rijkdom/macht), maar karakter-ambitie. Hij wil Zijn beeld in jou herstellen. Soms nemen we genoegen met middelmatigheid, maar God nodigt ons uit om te groeien naar de 'volheid van Christus'.",
+                action: "Denk niet te klein over jezelf. God heeft een groot plan. Schrijf één droom op die je met Hem wilt bereiken.", 
+                night: "Je bent bestemd voor de hemel. Leef en slaap met die waardigheid." 
+            },
+            { 
+                theme: "Dankbaarheid", 
+                quote: "\"Niets bevordert de gezondheid van lichaam en ziel zozeer als een geest van dankbaarheid en lofprijs.\"", 
+                author: "Ellen G. White", 
+                context: "Dankbaarheid was voor de pioniers geen beleefdheid, maar een geneesmiddel tegen ontmoediging. Ze ontdekten dat je niet tegelijkertijd kunt klagen en danken. Door te zingen in de storm, veranderden ze hun perspectief van het probleem naar de Oplosser.",
+                action: "Zing (of neurie) een loflied, hoe zachtjes ook. Verander je sfeer door muziek.", 
+                night: "Een dankbaar hart is een zacht kussen." 
+            },
+            { 
+                theme: "Zelfverloochening", 
+                quote: "\"Het 'ik' is de grootste vijand die we hebben. Het moet dagelijks gekruisigd worden.\"", 
+                author: "Ellen G. White", 
+                context: "Dit klinkt zwaar, maar het is de weg naar vrijheid. Zolang ons 'ik' op de troon zit, zijn we snel beledigd, jaloers of boos. Als we het 'ik' aan Jezus geven, worden we onkwetsbaar voor de meningen van anderen. Het is de paradox van het evangelie: sterven is leven.",
+                action: "Laat vandaag je gelijk varen in een discussie, zelfs als je gelijk hebt. Kies voor vrede.", 
+                night: "Minder van jou betekent meer van Hem. Dat geeft rust." 
+            },
 
             // WEEK 4: VOORUITBLIK
-            { theme: "De Voorbidder", quote: "\"Jezus staat in het heiligdom. Hij toont Zijn gewonde handen en pleit voor jou.\"", author: "Uriah Smith", action: "Visualiseer Jezus als je Hogepriester. Hij noemt jouw naam bij de Vader.", night: "Je hebt een Advocaat die nooit een zaak verliest." },
-            { theme: "Vertrouwen in het donker", quote: "\"Als het donker is en we God niet kunnen zien, moeten we Zijn hand vasthouden in het geloof.\"", author: "Ellen G. White", action: "Steek een kaars aan in het donker. Zie hoe klein licht groot duister breekt. Vertrouw Hem.", night: "Geloof ziet in het donker wat het oog bij daglicht mist." },
-            { theme: "Eenheid", quote: "\"Eendracht is kracht; verdeeldheid is zwakte.\"", author: "Ellen G. White", action: "Is er afstand tussen jou en een medegelovige? Doe een poging tot verbinding.", night: "Samen zijn we het lichaam van Christus." },
-            { theme: "De Wet en Liefde", quote: "\"De wet van God is een wet van liefde, en liefde is de vervulling van de wet.\"", author: "Ellen G. White", action: "Vervang het woord 'moeten' vandaag door 'mogen uit liefde'.", night: "Gehoorzaamheid is geen dwang, maar een antwoord op Zijn liefde." },
-            { theme: "Troost", quote: "\"Hij verzamelt je tranen in Zijn kruik. Geen verdriet is bij Hem onopgemerkt.\"", author: "Naar Psalm 56 / EGW", action: "Huilen mag. Wees eerlijk over je verdriet bij God.", night: "God is dichtbij degenen die gebroken van hart zijn." },
-            { theme: "Toewijding", quote: "\"Geef mij heel je hart, zegt de Heiland. Ik wil geen deel, maar alles.\"", author: "Ellen G. White", action: "Geef God de 'sleutels' van alle kamers in je hart, ook die ene die je liever op slot houdt.", night: "Volledige overgave is de enige weg naar volledige rust." },
-            { theme: "De Morgenster", quote: "\"Nog even en de morgen breekt aan. De donkerste nacht gaat vooraf aan de dageraad.\"", author: "James White", action: "Als je het moeilijk hebt, zeg dan hardop: 'Maranatha, de Heer komt'.", night: "Het wordt licht. Houd vol." },
+            { 
+                theme: "De Voorbidder", 
+                quote: "\"Jezus staat in het heiligdom. Hij toont Zijn gewonde handen en pleit voor jou.\"", 
+                author: "Uriah Smith", 
+                context: "Uriah Smith schreef veel over het Heiligdom. Het beeld dat hij schetst is prachtig: Jezus staat niet met een wetboek bij de Vader, maar met Zijn littekens. Zijn offer is Zijn pleidooi. Als jij faalt, wijst Hij naar Zijn handen. Je zaak is gewonnen.",
+                action: "Visualiseer Jezus als je Hogepriester. Hij noemt jouw naam bij de Vader.", 
+                night: "Je hebt een Advocaat die nooit een zaak verliest." 
+            },
+            { 
+                theme: "Vertrouwen in het donker", 
+                quote: "\"Als het donker is en we God niet kunnen zien, moeten we Zijn hand vasthouden in het geloof.\"", 
+                author: "Ellen G. White", 
+                context: "Er zijn tijden in het leven dat God afwezig lijkt. Ellen White noemde dit de 'donkere nacht van de ziel'. Juist dan, zegt ze, is geloof het kostbaarst. Geloof dat voelt, is geen geloof. Geloof dat vertrouwt in het donker, is goud waard.",
+                action: "Steek een kaars aan in het donker. Zie hoe klein licht groot duister breekt. Vertrouw Hem.", 
+                night: "Geloof ziet in het donker wat het oog bij daglicht mist." 
+            },
+            { 
+                theme: "Eenheid", 
+                quote: "\"Eendracht is kracht; verdeeldheid is zwakte.\"", 
+                author: "Ellen G. White", 
+                context: "De vroege kerk bestond uit mensen met allerlei achtergronden (Methodisten, Baptisten, etc.). Ze hadden sterke meningsverschillen. Toch wisten ze: de missie is belangrijker dan onze ego's. Jezus bad om eenheid (Joh 17). Eenheid is niet: het overal over eens zijn, maar: samen dezelfde Heer liefhebben.",
+                action: "Is er afstand tussen jou en een medegelovige? Doe een poging tot verbinding.", 
+                night: "Samen zijn we het lichaam van Christus." 
+            },
+            { 
+                theme: "De Wet en Liefde", 
+                quote: "\"De wet van God is een wet van liefde, en liefde is de vervulling van de wet.\"", 
+                author: "Ellen G. White", 
+                context: "Vaak worden wet en liefde tegenover elkaar gezet. Voor de Adventisten was de Wet (de 10 geboden) een beschrijving van Gods karakter. God *is* liefde, dus Zijn regels zijn regels van liefde, bedoeld om ons te beschermen. Gehoorzaamheid is geen dwangbuis, maar een veilig hek langs een afgrond.",
+                action: "Vervang het woord 'moeten' vandaag door 'mogen uit liefde'.", 
+                night: "Gehoorzaamheid is geen dwang, maar een antwoord op Zijn liefde." 
+            },
+            { 
+                theme: "Troost", 
+                quote: "\"Hij verzamelt je tranen in Zijn kruik. Geen verdriet is bij Hem onopgemerkt.\"", 
+                author: "Naar Psalm 56 / EGW", 
+                context: "Ellen White verloor twee kinderen aan de dood. Ze kende intens verdriet. Ze vond troost in de gedachte dat God niet onverschillig is. Hij bewaart onze tranen. Verdriet is geen teken van zwak geloof, het is de prijs die we betalen voor liefde in een gebroken wereld.",
+                action: "Huilen mag. Wees eerlijk over je verdriet bij God.", 
+                night: "God is dichtbij degenen die gebroken van hart zijn." 
+            },
+            { 
+                theme: "Toewijding", 
+                quote: "\"Geef mij heel je hart, zegt de Heiland. Ik wil geen deel, maar alles.\"", 
+                author: "Ellen G. White", 
+                context: "God vraagt alles, omdat Hij weet dat een half hart nooit gelukkig zal zijn. Een verdeeld hart is als een huis in burgeroorlog. Volledige overgave klinkt eng, maar het is de enige weg naar volledige vrede. Hij geeft alles van Zichzelf voor alles van jou.",
+                action: "Geef God de 'sleutels' van alle kamers in je hart, ook die ene die je liever op slot houdt.", 
+                night: "Volledige overgave is de enige weg naar volledige rust." 
+            },
+            { 
+                theme: "De Morgenster", 
+                quote: "\"Nog even en de morgen breekt aan. De donkerste nacht gaat vooraf aan de dageraad.\"", 
+                author: "James White", 
+                context: "James White leefde met een intens verlangen naar de Wederkomst. Hij zag de wereld donkerder worden, maar voor hem was dat het teken dat de Morgenster bijna opkwam. Adventisten zijn mensen van hoop. Wij kijken niet naar beneden naar het graf, maar omhoog naar de lucht.",
+                action: "Als je het moeilijk hebt, zeg dan hardop: 'Maranatha, de Heer komt'.", 
+                night: "Het wordt licht. Houd vol." 
+            },
             
             // LAATSTE DAGEN
-            { theme: "Genade alleen", quote: "\"Wij hebben niets in onszelf om op te roemen. Onze enige hoop is de gerechtigheid van Christus.\"", author: "Ellen G. White", action: "Stop met presteren voor God. Rust in wat Hij voor jou deed.", night: "Je bent gered door genade. Niets meer, niets minder." },
-            { theme: "De Grote Strijd", quote: "\"Het grote conflict is geëindigd. Zonde en zondaars zijn niet meer. Het hele heelal is rein.\"", author: "Ellen G. White (De Grote Strijd)", action: "Lees de laatste bladzijde van de Bijbel (Openbaring 22). Zie hoe het afloopt.", night: "Het einde is goed. Dus alles komt goed." },
-            { theme: "Nieuwe Start", quote: "\"Met God is elke dag een nieuw begin. Zijn barmhartigheden zijn elke morgen nieuw.\"", author: "Ellen G. White", action: "Kijk terug op deze 31 dagen. Wat neem je mee? Dank God voor de reis.", night: "Gefeliciteerd. Je bent geliefd, geleid en gezegend. Op naar de toekomst!" }
+            { 
+                theme: "Genade alleen", 
+                quote: "\"Wij hebben niets in onszelf om op te roemen. Onze enige hoop is de gerechtigheid van Christus.\"", 
+                author: "Ellen G. White", 
+                context: "Aan het einde van haar leven, na jaren van onvermoeibare dienst, zei Ellen White niet: 'Kijk wat ik heb gedaan'. Ze zei: 'Ik heb niets om op te roemen'. Dit is de kern van het evangelie. Onze zekerheid ligt niet in onze prestaties, maar in Zijn genade.",
+                action: "Stop met presteren voor God. Rust in wat Hij voor jou deed.", 
+                night: "Je bent gered door genade. Niets meer, niets minder." 
+            },
+            { 
+                theme: "De Grote Strijd", 
+                quote: "\"Het grote conflict is geëindigd. Zonde en zondaars zijn niet meer. Het hele heelal is rein.\"", 
+                author: "Ellen G. White (De Grote Strijd)", 
+                context: "Dit zijn de slotwoorden van haar beroemdste boek. Het is het visioen van de uiteindelijke overwinning. Alle pijn, alle vragen, alle tranen zijn voorbij. De harmonie is hersteld. Dit is waar de geschiedenis naartoe beweegt. Het einde van het verhaal is goed.",
+                action: "Lees de laatste bladzijde van de Bijbel (Openbaring 22). Zie hoe het afloopt.", 
+                night: "Het einde is goed. Dus alles komt goed." 
+            },
+            { 
+                theme: "Nieuwe Start", 
+                quote: "\"Met God is elke dag een nieuw begin. Zijn barmhartigheden zijn elke morgen nieuw.\"", 
+                author: "Ellen G. White", 
+                context: "We sluiten deze maand af, maar met God is er geen einde. De God van de pioniers is ook jouw God vandaag. De erfenis van hoop is nu van jou. Neem de fakkel over en wandel in het licht van Zijn beloften, elke dag opnieuw.",
+                action: "Kijk terug op deze 31 dagen. Wat neem je mee? Dank God voor de reis.", 
+                night: "Gefeliciteerd. Je bent geliefd, geleid en gezegend. Op naar de toekomst!" 
+            }
         ];
 
         let currentDay = 1;
@@ -470,6 +749,8 @@
             themeTitle: document.getElementById('theme-title'),
             quoteText: document.getElementById('quote-text'),
             quoteAuthor: document.getElementById('quote-author'),
+            contextText: document.getElementById('context-text'), // Nieuw
+            contextDisplay: document.getElementById('context-display'), // Nieuw
             actionText: document.getElementById('action-text'),
             userNotes: document.getElementById('user-notes'),
             nightSection: document.getElementById('night-section'),
@@ -494,6 +775,15 @@
             updatePhotoToggleButton();
             loadDay(1);
         };
+
+        // Nieuwe functie: Context tonen/verbergen
+        function toggleContext() {
+            if (els.contextDisplay.style.display === "none" || els.contextDisplay.style.display === "") {
+                els.contextDisplay.style.display = "block";
+            } else {
+                els.contextDisplay.style.display = "none";
+            }
+        }
 
         function goToCalendarDate() {
             const today = new Date();
@@ -527,8 +817,12 @@
             els.themeTitle.innerText = data.theme;
             els.quoteText.innerText = data.quote;
             els.quoteAuthor.innerText = `- ${data.author}`;
+            els.contextText.innerText = data.context; // Context invullen
             els.actionText.innerText = data.action;
             els.nightText.innerText = data.night;
+
+            // Reset context box naar verborgen
+            els.contextDisplay.style.display = "none";
 
             // Achtergrond Logica - Specifieke termen voor sfeer
             if(photosEnabled) {
@@ -609,7 +903,8 @@
                     <div class="print-header">Dag ${dayNum}: ${day.theme}</div>
                     <div class="print-verse">${day.quote}</div>
                     <span class="print-ref">- ${day.author}</span>
-                    <div style="margin-bottom:10px; font-size:0.9em; margin-top:10px;"><strong>Opdracht:</strong> ${day.action}</div>
+                    <div style="margin-bottom:10px; font-size:0.9em; margin-top:10px; color:#444;"><strong>Achtergrond:</strong> ${day.context}</div>
+                    <div style="margin-bottom:10px; font-size:0.9em;"><strong>Opdracht:</strong> ${day.action}</div>
                 `;
 
                 const noteDiv = document.createElement('div');
