@@ -1,0 +1,678 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>31 Dagen: Vertrouwen in Verandering</title>
+    <style>
+        :root {
+            /* Thema: Olijfgroen & Warm Goud (Rust, Groei en Eeuwigheid) */
+            --primary-color: #3b5323;      /* Klassiek Olijfgroen */
+            --primary-light: #738c58;      /* Zacht mosgroen */
+            --accent-color: #c5a059;       /* Antiek Goud */
+            --bg-color: #fcfbf4;           /* Gebroken wit / Perkament */
+            --glass-bg: rgba(252, 251, 244, 0.96);
+            
+            --btn-gradient: linear-gradient(135deg, #4a6741 0%, #2e4225 100%);
+            --text-color: #1a2614;
+            --radius: 8px;
+            --transition: all 0.4s ease;
+        }
+
+        body, html {
+            margin: 0; padding: 0; height: 100%;
+            font-family: 'Merriweather', 'Georgia', serif; /* Goed leesbare, klassieke letter */
+            color: var(--text-color);
+            background-color: var(--bg-color);
+            overflow-x: hidden;
+            transition: background 1s ease;
+            line-height: 1.6;
+        }
+
+        /* Achtergrondlaag */
+        #bg-image {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            z-index: -2; background-size: cover; background-position: center;
+            opacity: 0; transition: opacity 1s ease-in-out;
+            filter: sepia(20%) brightness(90%); /* Rustige, iets nostalgische sfeer */
+        }
+        
+        #bg-overlay {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            z-index: -1; background: rgba(252, 251, 244, 0.75);
+            backdrop-filter: blur(0px); transition: backdrop-filter 1s ease;
+        }
+
+        .container {
+            min-height: 100vh; display: flex; justify-content: center; align-items: center; padding: 20px;
+        }
+
+        .card {
+            background: var(--glass-bg);
+            border-radius: var(--radius); padding: 50px 40px;
+            max-width: 680px; width: 100%;
+            box-shadow: 0 15px 40px rgba(59, 83, 35, 0.15);
+            border-top: 6px solid var(--primary-color);
+            position: relative; animation: floatUp 0.8s ease-out;
+        }
+        @keyframes floatUp { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
+
+        header { text-align: center; margin-bottom: 30px; }
+
+        .top-nav {
+            display: flex; justify-content: space-between; align-items: center;
+            margin-bottom: 25px; border-bottom: 1px solid #ddd; padding-bottom: 15px;
+        }
+
+        .nav-tools { display: flex; gap: 10px; flex-wrap: wrap; justify-content: center; }
+
+        .tool-btn {
+            background: white; border: 1px solid var(--primary-color);
+            color: var(--primary-color); padding: 8px 16px; border-radius: 4px;
+            font-size: 0.8rem; cursor: pointer; font-family: sans-serif;
+            text-transform: uppercase; font-weight: bold; transition: var(--transition);
+        }
+        .tool-btn:hover, .tool-btn.active { background: var(--primary-color); color: white; }
+
+        h1 {
+            color: var(--primary-color); font-size: 2.2rem; margin: 10px 0;
+            font-style: italic; font-weight: normal;
+        }
+
+        .day-counter {
+            font-family: sans-serif; text-transform: uppercase; letter-spacing: 2px;
+            font-size: 0.8rem; color: #fff; background: var(--accent-color);
+            padding: 6px 14px; border-radius: 4px; display: inline-block; font-weight: bold;
+        }
+
+        .verse-box {
+            font-size: 1.35rem; line-height: 1.5; text-align: center;
+            margin-bottom: 20px; color: var(--text-color); font-style: italic; padding: 0 10px;
+        }
+        .reference {
+            display: block; margin-top: 15px; font-size: 0.95rem;
+            color: var(--primary-light); font-weight: bold; font-family: sans-serif; text-transform: uppercase; font-style: normal;
+        }
+
+        /* Context Knop & Box */
+        .context-btn {
+            background: transparent; border: 1px solid var(--primary-light);
+            color: var(--primary-color); padding: 6px 14px; border-radius: 4px;
+            font-size: 0.8rem; cursor: pointer; margin-top: 15px;
+            font-family: sans-serif; text-transform: uppercase; letter-spacing: 0.5px;
+            transition: all 0.3s ease; display: inline-flex; align-items: center; gap: 8px;
+        }
+        .context-btn:hover { background: var(--primary-color); color: white; }
+
+        .context-box {
+            display: none; background-color: #fff; border: 1px solid #dcdcdc;
+            border-left: 5px solid var(--accent-color); border-radius: 4px;
+            padding: 25px; margin-top: 10px; margin-bottom: 25px;
+            font-size: 1rem; color: #444; line-height: 1.7; text-align: left;
+            animation: fadeIn 0.5s ease;
+        }
+        .context-header {
+            font-weight: bold; color: var(--primary-color); display: block;
+            margin-bottom: 10px; font-size: 0.85rem; text-transform: uppercase; letter-spacing: 1px;
+        }
+
+        .action-box {
+            background-color: #f1f5f0; border-radius: 6px; padding: 25px; margin-bottom: 25px;
+            border-left: 5px solid var(--primary-color);
+        }
+        .action-title {
+            font-weight: bold; color: var(--primary-color); display: block;
+            margin-bottom: 10px; font-family: sans-serif; text-transform: uppercase; font-size: 0.8rem; letter-spacing: 1px;
+        }
+
+        textarea {
+            width: 100%; height: 150px; padding: 15px; border-radius: 4px;
+            border: 1px solid #ccc; background-color: #fff;
+            font-family: 'Merriweather', serif; font-size: 1.05rem; color: var(--text-color);
+            margin-bottom: 20px; resize: vertical; box-sizing: border-box;
+        }
+        textarea:focus { outline: none; border-color: var(--accent-color); box-shadow: 0 0 5px rgba(197, 160, 89, 0.3); }
+
+        .btn-primary {
+            background: var(--btn-gradient); color: white; border: none;
+            padding: 14px 30px; font-size: 1.1rem; border-radius: 4px;
+            cursor: pointer; transition: var(--transition); width: 100%;
+            font-family: sans-serif; font-weight: bold; text-transform: uppercase; letter-spacing: 1px;
+        }
+        .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 5px 15px rgba(0,0,0,0.1); }
+        .btn-success { background: #5b7f4d !important; pointer-events: none; }
+
+        .night-thought {
+            margin-top: 25px; background: #2c3e25; color: #e8eede;
+            padding: 30px; border-radius: 4px; text-align: center;
+            display: none; animation: fadeIn 0.5s; border: 1px solid var(--accent-color);
+        }
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+
+        .nav-buttons {
+            display: flex; justify-content: space-between; margin-top: 40px;
+            border-top: 1px solid #eee; padding-top: 20px;
+        }
+        .nav-btn {
+            background: transparent; border: none; color: #888; font-weight: bold;
+            cursor: pointer; font-family: sans-serif; font-size: 0.9rem; text-transform: uppercase; transition: 0.3s;
+        }
+        .nav-btn:hover:not(:disabled) { color: var(--primary-color); }
+        .nav-btn:disabled { opacity: 0.3; cursor: default; }
+
+        .export-section { text-align: center; margin-top: 30px; }
+        .btn-export {
+            background: white; color: var(--primary-color); border: 1px solid var(--primary-color);
+            padding: 10px 25px; border-radius: 30px; cursor: pointer; font-size: 0.85rem;
+            font-family: sans-serif; font-weight: bold; transition: var(--transition);
+        }
+        .btn-export:hover { background: var(--primary-color); color: white; }
+
+        @media print {
+            body * { visibility: hidden; }
+            #printable-journal, #printable-journal * { visibility: visible; }
+            #printable-journal { position: absolute; left: 0; top: 0; width: 100%; background: white; padding: 40px; color: black; font-family: 'Times New Roman', serif;}
+            .print-entry { page-break-inside: avoid; margin-bottom: 40px; border-bottom: 1px solid #ddd; padding-bottom: 20px; }
+            .print-header { font-size: 1.4em; font-weight: bold; margin-bottom: 10px; color: #333; }
+            .print-verse { font-style: italic; margin-bottom: 10px; }
+            .print-note { background: #f9f9f9; padding: 15px; border-left: 3px solid #666; margin-top: 10px; }
+        }
+        #printable-journal { display: none; }
+
+        @media (max-width: 600px) {
+            .card { padding: 30px 20px; }
+            h1 { font-size: 1.8rem; }
+            .verse-box { font-size: 1.2rem; }
+            .top-nav { justify-content: center; }
+        }
+    </style>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+
+    <div id="bg-image"></div>
+    <div id="bg-overlay"></div>
+
+    <div class="container">
+        <div class="card">
+            <header>
+                <div class="top-nav">
+                    <span class="day-counter" id="day-display">Dag 1</span>
+                    <div class="nav-tools">
+                        <button class="tool-btn" onclick="window.location.href='index.html'">🏠 Home</button>
+                        <button class="tool-btn" id="photo-toggle" onclick="toggleBackground()">📷 Achtergrond</button>
+                        <button class="tool-btn" onclick="goToToday()">📅 Vandaag</button>
+                    </div>
+                </div>
+                <h1 id="theme-title">...</h1>
+            </header>
+
+            <div class="verse-box">
+                <span id="verse-text">Laden...</span>
+                <span class="reference" id="verse-ref">...</span>
+                
+                <button class="context-btn" onclick="toggleContext()">
+                    <i class="fas fa-book-open"></i> 📖 Verdieping & Troost
+                </button>
+            </div>
+
+            <div id="context-display" class="context-box">
+                <span class="context-header">Bijbelse Achtergrond</span>
+                <span id="context-text">...</span>
+            </div>
+
+            <div class="action-box">
+                <span class="action-title">Gedachte om mee te leven:</span>
+                <span id="action-text">...</span>
+            </div>
+
+            <div id="journal-section">
+                <label for="user-notes" style="display:block; margin-bottom:10px; font-weight:bold; color:var(--primary-color); font-family:sans-serif; font-size:0.9rem; text-transform:uppercase;">Uw overdenking:</label>
+                <textarea id="user-notes" placeholder="Schrijf hier uw gedachten of gebed op..."></textarea>
+                <button class="btn-primary" onclick="completeDay()">Opslaan</button>
+            </div>
+
+            <div id="night-section" class="night-thought">
+                <h3 style="margin-top:0; color:#c5a059; font-size: 1rem; text-transform:uppercase; letter-spacing:1px;">✨ Voor het slapengaan</h3>
+                <p id="night-text" style="font-style:italic;">...</p>
+            </div>
+
+            <div class="nav-buttons">
+                <button class="nav-btn" id="prev-btn" onclick="changeDay(-1)">← Vorige</button>
+                <button class="nav-btn" id="next-btn" onclick="changeDay(1)">Volgende →</button>
+            </div>
+
+            <div class="export-section">
+                <button class="btn-export" onclick="printJournal()">🖨️ Maak een boekje van mijn notities</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="printable-journal">
+        <div style="text-align: center; margin-bottom: 50px;">
+            <h1>Vertrouwen in Verandering</h1>
+            <p>Mijn persoonlijke overdenkingen.</p>
+        </div>
+        <div id="print-content"></div>
+    </div>
+
+    <script>
+        // DATA: Gefocust op Ouderen, ZDA-signatuur (Grote Strijd, Toenemend Licht, God als Rots)
+        const daysData = [
+            { 
+                theme: "God Verandert Niet", 
+                verse: "\"Ik, de HEER, ben niet veranderd.\"", 
+                ref: "Maleachi 3:6", 
+                context: "De wereld om ons heen verandert in hoog tempo. Soms voelt het alsof de grond onder onze voeten wegzakt. Maar deze tekst is een anker. Midden in de 'grote strijd' en alle verschuivingen in de maatschappij (en de kerk), blijft Gods karakter onveranderlijk. Hij is de vaste Rots in de branding.",
+                action: "Kijk naar iets in uw kamer dat al heel lang meegaat. Laat het een symbool zijn voor Gods eeuwige trouw.", 
+                night: "Alles verandert, maar Hij blijft Dezelfde. Daar kunt u vannacht op rusten." 
+            },
+            { 
+                theme: "Nog Beter Worden", 
+                verse: "\"Het pad van de rechtvaardigen is als het morgenlicht, dat steeds helderder straalt tot de volle dag.\"", 
+                ref: "Spreuken 4:18", 
+                context: "Dit is het principe van 'toenemend licht'. God geeft Zijn volk in elke generatie nieuwe inzichten. Verandering is in Gods ogen vaak 'groei'. Zoals de zon opkomt en de wereld er anders uitziet bij middaglicht dan bij ochtendschemering, zo leidt God ons steeds verder de waarheid in.",
+                action: "Probeer verandering vandaag eens niet te zien als 'verlies van het oude', maar als 'toename van licht'.", 
+                night: "God is nog niet klaar met u, en ook niet met Zijn kerk. Morgen schijnt het licht weer helderder." 
+            },
+            { 
+                theme: "Dingen die Blijven", 
+                verse: "\"Alles wat wankelen kan, zal verdwijnen... opdat wat niet kan wankelen, zou blijven.\"", 
+                ref: "Hebreeën 12:27", 
+                context: "Soms schudt God aan onze structuren. Dat voelt eng. Maar het doel is dat alleen datgene overblijft wat écht waarde heeft: ons geloof en Zijn liefde. Vormen en gewoonten kunnen wankelen, maar Christus in ons blijft staan.",
+                action: "Noem drie dingen op die nooit afgepakt kunnen worden (bijv. Gods liefde, uw gebed, de hoop).", 
+                night: "De vormen veranderen, maar het Fundament staat vast. Slaap zacht." 
+            },
+            { 
+                theme: "Zie, iets Nieuws", 
+                verse: "\"Zie, Ik maak iets nieuws. Nu zal het ontkiemen. Zult u het niet opmerken?\"", 
+                ref: "Jesaja 43:19", 
+                context: "God spreekt dit tot een volk dat vastzat in ballingschap en terugverlangde naar vroeger. God zegt: kijk niet alleen achterom, Ik doe iets nieuws vóór je. Soms missen we Gods zegen in het heden, omdat we te strak vasthouden aan de vorm van het verleden.",
+                action: "Vraag God vandaag: 'Heer, wat voor moois bent U *nu* aan het doen dat ik misschien over het hoofd zie?'", 
+                night: "God is een Schepper. Hij is altijd bezig met vernieuwing, ook in de nacht." 
+            },
+            { 
+                theme: "De Oude Mens", 
+                verse: "\"U moet de oude mens afleggen... en vernieuwd worden in uw denken.\"", 
+                ref: "Efeziërs 4:22-23", 
+                context: "Verandering is de kern van bekering. Heiliging is een levenslang proces van veranderen. We worden elke dag een beetje meer 'veranderd' naar Zijn beeld. Als wij zelf moeten veranderen om op Jezus te lijken, mogen we dan verwachten dat de kerk altijd hetzelfde blijft?",
+                action: "Is er een mening of gewoonte die u zelf mag 'vernieuwen' om milder te worden?", 
+                night: "Vernieuwing is verjonging van de ziel. U bent nooit te oud om te groeien." 
+            },
+            { 
+                theme: "Jezus als Hoeksteen", 
+                verse: "\"Jezus Christus is gisteren en heden Dezelfde en tot in eeuwigheid.\"", 
+                ref: "Hebreeën 13:8", 
+                context: "Liederen veranderen, diensten veranderen, mensen komen en gaan. Maar het centrum van de adventboodschap is niet een vorm, maar een Persoon. Zolang Jezus het middelpunt is, is de kerk veilig.",
+                action: "Zing of neurie een lied over Jezus dat u al uw hele leven kent. Hij is de constante toon.", 
+                night: "Uw hand ligt in de hand van Hem die niet verandert." 
+            },
+            { 
+                theme: "Wachten op het Einde", 
+                verse: "\"Wij zullen allen veranderd worden, in een ondeelbaar ogenblik.\"", 
+                ref: "1 Korintiërs 15:51-52", 
+                context: "De grootste verandering moet nog komen! Dit is de 'Gezegende Hoop'. We kijken uit naar de dag dat ons oude, pijnlijke lichaam veranderd wordt in een verheerlijkt lichaam. Elke verandering hier op aarde is slechts een voorproefje van die ultieme vernieuwing.",
+                action: "Kijk naar de wolkenlucht. Bedenk hoe het zal zijn als Hij komt en alles écht nieuw maakt.", 
+                night: "De beste verandering komt nog. Maranatha." 
+            },
+            { 
+                theme: "Een Nieuw Hart", 
+                verse: "\"Ik zal u een nieuw hart geven en een nieuwe geest in uw binnenste geven.\"", 
+                ref: "Ezechiël 36:26", 
+                context: "God is een specialist in harttransplantaties. Soms voelt ons hart 'oud' of verhard door teleurstelling over hoe dingen gaan. God biedt ons, ongeacht onze leeftijd, een zacht en ontvankelijk hart aan.",
+                action: "Leg uw hand op uw hart en bid: 'Heer, houd mijn hart zacht, ook als ik dingen niet begrijp'.", 
+                night: "Een zacht hart slaapt rustiger dan een bezorgd hart." 
+            },
+            { 
+                theme: "De Adelaar", 
+                verse: "\"Die uw jeugd vernieuwt als die van een adelaar.\"", 
+                ref: "Psalm 103:5", 
+                context: "Een adelaar verliest op latere leeftijd zijn veren om nieuwe te krijgen. Dat is een pijnlijk en kwetsbaar proces, maar noodzakelijk om te kunnen blijven vliegen. God belooft u kracht voor dit proces van vernieuwing.",
+                action: "Voelt u zich kwetsbaar? Dat is vaak het moment waarop God nieuwe kracht geeft.", 
+                night: "Onder Zijn vleugels bent u veilig, terwijl Hij u vernieuwt." 
+            },
+            { 
+                theme: "Van Generatie op Generatie", 
+                verse: "\"Eén generatie gaat en een andere generatie komt, maar de aarde blijft voor eeuwig.\"", 
+                ref: "Prediker 1:4", 
+                context: "Het is de cyclus van het leven. Het is moeilijk om het stokje over te dragen en te zien dat de nieuwe generatie dingen anders doet. Maar God is de God van Abraham, Isaak én Jakob. Elke generatie moet zijn eigen weg met God vinden.",
+                action: "Bid vandaag specifiek voor één jongere in uw kerk. Zegen zijn/haar manier van geloven.", 
+                night: "Gods trouw duurt van generatie tot generatie." 
+            },
+            { 
+                theme: "Niet Blijven Hangen", 
+                verse: "\"Denk niet aan de dingen van vroeger, let niet op de dingen van het verleden.\"", 
+                ref: "Jesaja 43:18", 
+                context: "Nostalgie is mooi, maar het kan een valkuil worden als het ons blind maakt voor het heden. De pioniers keken vooruit, niet achteruit. Wij zijn een beweging van 'Advent' (komst), gericht op de toekomst.",
+                action: "Haal een mooie herinnering op, dank God ervoor, en leg hem dan liefdevol terug in het verleden.", 
+                night: "Morgen is een nieuwe dag met nieuwe genade. Kijk vooruit." 
+            },
+            { 
+                theme: "De Wijnzakken", 
+                verse: "\"Men doet geen nieuwe wijn in oude zakken...\"", 
+                ref: "Mattheüs 9:17", 
+                context: "Jezus leerde dat nieuwe vormen soms nodig zijn om de levende inhoud (de wijn) te bewaren. Als we te star vasthouden aan oude vormen, kan het kostbare verloren gaan. Het gaat om de Wijn (het Evangelie), niet om de zak.",
+                action: "Bedenk: Wat is de 'Wijn' in mijn geloof? En wat is slechts de 'zak'?", 
+                night: "De Wijn van Zijn liefde is elke ochtend vers." 
+            },
+            { 
+                theme: "Inzicht Groeit", 
+                verse: "\"Maar de Trooster, de Heilige Geest... die zal u in alles onderwijzen.\"", 
+                ref: "Johannes 14:26", 
+                context: "De discipelen begrepen veel dingen niet toen Jezus nog bij hen was. Pas later viel het kwartje. Ook wij begrijpen nu dingen anders dan 50 jaar geleden. Dat is geen afval, dat is de leiding van de Geest die ons dieper leidt.",
+                action: "Dank God voor een inzicht dat u nu heeft, dat u vroeger nog niet had.", 
+                night: "De Geest waakt over de waarheid. U hoeft niet alles te bewaken." 
+            },
+            { 
+                theme: "Vreemdelingschap", 
+                verse: "\"Want wij hebben hier geen blijvende stad, maar wij zoeken de toekomstige.\"", 
+                ref: "Hebreeën 13:14", 
+                context: "Als we ons te thuis voelen in onze aardse kerkgebouwen en tradities, vergeten we misschien dat we op doorreis zijn. Verandering herinnert ons eraan dat dit niet ons eindstation is. Wij zijn pelgrims.",
+                action: "Zeg zachtjes tegen uzelf: 'Ik ben op doorreis, dit is slechts een tent, geen huis'.", 
+                night: "Uw ware huis wordt in de hemel gereedgemaakt. Daar verandert niets meer." 
+            },
+            { 
+                theme: "Liefde Blijft", 
+                verse: "\"De liefde vergaat nimmermeer.\"", 
+                ref: "1 Korintiërs 13:8", 
+                context: "Profetieën, talen, kennis... het zal allemaal verdwijnen of veranderen. Maar één ding blijft: Liefde. Als u moeite heeft met veranderingen in de dienst, focus dan op de liefde voor de mensen. Dat is de band die niet breekt.",
+                action: "Geef iemand een glimlach of een hand, ongeacht of u het met hem/haar eens bent.", 
+                night: "Liefde is de taal van de hemel. Rust in Zijn liefde." 
+            },
+            { 
+                theme: "De Pottenbakker", 
+                verse: "\"Zie, zoals de klei in de hand van de pottenbakker, zo bent u in Mijn hand.\"", 
+                ref: "Jeremia 18:6", 
+                context: "Zolang de klei op de draaischijf staat, verandert de vorm. Dat kan duizelig voelen. Maar de Handen die vormen, zijn de handen van de Vader. Hij kneedt ons en Zijn kerk totdat het beeld van Jezus zichtbaar is.",
+                action: "Vertrouw de 'Kneper' (de Pottenbakker), ook als de druk even onprettig voelt.", 
+                night: "U bent in Zijn handen. Veiliger kan niet." 
+            },
+            { 
+                theme: "Seizoenen", 
+                verse: "\"Voor alles is een tijd... een tijd om te planten en een tijd om te rooien.\"", 
+                ref: "Prediker 3:1-2", 
+                context: "In de natuur accepteren we dat de herfst komt en bladeren vallen. In de kerk vinden we dat moeilijk. Maar ook geestelijke gemeenschappen kennen seizoenen. Wat in het ene seizoen werkte, werkt misschien niet in het andere. God is de Heer van de seizoenen.",
+                action: "Kijk naar buiten. Elk seizoen heeft zijn eigen schoonheid. Zoek de schoonheid in *dit* seizoen.", 
+                night: "De God van de lente is ook de God van de winter." 
+            },
+            { 
+                theme: "Geduld Oefenen", 
+                verse: "\"Wees geduldig tot de komst van de Heere.\"", 
+                ref: "Jakobus 5:7", 
+                context: "Soms gaan veranderingen te snel, soms te langzaam. Jakobus wijst ons op de landbouwer die wacht op de regen. Geduld is het vertrouwen dat God de groei geeft, op Zijn tijd.",
+                action: "Als u zich ergert aan iets, bid dan simpelweg: 'Heer, geef mij Uw geduld'.", 
+                night: "Geduld is rusten in Gods tijdschema." 
+            },
+            { 
+                theme: "Het Fundament", 
+                verse: "\"Want niemand kan een ander fundament leggen dan wat gelegd is, dat is Jezus Christus.\"", 
+                ref: "1 Korintiërs 3:11", 
+                context: "Op een fundament kun je verschillende huizen bouwen. De stijl van het huis kan veranderen per eeuw, maar het Fundament moet hetzelfde blijven. Zolang Christus het fundament is, mag de architectuur veranderen.",
+                action: "Toets de verandering: Rust dit op Jezus? Zo ja, dan is het veilig.", 
+                night: "Het Fundament staat onwankelbaar vast." 
+            },
+            { 
+                theme: "Samen Lichaam Zijn", 
+                verse: "\"Het oog kan niet zeggen tegen de hand: Ik heb je niet nodig.\"", 
+                ref: "1 Korintiërs 12:21", 
+                context: "Ouderen en jongeren hebben elkaar nodig. De jongeren brengen vuur en vernieuwing, de ouderen brengen wijsheid en stabiliteit. Zonder elkaar is het lichaam incompleet. Verandering is vaak de wrijving die nodig is om samen te werken.",
+                action: "Dank God voor de energie van de jongeren, en vraag of zij gezegend mogen worden met uw wijsheid.", 
+                night: "U bent een onmisbaar deel van het lichaam." 
+            },
+            { 
+                theme: "Vernieuwde Kracht", 
+                verse: "\"Maar wie de HEERE verwachten, zullen hun kracht vernieuwen.\"", 
+                ref: "Jesaja 40:31", 
+                context: "Het woord 'verwachten' betekent hier ook 'hopen op'. In tijden van verandering kost aanpassing veel energie. God belooft nieuwe kracht aan wie zijn hoop op Hem vestigt, niet op de omstandigheden.",
+                action: "Bent u moe van alle veranderingen? Ga even rustig zitten en 'verwacht' Hem.", 
+                night: "Hij geeft de vermoeide kracht. Slaap en word gesterkt." 
+            },
+            { 
+                theme: "De Goede Herder", 
+                verse: "\"De HEERE is mijn Herder, mij ontbreekt niets... Hij leidt mij.\"", 
+                ref: "Psalm 23:1-2", 
+                context: "Een herder blijft niet op één plek. Hij leidt de kudde steeds naar *nieuwe* weiden. De schapen moeten volgen en hun vertrouwde plek verlaten om voedsel te vinden. Verandering is vaak Gods manier om ons naar vers gras te leiden.",
+                action: "Zeg: 'De Herder loopt voorop, ik hoef alleen maar te volgen'.", 
+                night: "De Herder waakt, ook in het donkere dal." 
+            },
+            { 
+                theme: "Totdat Hij Komt", 
+                verse: "\"Verkondig de dood van de Heere, totdat Hij komt.\"", 
+                ref: "1 Korintiërs 11:26", 
+                context: "Onze opdracht blijft hetzelfde, hoe de vorm ook verandert: getuigen van Zijn liefde totdat Hij terugkomt. Die missie verandert nooit. Focus op de missie, niet op de methode.",
+                action: "Vertel vandaag aan iemand (of aan God) waarom u van Jezus houdt.", 
+                night: "Nog even, en dan zien we Hem." 
+            },
+            { 
+                theme: "Moed Houden", 
+                verse: "\"Heb Ik u niet geboden: Wees sterk en moedig?\"", 
+                ref: "Jozua 1:9", 
+                context: "Jozua moest Mozes opvolgen. Een enorme verandering van leiderschap en stijl. Het volk vond het spannend. God zei niet: 'Het wordt makkelijk'. Hij zei: 'Wees moedig, want Ik ben met je'.",
+                action: "Wees moedig vandaag. God is erbij, net als in de tijd van vroeger.", 
+                night: "Uw Bewaarder sluimert niet." 
+            },
+            { 
+                theme: "Alle Dingen Medewerken", 
+                verse: "\"Wij weten dat voor hen die God liefhebben, alle dingen meewerken ten goede.\"", 
+                ref: "Romeinen 8:28", 
+                context: "Ook veranderingen die wij als 'negatief' ervaren, kan God gebruiken voor iets goeds. Hij weeft de donkere en lichte draden samen tot een patroon dat wij nu nog niet zien.",
+                action: "Probeer te vertrouwen dat God zelfs deze verandering kan gebruiken voor Zijn doel.", 
+                night: "Het weefwerk is nog niet af, maar de Wever maakt geen fouten." 
+            },
+            { 
+                theme: "De Tijd is Kort", 
+                verse: "\"De tijd is voortaan kort... want de gedaante van deze wereld gaat voorbij.\"", 
+                ref: "1 Korintiërs 7:29,31", 
+                context: "Paulus herinnert ons eraan dat alles hier tijdelijk is. Waarom zouden we ons te druk maken om de inrichting van het 'schip' (de kerk op aarde) als we bijna in de haven zijn? Onze focus moet op de Haven liggen.",
+                action: "Richt uw blik omhoog. Daar is uw ware bestemming.", 
+                night: "De eeuwigheid komt dichterbij met elke hartslag." 
+            },
+            { 
+                theme: "Vrede in het Hart", 
+                verse: "\"En de vrede van God, die alle begrip te boven gaat, zal uw harten bewaken.\"", 
+                ref: "Filippenzen 4:7", 
+                context: "We kunnen veranderingen niet altijd begrijpen ('begrip te boven gaan'). Maar we kunnen wel vrede hebben *zonder* het te begrijpen. Die vrede is een wachtpost voor de deur van uw hart.",
+                action: "U hoeft het niet te snappen om vrede te hebben. Laat het los.", 
+                night: "Zijn vrede staat op wacht bij uw bed." 
+            },
+            { 
+                theme: "Eenheid in Verscheidenheid", 
+                verse: "\"Er is verscheidenheid van genadegaven, maar het is dezelfde Geest.\"", 
+                ref: "1 Korintiërs 12:4", 
+                context: "Anders is niet altijd fout. God houdt van variatie; kijk maar naar de natuur. Misschien is de nieuwe manier van doen in de kerk gewoon een andere 'kleur' van dezelfde Geest.",
+                action: "Probeer de 'andere kleur' van een medegelovige vandaag te waarderen.", 
+                night: "Dezelfde Geest die in u woont, woont ook in hen." 
+            },
+            { 
+                theme: "Openbaring", 
+                verse: "\"Zie, de tent van God is bij de mensen...\"", 
+                ref: "Openbaring 21:3", 
+                context: "Uiteindelijk gaat het hierom: God wil bij ons wonen. In de woestijn was het een tent, later een tempel, nu in ons hart. De woonplaats verandert, maar de Bewoner blijft en zoekt u.",
+                action: "Dank God dat Hij bij u wil wonen, ongeacht de vorm van het gebouw.", 
+                night: "Hij is dichterbij dan uw eigen adem." 
+            },
+            { 
+                theme: "De Laatste Stap", 
+                verse: "\"Hij die in u een goed werk begonnen is, zal het voltooien.\"", 
+                ref: "Filippenzen 1:6", 
+                context: "U bent al een heel eind op weg. U heeft veel veranderingen gezien. God, die u in uw jeugd riep, is er ook in uw ouderdom. Hij maakt het werk af. De laatste loodjes wegen het zwaarst, maar de finish is in zicht.",
+                action: "Kijk terug op uw leven. Hij heeft u nooit losgelaten. Hij doet dat nu ook niet.", 
+                night: "Rust in de zekerheid van Zijn voltooide werk." 
+            },
+            { 
+                theme: "Nieuwe Hemel", 
+                verse: "\"En ik zag een nieuwe hemel en een nieuwe aarde.\"", 
+                ref: "Openbaring 21:1", 
+                context: "De geschiedenis eindigt met de grootste verandering ooit. Geen tranen meer, geen pijn, geen afscheid. Dat is de verandering waar we naar snakken. Houd moed, die dag komt spoedig.",
+                action: "Droom vandaag even weg over hoe die Nieuwe Aarde eruit zal zien.", 
+                night: "Nog even, en dan zijn we Thuis. Voor altijd." 
+            }
+        ];
+
+        let currentDay = 1;
+        let photosEnabled = true; 
+
+        const els = {
+            dayDisplay: document.getElementById('day-display'),
+            themeTitle: document.getElementById('theme-title'),
+            verseText: document.getElementById('verse-text'),
+            verseRef: document.getElementById('verse-ref'),
+            contextText: document.getElementById('context-text'),
+            contextDisplay: document.getElementById('context-display'),
+            actionText: document.getElementById('action-text'),
+            userNotes: document.getElementById('user-notes'),
+            nightSection: document.getElementById('night-section'),
+            nightText: document.getElementById('night-text'),
+            bgImage: document.getElementById('bg-image'),
+            bgOverlay: document.getElementById('bg-overlay'),
+            prevBtn: document.getElementById('prev-btn'),
+            nextBtn: document.getElementById('next-btn'),
+            photoToggle: document.getElementById('photo-toggle')
+        };
+
+        window.onload = function() {
+            // Unieke key voor deze pagina
+            const prefPhotos = localStorage.getItem('change_photosEnabled');
+            if(prefPhotos === null) { photosEnabled = true; } 
+            else { photosEnabled = (prefPhotos === 'true'); }
+            
+            updatePhotoToggleButton();
+
+            // Check of er al een dag was opgeslagen
+            const savedDay = localStorage.getItem('change_currentDay');
+            if(savedDay) {
+                currentDay = parseInt(savedDay);
+            }
+            loadDay(currentDay);
+        };
+
+        function toggleContext() {
+            if (els.contextDisplay.style.display === "none" || els.contextDisplay.style.display === "") {
+                els.contextDisplay.style.display = "block";
+            } else {
+                els.contextDisplay.style.display = "none";
+            }
+        }
+
+        function goToToday() {
+            const today = new Date();
+            let dayOfMonth = today.getDate();
+            // Maximaal 31 dagen in de data
+            if(dayOfMonth > daysData.length) dayOfMonth = daysData.length;
+            loadDay(dayOfMonth);
+        }
+
+        function toggleBackground() {
+            photosEnabled = !photosEnabled;
+            localStorage.setItem('change_photosEnabled', photosEnabled);
+            updatePhotoToggleButton();
+            loadDay(currentDay);
+        }
+
+        function updatePhotoToggleButton() {
+            if(photosEnabled) {
+                els.photoToggle.classList.add('active');
+                els.photoToggle.innerHTML = "📷 Foto's AAN";
+            } else {
+                els.photoToggle.classList.remove('active');
+                els.photoToggle.innerHTML = "📷 Foto's UIT";
+            }
+        }
+
+        function loadDay(dayIndex) {
+            currentDay = dayIndex;
+            localStorage.setItem('change_currentDay', currentDay);
+
+            const data = daysData[dayIndex - 1];
+            
+            els.dayDisplay.innerText = `DAG ${dayIndex}`;
+            els.themeTitle.innerText = data.theme;
+            els.verseText.innerText = data.verse;
+            els.verseRef.innerText = data.ref;
+            els.contextText.innerText = data.context;
+            els.actionText.innerText = data.action;
+            els.nightText.innerText = data.night;
+
+            els.contextDisplay.style.display = "none";
+
+            if(photosEnabled) {
+                // Rustige natuur thema's (bomen, paden, licht)
+                const keywords = ['forest', 'path', 'light', 'tree', 'mountain', 'river'];
+                const keyword = keywords[dayIndex % keywords.length];
+                const imgUrl = `https://picsum.photos/seed/${dayIndex}_change_${keyword}/1920/1080`;
+                
+                const img = new Image();
+                img.src = imgUrl;
+                img.onload = () => {
+                     els.bgImage.style.backgroundImage = `url('${imgUrl}')`;
+                     els.bgImage.style.opacity = '1';
+                };
+                els.bgOverlay.style.backdropFilter = 'blur(3px)';
+            } else {
+                els.bgImage.style.opacity = '0';
+                els.bgOverlay.style.backdropFilter = 'blur(0px)';
+            }
+
+            const savedNote = localStorage.getItem(`change_note_day_${dayIndex}`);
+            els.userNotes.value = savedNote ? savedNote : "";
+
+            if (savedNote && savedNote.length > 2) {
+                els.nightSection.style.display = 'block';
+            } else {
+                els.nightSection.style.display = 'none';
+            }
+            
+            els.prevBtn.disabled = (dayIndex === 1);
+            els.nextBtn.disabled = (dayIndex === daysData.length);
+        }
+
+        function completeDay() {
+            if(els.userNotes.value.trim() === "") {
+                alert("Schrijf een korte gedachte op voordat u de dag afsluit.");
+                return;
+            }
+            localStorage.setItem(`change_note_day_${currentDay}`, els.userNotes.value);
+            
+            els.nightSection.style.display = 'block';
+            els.nightSection.scrollIntoView({behavior: "smooth"});
+        }
+
+        function changeDay(offset) {
+            const newDay = currentDay + offset;
+            if (newDay >= 1 && newDay <= daysData.length) {
+                loadDay(newDay);
+            }
+        }
+
+        function printJournal() {
+            const printContent = document.getElementById('print-content');
+            printContent.innerHTML = ""; 
+
+            daysData.forEach((day, index) => {
+                const dayNum = index + 1;
+                const note = localStorage.getItem(`change_note_day_${dayNum}`);
+                const displayNote = note ? note : "(Nog geen notitie gemaakt)";
+                
+                const entryDiv = document.createElement('div');
+                entryDiv.className = 'print-entry';
+
+                entryDiv.innerHTML = `
+                    <div class="print-header">Dag ${dayNum}: ${day.theme}</div>
+                    <div class="print-verse">${day.verse}</div>
+                    <div style="font-size:0.9em; margin-bottom:10px;">${day.ref}</div>
+                    <div style="margin-bottom:10px; font-size:0.9em; color:#555;"><strong>Achtergrond:</strong> ${day.context}</div>
+                `;
+
+                const noteDiv = document.createElement('div');
+                noteDiv.className = 'print-note';
+                noteDiv.innerHTML = `<strong>Mijn gedachten:</strong><br>${displayNote}`;
+
+                entryDiv.appendChild(noteDiv);
+                printContent.appendChild(entryDiv);
+            });
+
+            window.print();
+        }
+    </script>
+</body>
+</html>
