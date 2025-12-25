@@ -153,6 +153,7 @@
             color: #5b2c6f;
             font-style: italic;
             padding: 0 10px;
+            position: relative;
         }
 
         .reference {
@@ -164,6 +165,58 @@
             font-family: sans-serif;
             font-style: normal;
             font-weight: bold;
+        }
+
+        /* NIEUWE STIJL: Context Knop */
+        .context-btn {
+            background: transparent;
+            border: 1px solid var(--primary-light);
+            color: var(--primary-color);
+            padding: 5px 12px;
+            border-radius: 15px;
+            font-size: 0.75rem;
+            cursor: pointer;
+            margin-top: 15px;
+            font-family: 'Helvetica Neue', sans-serif;
+            transition: all 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .context-btn:hover {
+            background: var(--primary-light);
+            color: white;
+            transform: translateY(-2px);
+        }
+
+        /* NIEUWE STIJL: Context Box */
+        .context-box {
+            display: none; /* Standaard verborgen */
+            background-color: #fff;
+            border: 1px solid #e1bee7; /* Zacht paars randje */
+            border-radius: 15px;
+            padding: 20px;
+            margin-top: 5px;
+            margin-bottom: 25px;
+            font-size: 0.95rem;
+            color: #555;
+            line-height: 1.6;
+            text-align: left;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+            border-left: 4px solid var(--primary-color);
+            animation: fadeIn 0.5s ease;
+            font-family: 'Helvetica Neue', sans-serif;
+        }
+
+        .context-header {
+            font-weight: bold;
+            color: var(--primary-color);
+            display: block;
+            margin-bottom: 8px;
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
         }
 
         .action-box {
@@ -229,7 +282,6 @@
             filter: brightness(1.05);
         }
         
-        /* Animatie voor als het opslaan gelukt is */
         .btn-success {
             background: linear-gradient(135deg, #58d68d 0%, #2ecc71 100%) !important;
             pointer-events: none;
@@ -334,6 +386,7 @@
             .top-nav { justify-content: center; }
         }
     </style>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body>
 
@@ -357,6 +410,15 @@
             <div class="scripture-box">
                 <span id="verse-text">Laden...</span>
                 <span class="reference" id="verse-ref">...</span>
+                
+                <button class="context-btn" onclick="toggleContext()">
+                    <i class="fas fa-book-open"></i> Achtergrond
+                </button>
+            </div>
+
+            <div id="context-display" class="context-box">
+                <span class="context-header">Bijbelse Verdieping</span>
+                <span id="context-text">...</span>
             </div>
 
             <div class="action-box">
@@ -395,38 +457,256 @@
     </div>
 
     <script>
+        // Data met SDA-signatuur (Grote Strijd, Hoop, Heiliging, Heelheid)
         const daysData = [
-            { theme: "Het Oude Loslaten", verse: "\"Vergeet wat geweest is, onthoud niet wat vroeger gebeurde. Zie, Ik ga iets nieuws doen!\"", ref: "Jesaja 43:18-19", action: "Schrijf op papier wat je achter je wilt laten. Verscheur het daarna als teken van loslaten.", night: "Wat geweest is, is voorbij. Morgen is een ongeschreven blad in Gods hand. Slaap zacht." },
-            { theme: "De blik vooruit", verse: "\"Ik vergeet wat achter mij ligt en richt mij op wat voor mij ligt.\"", ref: "Filippenzen 3:13", action: "Visualiseer jezelf over een jaar zonder de ballast die je nu draagt. Hoe voelt dat?", night: "Je hoeft niet achterom te kijken. God is al in je toekomst. Rust in die zekerheid." },
-            { theme: "Tijd voor alles", verse: "\"Voor alles is een tijd... een tijd om te zoeken en een tijd om te verliezen.\"", ref: "Prediker 3:1-6", action: "Ruim vandaag één fysieke plek in je huis op. Laat het symbool staan voor ruimte maken in je hart.", night: "Orde in je huis brengt rust in je hoofd. God geeft rust aan zijn geliefden." },
-            { theme: "Zorgen overdragen", verse: "\"U mag uw zorgen op Hem afwentelen, want U ligt Hem na aan het hart.\"", ref: "1 Petrus 5:7", action: "Maak een 'zorgen-doosje'. Schrijf je zorgen op briefjes en leg ze erin. Ze zijn nu van Hem.", night: "Je zorgen liggen in het doosje, niet op je kussen. Slaap in vrede." },
-            { theme: "Vergeving", verse: "\"Verdraag elkaar en vergeef elkaar als iemand een ander iets te verwijten heeft.\"", ref: "Kolossenzen 3:13", action: "Is er iemand die je nog moet vergeven? Spreek het hardop uit: 'Ik vergeef...'", night: "Vergeving is de sleutel die de handboeien van haat losmaakt. Je bent vrij vannacht." },
-            { theme: "Rust vinden", verse: "\"Kom naar mij, jullie die vermoeid zijn en onder lasten gebukt gaan, dan zal ik jullie rust geven.\"", ref: "Mattheüs 11:28", action: "Neem vandaag 10 minuten stilte. Geen telefoon, geen muziek. Alleen jij en God.", night: "De stilte van vandaag heeft ruimte gemaakt voor Gods stem. Luister in je dromen naar Hem." },
-            { theme: "Nieuwe Schepping", verse: "\"Daarom ook is iemand die in Christus is een nieuwe schepping: het oude is voorbij, het nieuwe is gekomen.\"", ref: "2 Korintiërs 5:17", action: "Koop of pluk een bloem/plant en zet die in het zicht als symbool voor nieuw leven.", night: "Zoals de natuur groeit in stilte, zo vernieuwt God jou terwijl je slaapt." },
-            { theme: "Niet bang zijn", verse: "\"Wees niet bang, want ik ben bij je, vrees niet, want ik ben je God.\"", ref: "Jesaja 41:10", action: "Benoem je grootste angst voor de toekomst. Zeg daarna: 'Maar God is erbij'.", night: "Angst is een leugenaar. Gods aanwezigheid is de waarheid. Veiligheid is bij Hem." },
-            { theme: "Tranendal wordt bron", verse: "\"Gelukkig wie... trekkend door een dorre vallei, die veranderen in een bron.\"", ref: "Psalm 84:6-7", action: "Denk terug aan een moeilijke periode die je sterker heeft gemaakt. Dank God voor die kracht.", night: "Zelfs je tranen worden door God bewaard. Hij maakt er bronnen van zegen van." },
-            { theme: "Klaar voor de oversteek", verse: "\"Wees sterk en moedig... want de Heer, je God, is met je, overal waar je gaat.\"", ref: "Jozua 1:9", action: "Sta letterlijk op een drempel in je huis. Stap er bewust overheen naar 'het nieuwe'.", night: "Je hebt de voorbereiding gedaan. Morgen stappen we het nieuwe land in." },
-            { theme: "Een nieuw hart", verse: "\"Ik zal jullie een nieuw hart geven en een nieuwe geest in je binnenste.\"", ref: "Ezechiël 36:26", action: "Leg je hand op je hart en vraag God om het zacht te maken voor de toekomst.", night: "Een zacht hart slaapt rustiger dan een verhard hart. Welterusten." },
-            { theme: "Gods plannen", verse: "\"Mijn plan met jullie staat vast – spreekt de HEER. Ik heb jullie geluk voor ogen.\"", ref: "Jeremia 29:11", action: "Schrijf één droom op die je bijna niet durft te dromen. God denkt groot over jou.", night: "Zijn plannen zijn groter dan jouw zorgen. Droom vannacht over Zijn toekomst voor jou." },
-            { theme: "Licht op je pad", verse: "\"Uw woord is een lamp voor mijn voet en een licht op mijn pad.\"", ref: "Psalm 119:105", action: "Je hoeft niet de hele trap te zien, alleen de eerste trede. Wat is je eerstvolgende kleine stap?", night: "In het donker van de nacht is Hij het Licht dat bij je blijft." },
-            { theme: "Geduld oefenen", verse: "\"Maar wie hoopt op de HEER krijgt nieuwe kracht: hij slaat zijn vleugels uit als een adelaar.\"", ref: "Jesaja 40:31", action: "Oefen vandaag geduld. Als je moet wachten, zie het als een moment om even naar Boven te kijken.", night: "Wachten is geen verloren tijd, het is voorbereidingstijd. Rust uit om te kunnen vliegen." },
-            { theme: "Vreugde vinden", verse: "\"Dit is de dag die de Heer heeft gemaakt, laten wij juichen en ons verheugen.\"", ref: "Psalm 118:24", action: "Glimlach vandaag naar drie mensen of stuur drie mensen een bemoedigend berichtje.", night: "De vreugde die je vandaag hebt gezaaid, zal morgen vrucht dragen." },
-            { theme: "Vertrouwen", verse: "\"Vertrouw op de HEER met heel je hart, steun niet op eigen inzicht.\"", ref: "Spreuken 3:5", action: "Doe vandaag iets op een andere manier dan je gewend bent. Doorbreek de routine.", night: "Ook als je de weg niet weet, kent de Gids de route. Laat los en slaap." },
-            { theme: "Dankbaarheid", verse: "\"Dank God onder alle omstandigheden.\"", ref: "1 Tessalonicenzen 5:18", action: "Schrijf 5 dingen op waar je vandaag dankbaar voor bent, hoe klein ook.", night: "Dankbaarheid is het zachtste kussen. Tel je zegeningen in plaats van schaapjes." },
-            { theme: "Jezelf liefhebben", verse: "\"Heb je naaste lief als jezelf.\"", ref: "Markus 12:31", action: "Wees vandaag extra lief voor jezelf. Drink die lekkere koffie, neem dat bad.", night: "Jij bent geliefd door de Schepper van het heelal. Koester jezelf vannacht." },
-            { theme: "Wijsheid vragen", verse: "\"Komt een van u wijsheid tekort? Vraag God erom en hij zal die geven.\"", ref: "Jakobus 1:5", action: "Sta je voor een keuze? Vraag niet om het antwoord, maar om de wijsheid om te kiezen.", night: "Gods wijsheid werkt vaak in onze slaap. Morgen word je helderder wakker." },
-            { theme: "De Wijnstok", verse: "\"Ik ben de wijnstok en jullie zijn de ranken.\"", ref: "Johannes 15:5", action: "Probeer vandaag elk uur 1 minuut aan Jezus te denken. Blijf verbonden.", night: "Je hoeft niet te werken om te groeien, alleen maar verbonden te blijven. Rust in de Wijnstok." },
-            { theme: "Dapper zijn", verse: "\"God heeft ons niet een geest van lafhartigheid gegeven, maar een geest van kracht.\"", ref: "2 Timoteüs 1:7", action: "Doe vandaag één ding dat je spannend vindt. Stap uit je comfortzone.", night: "Je bent dapperder dan je denkt, want Zijn Geest woont in jou." },
-            { theme: "Talenten gebruiken", verse: "\"Laat ieder de anderen dienen met de genadegave die hij heeft ontvangen.\"", ref: "1 Petrus 4:10", action: "Waar ben jij goed in? Bedenk hoe je dat talent deze maand kunt inzetten.", night: "De wereld heeft jouw unieke kleur nodig. Slaap om morgen weer te stralen." },
-            { theme: "Vrucht van de Geest", verse: "\"Maar de vrucht van de Geest is liefde, vreugde en vrede, geduld, vriendelijkheid...\"", ref: "Galaten 5:22", action: "Kies één 'partje' van de vrucht (bijv. Vriendelijkheid) en focus daar de hele dag op.", night: "Je groeit in karakter. God is trots op de vruchten die je draagt." },
-            { theme: "Hoop", verse: "\"De hoop die wij hebben is een veilig en vast anker voor onze ziel.\"", ref: "Hebreeën 6:19", action: "Zoek een afbeelding van een anker. Zet het als achtergrond op je telefoon.", night: "Hoe hard het ook waait, jouw anker ligt vast in de hemel." },
-            { theme: "Prioriteiten", verse: "\"Zoek liever eerst het koninkrijk van God... dan zullen al die andere dingen je erbij gegeven worden.\"", ref: "Mattheüs 6:33", action: "Begin elke activiteit vandaag met een kort 'Heer, wees erbij'.", night: "Wie God op één zet, krijgt de rest toe. Slaap zonder zorgen over 'de rest'." },
-            { theme: "Overwinnaar", verse: "\"Maar in dit alles zijn wij meer dan overwinnaars door Hem die ons heeft liefgehad.\"", ref: "Romeinen 8:37", action: "Kijk in de spiegel en zeg hardop: 'Ik ben geliefd en ik ben een overwinnaar'.", night: "De strijd is al gestreden. De overwinning is behaald. Rust in Zijn zege." },
-            { theme: "Licht zijn", verse: "\"Jullie zijn het licht in de wereld... laat je licht schijnen.\"", ref: "Mattheüs 5:14-16", action: "Geef een compliment aan iemand die het niet verwacht. Wees een lichtpuntje.", night: "Zelfs het kleinste lichtje verdrijft de duisternis. Jij maakt het verschil." },
-            { theme: "Vragen en ontvangen", verse: "\"Vraag en er zal je gegeven worden, zoek en je zult vinden.\"", ref: "Mattheüs 7:7", action: "Formuleer concreet wat je verlangen is voor de komende maand.", night: "Je gebeden zijn gehoord. God is al aan het werk, ook als je slaapt." },
-            { theme: "Bescherming", verse: "\"De HEER zal je beschermen bij je vertrek en je aankomst.\"", ref: "Psalm 121:8", action: "Maak een wandeling. Wees je bewust bij elke stap dat Hij met je meeloopt.", night: "Je bent veilig thuisgekomen vandaag. Hij waakt over je huis." },
-            { theme: "Volharden", verse: "\"Laten we zonder te verslappen blijven doen wat goed is.\"", ref: "Galaten 6:9", action: "Is er iets waar je mee wilde stoppen? Probeer het nog één keer. Geef niet op.", night: "Volhouden is soms het dapperste wat je kunt doen. Morgen weer een dag." },
-            { theme: "De Toekomst", verse: "\"Zie, ik maak alles nieuw!\"", ref: "Openbaring 21:5", action: "Kijk terug op deze maand. Schrijf je kernwoord voor de toekomst op. Je bent er klaar voor!", night: "Gefeliciteerd. Je hebt losgelaten en bent vernieuwd. Ga met God je prachtige toekomst tegemoet!" }
+            { 
+                theme: "Het Oude Loslaten", 
+                verse: "\"Vergeet wat geweest is, onthoud niet wat vroeger gebeurde. Zie, Ik ga iets nieuws doen!\"", 
+                ref: "Jesaja 43:18-19", 
+                context: "Jesaja spreekt hier tegen een volk in ballingschap. God vraagt hen niet te blijven hangen in de mislukkingen van het verleden, maar te kijken naar de verlossing die Hij brengt. In het licht van het grote plan van verlossing is God altijd bezig met herschepping. Zoals Hij de aarde nieuw zal maken, wil Hij vandaag al iets nieuws in jouw karakter beginnen.",
+                action: "Schrijf op papier wat je achter je wilt laten. Verscheur het daarna als teken van loslaten.", 
+                night: "Wat geweest is, is voorbij. Morgen is een ongeschreven blad in Gods hand. Slaap zacht." 
+            },
+            { 
+                theme: "De blik vooruit", 
+                verse: "\"Ik vergeet wat achter mij ligt en richt mij op wat voor mij ligt.\"", 
+                ref: "Filippenzen 3:13", 
+                context: "Paulus schrijft dit vanuit de gevangenis. Hij ziet het christelijke leven als een wedloop. Het gaat hier niet om perfectionisme, maar om de richting van je hart. Heiliging is het werk van een heel leven; elke dag een stap dichter bij Jezus. Kijk niet naar je fouten van gisteren, maar naar de prijs die op je wacht bij Zijn komst.",
+                action: "Visualiseer jezelf over een jaar zonder de ballast die je nu draagt. Hoe voelt dat?", 
+                night: "Je hoeft niet achterom te kijken. God is al in je toekomst. Rust in die zekerheid." 
+            },
+            { 
+                theme: "Tijd voor alles", 
+                verse: "\"Voor alles is een tijd... een tijd om te zoeken en een tijd om te verliezen.\"", 
+                ref: "Prediker 3:1-6", 
+                context: "In een wereld die getekend is door de zonde, zijn seizoenen van verlies onvermijdelijk. Salomo herinnert ons eraan dat God soeverein is over de tijd. Wij beheren onze tijd als goede rentmeesters, maar we vertrouwen de uitkomst toe aan Hem die de eeuwigheid in ons hart heeft gelegd.",
+                action: "Ruim vandaag één fysieke plek in je huis op. Laat het symbool staan voor ruimte maken in je hart.", 
+                night: "Orde in je huis brengt rust in je hoofd. God geeft rust aan zijn geliefden." 
+            },
+            { 
+                theme: "Zorgen overdragen", 
+                verse: "\"U mag uw zorgen op Hem afwentelen, want U ligt Hem na aan het hart.\"", 
+                ref: "1 Petrus 5:7", 
+                context: "Petrus schrijft aan christenen die lijden onder vervolging. In de 'grote strijd' tussen goed en kwaad is de tactiek van de vijand vaak om ons te verlammen met angst. De wetenschap dat de Schepper van het heelal persoonlijk om jou geeft ('Zijn oog is op de mus'), is het sterkste wapen tegen die angst.",
+                action: "Maak een 'zorgen-doosje'. Schrijf je zorgen op briefjes en leg ze erin. Ze zijn nu van Hem.", 
+                night: "Je zorgen liggen in het doosje, niet op je kussen. Slaap in vrede." 
+            },
+            { 
+                theme: "Vergeving", 
+                verse: "\"Verdraag elkaar en vergeef elkaar als iemand een ander iets te verwijten heeft.\"", 
+                ref: "Kolossenzen 3:13", 
+                context: "Paulus koppelt onze vergeving aan die van Christus. Omdat Jezus ons alles heeft kwijtgescholden aan het kruis, hebben wij geen recht meer om wrok te koesteren. Onvergevingsgezindheid bindt ons aan het verleden, terwijl God ons roept tot vrijheid.",
+                action: "Is er iemand die je nog moet vergeven? Spreek het hardop uit: 'Ik vergeef...'", 
+                night: "Vergeving is de sleutel die de handboeien van haat losmaakt. Je bent vrij vannacht." 
+            },
+            { 
+                theme: "Rust vinden", 
+                verse: "\"Kom naar mij, jullie die vermoeid zijn en onder lasten gebukt gaan, dan zal ik jullie rust geven.\"", 
+                ref: "Mattheüs 11:28", 
+                context: "Jezus nodigt mensen uit die uitgeput zijn van religieuze regels en wereldse zorgen. Hij biedt de ware sabbatsrust: niet alleen een dag van rust, maar een staat van zijn waarin we stoppen met het 'verdienen' van onze redding en rusten in Zijn volbrachte werk.",
+                action: "Neem vandaag 10 minuten stilte. Geen telefoon, geen muziek. Alleen jij en God.", 
+                night: "De stilte van vandaag heeft ruimte gemaakt voor Gods stem. Luister in je dromen naar Hem." 
+            },
+            { 
+                theme: "Nieuwe Schepping", 
+                verse: "\"Daarom ook is iemand die in Christus is een nieuwe schepping: het oude is voorbij, het nieuwe is gekomen.\"", 
+                ref: "2 Korintiërs 5:17", 
+                context: "Dit verwijst terug naar Genesis. Dezelfde Geest die over de wateren zweefde, werkt nu in jouw hart. Wedergeboorte is geen 'oplapwerk', maar een complete vernieuwing van karakter. God schrijft Zijn wet van liefde in je hart, zodat je van binnenuit verandert.",
+                action: "Koop of pluk een bloem/plant en zet die in het zicht als symbool voor nieuw leven.", 
+                night: "Zoals de natuur groeit in stilte, zo vernieuwt God jou terwijl je slaapt." 
+            },
+            { 
+                theme: "Niet bang zijn", 
+                verse: "\"Wees niet bang, want ik ben bij je, vrees niet, want ik ben je God.\"", 
+                ref: "Jesaja 41:10", 
+                context: "God spreekt hier tot Israël als Zijn knecht. In tijden van crisis (en in de eindtijd) is Gods aanwezigheid onze enige zekerheid. Angst is een natuurlijke reactie, maar geloof is een keuze om op Zijn karakter te vertrouwen, zelfs als de wereld wankelt.",
+                action: "Benoem je grootste angst voor de toekomst. Zeg daarna: 'Maar God is erbij'.", 
+                night: "Angst is een leugenaar. Gods aanwezigheid is de waarheid. Veiligheid is bij Hem." 
+            },
+            { 
+                theme: "Tranendal wordt bron", 
+                verse: "\"Gelukkig wie... trekkend door een dorre vallei, die veranderen in een bron.\"", 
+                ref: "Psalm 84:6-7", 
+                context: "Deze pelgrimspsalm beschrijft de reis naar de tempel. Het leven is een reis naar het hemelse Kanaän. Soms gaat de weg door een 'Baka-dal' (tranendal). God neemt de weg niet altijd weg, maar Hij geeft wel 'water uit de rots' onderweg.",
+                action: "Denk terug aan een moeilijke periode die je sterker heeft gemaakt. Dank God voor die kracht.", 
+                night: "Zelfs je tranen worden door God bewaard. Hij maakt er bronnen van zegen van." 
+            },
+            { 
+                theme: "Klaar voor de oversteek", 
+                verse: "\"Wees sterk en moedig... want de Heer, je God, is met je, overal waar je gaat.\"", 
+                ref: "Jozua 1:9", 
+                context: "Jozua stond op het punt het Beloofde Land in te nemen. Dit vereiste moed en gehoorzaamheid aan de Wet. Wij staan aan de grens van de eeuwigheid. Net als Jozua mogen we moed putten uit Gods belofte: Hij gaat voor ons uit.",
+                action: "Sta letterlijk op een drempel in je huis. Stap er bewust overheen naar 'het nieuwe'.", 
+                night: "Je hebt de voorbereiding gedaan. Morgen stappen we het nieuwe land in." 
+            },
+            { 
+                theme: "Een nieuw hart", 
+                verse: "\"Ik zal jullie een nieuw hart geven en een nieuwe geest in je binnenste.\"", 
+                ref: "Ezechiël 36:26", 
+                context: "Dit is het hart van het Nieuwe Verbond. God vraagt niet alleen uiterlijke gehoorzaamheid, maar Hij belooft ons van binnenuit te veranderen. Hij vervangt ons 'stenen hart' (ongevoelig voor Zijn liefde) door een 'hart van vlees' (ontvankelijk en levend).",
+                action: "Leg je hand op je hart en vraag God om het zacht te maken voor de toekomst.", 
+                night: "Een zacht hart slaapt rustiger dan een verhard hart. Welterusten." 
+            },
+            { 
+                theme: "Gods plannen", 
+                verse: "\"Mijn plan met jullie staat vast – spreekt de HEER. Ik heb jullie geluk voor ogen.\"", 
+                ref: "Jeremia 29:11", 
+                context: "Deze tekst werd geschreven aan mensen in ballingschap in Babylon. Zelfs als je je in een situatie bevindt die niet als 'thuis' voelt, of als de wereld om je heen chaotisch is, heeft God een vredesplan. Zijn uiteindelijke doel is om ons voor altijd thuis te brengen.",
+                action: "Schrijf één droom op die je bijna niet durft te dromen. God denkt groot over jou.", 
+                night: "Zijn plannen zijn groter dan jouw zorgen. Droom vannacht over Zijn toekomst voor jou." 
+            },
+            { 
+                theme: "Licht op je pad", 
+                verse: "\"Uw woord is een lamp voor mijn voet en een licht op mijn pad.\"", 
+                ref: "Psalm 119:105", 
+                context: "In een donkere wereld is de Bijbel onze enige betrouwbare gids. Het licht schijnt vaak maar net ver genoeg voor de volgende stap, niet voor de hele route. Vertrouwen betekent stappen zetten op basis van wat God *nu* heeft geopenbaard.",
+                action: "Je hoeft niet de hele trap te zien, alleen de eerste trede. Wat is je eerstvolgende kleine stap?", 
+                night: "In het donker van de nacht is Hij het Licht dat bij je blijft." 
+            },
+            { 
+                theme: "Geduld oefenen", 
+                verse: "\"Maar wie hoopt op de HEER krijgt nieuwe kracht: hij slaat zijn vleugels uit als een adelaar.\"", 
+                ref: "Jesaja 40:31", 
+                context: "Wachten is een actief werkwoord in de Bijbel. Het is niet passief zitten, maar verwachtingsvol uitzien. Zoals een adelaar de thermiek (de wind) gebruikt om te zweven zonder zelf te klapperen, zo mogen wij rusten op de wind van de Heilige Geest.",
+                action: "Oefen vandaag geduld. Als je moet wachten, zie het als een moment om even naar Boven te kijken.", 
+                night: "Wachten is geen verloren tijd, het is voorbereidingstijd. Rust uit om te kunnen vliegen." 
+            },
+            { 
+                theme: "Vreugde vinden", 
+                verse: "\"Dit is de dag die de Heer heeft gemaakt, laten wij juichen en ons verheugen.\"", 
+                ref: "Psalm 118:24", 
+                context: "Elke nieuwe dag is een geschenk van de Schepper, een kleine opstanding uit de slaap. Dankbaarheid voor het heden is een medicijn tegen zorgen over morgen. God geeft manna (kracht) voor vandaág.",
+                action: "Glimlach vandaag naar drie mensen of stuur drie mensen een bemoedigend berichtje.", 
+                night: "De vreugde die je vandaag hebt gezaaid, zal morgen vrucht dragen." 
+            },
+            { 
+                theme: "Vertrouwen", 
+                verse: "\"Vertrouw op de HEER met heel je hart, steun niet op eigen inzicht.\"", 
+                ref: "Spreuken 3:5", 
+                context: "Ons eigen inzicht is beperkt en vaak vertroebeld door emoties. God overziet het geheel, van begin tot eind. Ware wijsheid is toegeven dat wij het niet weten, en de Hand vastpakken van Hem die het wel weet.",
+                action: "Doe vandaag iets op een andere manier dan je gewend bent. Doorbreek de routine.", 
+                night: "Ook als je de weg niet weet, kent de Gids de route. Laat los en slaap." 
+            },
+            { 
+                theme: "Dankbaarheid", 
+                verse: "\"Dank God onder alle omstandigheden.\"", 
+                ref: "1 Tessalonicenzen 5:18", 
+                context: "Paulus zegt niet dat we *voor* alles moeten danken (zoals pijn of ziekte), maar wel *onder* alle omstandigheden. Dankbaarheid richt onze blik op Gods aanwezigheid in de storm, in plaats van op de golven.",
+                action: "Schrijf 5 dingen op waar je vandaag dankbaar voor bent, hoe klein ook.", 
+                night: "Dankbaarheid is het zachtste kussen. Tel je zegeningen in plaats van schaapjes." 
+            },
+            { 
+                theme: "Jezelf liefhebben", 
+                verse: "\"Heb je naaste lief als jezelf.\"", 
+                ref: "Markus 12:31", 
+                context: "Je kunt niet geven wat je niet hebt. Je bent gekocht en betaald door het bloed van Christus; dat bepaalt jouw oneindige waarde. Zelfzorg is geen egoïsme, maar goed rentmeesterschap over de tempel van de Heilige Geest.",
+                action: "Wees vandaag extra lief voor jezelf. Drink die lekkere koffie, neem dat bad.", 
+                night: "Jij bent geliefd door de Schepper van het heelal. Koester jezelf vannacht." 
+            },
+            { 
+                theme: "Wijsheid vragen", 
+                verse: "\"Komt een van u wijsheid tekort? Vraag God erom en hij zal die geven.\"", 
+                ref: "Jakobus 1:5", 
+                context: "God geeft wijsheid zonder verwijt. Hij vindt het niet erg als we het niet weten. Salomo vroeg om wijsheid en kreeg het. In de complexiteit van het leven vandaag is de hemelse wijsheid onze enige ware gids.",
+                action: "Sta je voor een keuze? Vraag niet om het antwoord, maar om de wijsheid om te kiezen.", 
+                night: "Gods wijsheid werkt vaak in onze slaap. Morgen word je helderder wakker." 
+            },
+            { 
+                theme: "De Wijnstok", 
+                verse: "\"Ik ben de wijnstok en jullie zijn de ranken.\"", 
+                ref: "Johannes 15:5", 
+                context: "Groei komt voort uit verbinding, niet uit inspanning. Een tak hoeft niet te persen om druiven te maken; hij moet alleen vastzitten aan de stam. Onze taak is om in relatie met Jezus te blijven; de vrucht van de Geest komt dan vanzelf.",
+                action: "Probeer vandaag elk uur 1 minuut aan Jezus te denken. Blijf verbonden.", 
+                night: "Je hoeft niet te werken om te groeien, alleen maar verbonden te blijven. Rust in de Wijnstok." 
+            },
+            { 
+                theme: "Dapper zijn", 
+                verse: "\"God heeft ons niet een geest van lafhartigheid gegeven, maar een geest van kracht.\"", 
+                ref: "2 Timoteüs 1:7", 
+                context: "Timoteüs was waarschijnlijk wat verlegen. Paulus herinnert hem eraan dat de Geest die in ons woont, dezelfde kracht is die Jezus uit de doden opwekte. Die kracht is beschikbaar voor ons dagelijks leven en getuigenis.",
+                action: "Doe vandaag één ding dat je spannend vindt. Stap uit je comfortzone.", 
+                night: "Je bent dapperder dan je denkt, want Zijn Geest woont in jou." 
+            },
+            { 
+                theme: "Talenten gebruiken", 
+                verse: "\"Laat ieder de anderen dienen met de genadegave die hij heeft ontvangen.\"", 
+                ref: "1 Petrus 4:10", 
+                context: "Iedereen in het lichaam van Christus heeft een functie. Er zijn geen toeschouwers. Jouw talenten zijn geen toeval, maar gereedschap dat God je gaf om anderen te zegenen en Hem te eren.",
+                action: "Waar ben jij goed in? Bedenk hoe je dat talent deze maand kunt inzetten.", 
+                night: "De wereld heeft jouw unieke kleur nodig. Slaap om morgen weer te stralen." 
+            },
+            { 
+                theme: "Vrucht van de Geest", 
+                verse: "\"Maar de vrucht van de Geest is liefde, vreugde en vrede, geduld, vriendelijkheid...\"", 
+                ref: "Galaten 5:22", 
+                context: "Karaktervorming is het werk van de Heilige Geest. Let op: het is 'vrucht' (enkelvoud). Het is één pakket. Als we Jezus toelaten in ons leven, groeit deze vrucht op natuurlijke wijze, net als in een tuin die goed verzorgd wordt.",
+                action: "Kies één 'partje' van de vrucht (bijv. Vriendelijkheid) en focus daar de hele dag op.", 
+                night: "Je groeit in karakter. God is trots op de vruchten die je draagt." 
+            },
+            { 
+                theme: "Hoop", 
+                verse: "\"De hoop die wij hebben is een veilig en vast anker voor onze ziel.\"", 
+                ref: "Hebreeën 6:19", 
+                context: "In de Bijbel is hoop geen 'wensdenken', maar een zekerheid. Dit anker ligt niet op de zeebodem, maar in de hemel, 'achter het voorhangsel', waar Jezus nu is. Omdat Hij daar is, zijn wij veilig, hoe hard het hier ook stormt.",
+                action: "Zoek een afbeelding van een anker. Zet het als achtergrond op je telefoon.", 
+                night: "Hoe hard het ook waait, jouw anker ligt vast in de hemel." 
+            },
+            { 
+                theme: "Prioriteiten", 
+                verse: "\"Zoek liever eerst het koninkrijk van God... dan zullen al die andere dingen je erbij gegeven worden.\"", 
+                ref: "Mattheüs 6:33", 
+                context: "Dit is het principe van prioriteit. Als we het belangrijkste (Gods Koninkrijk) op de eerste plaats zetten, komt de rest in balans. Zorgen over kleding en eten worden minder als onze focus gericht is op de eeuwige dingen.",
+                action: "Begin elke activiteit vandaag met een kort 'Heer, wees erbij'.", 
+                night: "Wie God op één zet, krijgt de rest toe. Slaap zonder zorgen over 'de rest'." 
+            },
+            { 
+                theme: "Overwinnaar", 
+                verse: "\"Maar in dit alles zijn wij meer dan overwinnaars door Hem die ons heeft liefgehad.\"", 
+                ref: "Romeinen 8:37", 
+                context: "Paulus schrijft dit te midden van verdrukking en gevaar. Onze overwinning ligt niet in het ontbreken van problemen, maar in de onafscheidelijke liefde van God. De strijd is al gestreden aan het kruis; wij mogen in die overwinning wandelen.",
+                action: "Kijk in de spiegel en zeg hardop: 'Ik ben geliefd en ik ben een overwinnaar'.", 
+                night: "De strijd is al gestreden. De overwinning is behaald. Rust in Zijn zege." 
+            },
+            { 
+                theme: "Licht zijn", 
+                verse: "\"Jullie zijn het licht in de wereld... laat je licht schijnen.\"", 
+                ref: "Mattheüs 5:14-16", 
+                context: "Licht maakt geen lawaai, het schijnt gewoon. Onze taak is niet om mensen te overtuigen met argumenten, maar om Gods karakter te weerspiegelen. In een wereld die steeds donkerder wordt, zal zelfs het kleinste licht helder stralen.",
+                action: "Geef een compliment aan iemand die het niet verwacht. Wees een lichtpuntje.", 
+                night: "Zelfs het kleinste lichtje verdrijft de duisternis. Jij maakt het verschil." 
+            },
+            { 
+                theme: "Vragen en ontvangen", 
+                verse: "\"Vraag en er zal je gegeven worden, zoek en je zult vinden.\"", 
+                ref: "Mattheüs 7:7", 
+                context: "Gebed is de sleutel in de hand van het geloof om de voorraadschuren van de hemel te openen. God geeft graag goede gaven aan Zijn kinderen. Volharding in gebed verandert niet God, maar het verandert ons en maakt ons klaar om te ontvangen.",
+                action: "Formuleer concreet wat je verlangen is voor de komende maand.", 
+                night: "Je gebeden zijn gehoord. God is al aan het werk, ook als je slaapt." 
+            },
+            { 
+                theme: "Bescherming", 
+                verse: "\"De HEER zal je beschermen bij je vertrek en je aankomst.\"", 
+                ref: "Psalm 121:8", 
+                context: "Deze pelgrimspsalm herinnert ons eraan dat God niet slaapt. Terwijl wij reizen door het leven, is Hij onze Bewaarder. Hij beschermt ons niet altijd *voor* moeilijkheden, maar wel *in* moeilijkheden, totdat we veilig thuis zijn.",
+                action: "Maak een wandeling. Wees je bewust bij elke stap dat Hij met je meeloopt.", 
+                night: "Je bent veilig thuisgekomen vandaag. Hij waakt over je huis." 
+            },
+            { 
+                theme: "Volharden", 
+                verse: "\"Laten we zonder te verslappen blijven doen wat goed is.\"", 
+                ref: "Galaten 6:9", 
+                context: "De christelijke reis is een marathon, geen sprint. Er komt een tijd van oogst als we niet opgeven. God vraagt om trouw, niet om succes. Elke kleine stap van gehoorzaamheid telt mee voor de eeuwigheid.",
+                action: "Is er iets waar je mee wilde stoppen? Probeer het nog één keer. Geef niet op.", 
+                night: "Volhouden is soms het dapperste wat je kunt doen. Morgen weer een dag." 
+            },
+            { 
+                theme: "De Toekomst", 
+                verse: "\"Zie, ik maak alles nieuw!\"", 
+                ref: "Openbaring 21:5", 
+                context: "Dit is de ultieme belofte. De zonde is een indringer, maar God zal haar uitroeien. Er komt een nieuwe hemel en een nieuwe aarde waar gerechtigheid woont. Al onze pijn en tranen zijn tijdelijk; Gods toekomst is eeuwig.",
+                action: "Kijk terug op deze maand. Schrijf je kernwoord voor de toekomst op. Je bent er klaar voor!", 
+                night: "Gefeliciteerd. Je hebt losgelaten en bent vernieuwd. Ga met God je prachtige toekomst tegemoet!" 
+            }
         ];
 
         let currentDay = 1;
@@ -439,6 +719,8 @@
             themeTitle: document.getElementById('theme-title'),
             verseText: document.getElementById('verse-text'),
             verseRef: document.getElementById('verse-ref'),
+            contextText: document.getElementById('context-text'),
+            contextDisplay: document.getElementById('context-display'),
             actionText: document.getElementById('action-text'),
             userNotes: document.getElementById('user-notes'),
             nightSection: document.getElementById('night-section'),
@@ -478,6 +760,15 @@
             updatePhotoToggleButton();
             loadDay(currentDay);
         }
+        
+        // Functie om de context te tonen/verbergen
+        function toggleContext() {
+            if (els.contextDisplay.style.display === "none" || els.contextDisplay.style.display === "") {
+                els.contextDisplay.style.display = "block";
+            } else {
+                els.contextDisplay.style.display = "none";
+            }
+        }
 
         function updatePhotoToggleButton() {
             if(photosEnabled) {
@@ -497,16 +788,18 @@
             els.themeTitle.innerText = data.theme;
             els.verseText.innerText = data.verse;
             els.verseRef.innerText = data.ref;
+            els.contextText.innerText = data.context; // Context tekst vullen
             els.actionText.innerText = data.action;
             els.nightText.innerText = data.night;
+
+            // Reset context box naar verborgen bij nieuwe dag
+            els.contextDisplay.style.display = "none";
 
             // Achtergrond Logica
             if(photosEnabled) {
                 // 'nature' in seed zorgt voor unieke natuurfoto per dag
-                // Zonder 'nature' krijg je soms gebouwen of mensen
                 const imgUrl = `https://picsum.photos/seed/${dayIndex}_nature/1920/1080`;
                 
-                // Preload image om flikkering te verminderen
                 const img = new Image();
                 img.src = imgUrl;
                 img.onload = () => {
@@ -515,10 +808,8 @@
                 };
 
                 els.bgOverlay.style.backdropFilter = 'blur(3px)';
-                // Zorg dat de pastel achtergrond niet de foto bedekt
                 document.body.style.backgroundColor = 'transparent';
             } else {
-                // Geen foto, alleen pastel kleur
                 els.bgImage.style.opacity = '0';
                 els.bgOverlay.style.backdropFilter = 'blur(0px)';
                 document.body.style.backgroundColor = 'var(--pastel-bg)';
@@ -577,7 +868,6 @@
                 const note = localStorage.getItem(`note_day_${dayNum}`);
                 const displayNote = note ? note : "(Nog geen notitie gemaakt)";
                 
-                // Elementen bouwen (veiliger)
                 const entryDiv = document.createElement('div');
                 entryDiv.className = 'print-entry';
 
@@ -585,6 +875,7 @@
                     <div class="print-header">Dag ${dayNum}: ${day.theme}</div>
                     <div class="print-verse">"${day.verse}"</div>
                     <div style="font-size:0.9em; color:#666; margin-bottom:10px;">${day.ref}</div>
+                    <div style="margin-bottom:10px;"><strong>Achtergrond:</strong> ${day.context}</div>
                     <div style="margin-bottom:10px;"><strong>Opdracht:</strong> ${day.action}</div>
                 `;
 
