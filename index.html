@@ -23,8 +23,9 @@
             --highlight-purple: #9b59b6; 
             --highlight-blue: #3498db;   
             --highlight-green: #27ae60;
-            /* Nieuw: Kleur voor Erfenis van Hoop (Leisteenblauw uit sub-pagina) */
             --highlight-slate: #2e4053; 
+            /* Nieuw: Kleur voor Vertrouwen in Verandering (Olijfgroen) */
+            --highlight-olive: #3b5323;
         }
 
         body {
@@ -155,8 +156,9 @@
         .card.blue-theme:hover { border-top-color: var(--highlight-blue); }
         .card.green-theme:hover { border-top-color: var(--highlight-green); }
         .card.slate-theme:hover { border-top-color: var(--highlight-slate); }
+        .card.olive-theme:hover { border-top-color: var(--highlight-olive); } /* Nieuw */
         
-        /* --- Nieuw Thema: Gold (voor de Gidsen) --- */
+        /* Gold Thema (Gidsen) */
         .card.gold-theme:hover { border-top-color: var(--accent-gold); }
         .card.gold-theme .card-tag { background-color: #fff9e6; color: #bfa028; }
         .card.gold-theme .read-btn:hover { color: #bfa028; border-color: #bfa028; }
@@ -193,8 +195,8 @@
         .card.purple-theme .card-tag { background-color: #f4ecf7; color: #8e44ad; }
         .card.blue-theme .card-tag { background-color: #eaf2f8; color: #2980b9; }
         .card.green-theme .card-tag { background-color: #e9f7ef; color: #27ae60; }
-        /* Nieuw Slate Thema: gebruikt crème achtergrond en slate tekst */
         .card.slate-theme .card-tag { background-color: #fdf2e9; color: #2e4053; }
+        .card.olive-theme .card-tag { background-color: #f1f5f0; color: #3b5323; } /* Nieuw */
 
         .card h3 {
             margin: 0 0 15px;
@@ -227,6 +229,7 @@
         .card.blue-theme .read-btn:hover { color: #2980b9; border-color: #2980b9; }
         .card.green-theme .read-btn:hover { color: #27ae60; border-color: #27ae60; }
         .card.slate-theme .read-btn:hover { color: #2e4053; border-color: #2e4053; }
+        .card.olive-theme .read-btn:hover { color: #3b5323; border-color: #3b5323; } /* Nieuw */
 
         /* --- MEEGEVER SECTIE --- */
         .quote-section {
@@ -268,8 +271,8 @@
             background-color: var(--dark-blue);
             color: white;
             text-align: center;
-            padding: 60px 20px 40px; /* Iets minder padding onderkant */
-            margin-top: 0; /* Sluit direct aan op de quote sectie */
+            padding: 60px 20px 40px;
+            margin-top: 0;
         }
         
         .footer-logo { font-family: 'Playfair Display', serif; font-size: 1.5rem; color: var(--accent-gold); margin-bottom: 30px; }
@@ -319,6 +322,18 @@
 
         <div class="journeys-grid">
             
+            <article class="card olive-theme">
+                <div class="card-img" role="img" aria-label="Rustieke boom in een landschap" 
+                     style="background-image: url('https://images.unsplash.com/photo-1502082553048-f009c37129b9?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80');">
+                </div>
+                <div class="card-body">
+                    <span class="card-tag">31 Dagen</span>
+                    <h3>Vertrouwen in Verandering</h3>
+                    <p>Voor wie houvast zoekt in een veranderende tijd. Ontdek Gods trouw als vast fundament in elk seizoen van het leven.</p>
+                    <a href="verandering.html" class="read-btn">Start deze Reis &rarr;</a>
+                </div>
+            </article>
+
             <article class="card gold-theme">
                 <div class="card-img" role="img" aria-label="Oude kaart en kompas" 
                      style="background-image: url('https://images.unsplash.com/photo-1529333166437-7750a6dd5a70?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80');">
@@ -431,7 +446,7 @@
             font-family: 'Lato', sans-serif;
             font-size: 1rem;
             margin-bottom: 15px;
-            box-sizing: border-box; /* Zorgt dat padding binnen de breedte valt */
+            box-sizing: border-box; 
             resize: vertical;
         }
 
