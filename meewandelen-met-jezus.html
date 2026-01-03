@@ -1,0 +1,612 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>31 Dagen meewandelen met Jezus</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Crimson+Text:ital,wght@0,400;0,600;1,400&family=Montserrat:wght@300;400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        :root {
+            /* Thema: Wandelen door Israël, Aards, Warm, De Meester & De Weg */
+            --primary-color: #5D4037; /* Diep Terra/Bruin */
+            --primary-light: #8D6E63; /* Zacht aards */
+            --accent-color: #556B2F;  /* Olijfgroen (Groei/Leven) */
+            --paper-bg: #F9FBE7;      /* Heel licht olijf/perkament */
+            --glass-bg: rgba(255, 255, 255, 0.97);
+            
+            --btn-gradient: linear-gradient(135deg, #5D4037 0%, #3E2723 100%);
+            --radius: 8px;
+        }
+
+        body, html {
+            margin: 0; padding: 0; height: 100%;
+            font-family: 'Montserrat', sans-serif;
+            color: #333;
+            background-color: var(--paper-bg);
+            background-image: radial-gradient(#E0E0E0 1px, transparent 1px);
+            background-size: 20px 20px;
+        }
+
+        .container {
+            min-height: 100vh; display: flex; justify-content: center; align-items: center; padding: 20px;
+        }
+
+        .card {
+            background: var(--glass-bg);
+            border-radius: var(--radius);
+            padding: 45px;
+            max-width: 650px; width: 100%;
+            box-shadow: 0 15px 40px rgba(93, 64, 55, 0.15);
+            position: relative;
+            border-top: 6px solid var(--accent-color);
+            border-bottom: 6px solid var(--accent-color);
+        }
+
+        header { text-align: center; margin-bottom: 30px; }
+
+        .top-nav {
+            display: flex; justify-content: space-between; align-items: center; margin-bottom: 25px;
+            border-bottom: 1px solid #eee; padding-bottom: 15px;
+        }
+
+        .home-btn {
+            text-decoration: none; color: var(--primary-light); font-weight: 600; font-size: 0.85rem; transition: 0.3s;
+            text-transform: uppercase; letter-spacing: 1px;
+        }
+        .home-btn:hover { color: var(--accent-color); }
+
+        h1 { 
+            font-family: 'Crimson Text', serif; 
+            color: var(--primary-color); 
+            margin: 10px 0; 
+            font-size: 2.2rem; 
+            line-height: 1.1;
+        }
+        
+        .subtitle { 
+            font-size: 0.75rem; text-transform: uppercase; letter-spacing: 3px; color: var(--accent-color); font-weight: bold; 
+        }
+
+        .day-badge {
+            background: var(--accent-color); color: white; padding: 4px 12px; border-radius: 4px; font-size: 0.75rem; letter-spacing: 1px; font-weight: bold;
+        }
+
+        .scripture-box {
+            text-align: center; margin: 35px 0 20px 0; font-size: 1.35rem; line-height: 1.5; color: #2c3e50; 
+            font-family: 'Crimson Text', serif; font-style: italic;
+            background: rgba(85, 107, 47, 0.05);
+            padding: 20px;
+            border-radius: 4px;
+            border-left: 3px solid var(--accent-color);
+        }
+        .reference { 
+            display: block; margin-top: 10px; font-weight: 600; font-style: normal; font-size: 0.8rem; color: var(--primary-light); font-family: 'Montserrat', sans-serif; text-transform: uppercase; letter-spacing: 1px;
+        }
+
+        /* --- CONTEXT SECTIE --- */
+        .context-btn {
+            display: block;
+            margin: 0 auto 25px auto;
+            background: transparent;
+            border: 1px solid #ccc;
+            color: #777;
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            cursor: pointer;
+            text-transform: uppercase;
+            font-weight: 600;
+            transition: 0.3s;
+        }
+        .context-btn:hover {
+            border-color: var(--primary-color);
+            color: var(--primary-color);
+        }
+
+        .context-content {
+            display: none;
+            background: #fff;
+            border: 1px solid #e0e0e0;
+            border-left: 4px solid var(--primary-light);
+            padding: 20px;
+            margin-bottom: 25px;
+            font-size: 0.95rem;
+            color: #555;
+            line-height: 1.6;
+            border-radius: 4px;
+            animation: fadeIn 0.5s ease;
+        }
+        
+        .context-header {
+            font-weight: bold; color: var(--primary-color); display: block; margin-bottom: 5px; text-transform: uppercase; font-size: 0.75rem; letter-spacing: 1px;
+        }
+        /* --------------------- */
+
+        .action-box {
+            background: #fff; border: 1px solid #e0e0e0;
+            padding: 25px; border-radius: 4px; margin-bottom: 30px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.03);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .action-box::before {
+            content: ""; position: absolute; top:0; left:0; width: 4px; height: 100%; background: var(--primary-color);
+        }
+
+        .action-title { font-weight: 700; color: var(--primary-color); text-transform: uppercase; font-size: 0.8rem; display: block; margin-bottom: 10px; letter-spacing: 1px;}
+
+        textarea {
+            width: 100%; height: 130px; padding: 15px; border-radius: 4px; border: 1px solid #ccc;
+            font-family: 'Crimson Text', serif; font-size: 1.1rem; margin-bottom: 20px; resize: vertical; outline: none; transition: 0.3s;
+            background: #fafafa; color: #333;
+        }
+        textarea:focus { border-color: var(--accent-color); background: #fff; box-shadow: 0 0 5px rgba(85, 107, 47, 0.2); }
+
+        .btn-primary {
+            background: var(--btn-gradient); color: white; border: none; padding: 14px 30px;
+            font-size: 0.9rem; border-radius: 4px; cursor: pointer; width: 100%; font-weight: 600; letter-spacing: 1px; text-transform: uppercase;
+            box-shadow: 0 4px 10px rgba(93, 64, 55, 0.2); transition: 0.3s;
+        }
+        .btn-primary:hover { transform: translateY(-1px); box-shadow: 0 6px 15px rgba(93, 64, 55, 0.3); }
+
+        .night-thought {
+            margin-top: 35px; background: #3E2723; color: #F9FBE7; padding: 30px;
+            border-radius: 4px; text-align: center; display: none; animation: fadeIn 0.8s ease;
+        }
+        
+        .nav-buttons {
+            display: flex; justify-content: space-between; margin-top: 40px; padding-top: 20px; border-top: 1px solid #eee;
+        }
+        .nav-btn { background: none; border: none; cursor: pointer; color: #999; font-weight: 600; font-size: 0.8rem; transition: 0.3s; text-transform: uppercase;}
+        .nav-btn:hover:not(:disabled) { color: var(--primary-color); }
+        .nav-btn:disabled { opacity: 0.3; cursor: default; }
+
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        
+        @media print {
+            body * { visibility: hidden; }
+            #printable-journal, #printable-journal * { visibility: visible; }
+            #printable-journal { position: absolute; left: 0; top: 0; width: 100%; color: black; padding: 40px;}
+            .print-entry { margin-bottom: 30px; border-bottom: 1px solid #ccc; padding-bottom: 20px; page-break-inside: avoid; }
+            .print-header { font-weight: bold; font-size: 1.2em; margin-bottom: 5px; color: #333; }
+        }
+        #printable-journal { display: none; }
+
+        @media (max-width: 600px) {
+            .card { padding: 25px; }
+            h1 { font-size: 1.8rem; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <div class="card">
+            <div class="top-nav">
+                <a href="mentoren.html" class="home-btn">← Overzicht</a>
+                <span class="day-badge" id="day-display">DAG 1</span>
+            </div>
+
+            <header>
+                <div class="subtitle">Een actieve reis van 31 dagen</div>
+                <h1 id="theme-title">...</h1>
+            </header>
+
+            <div class="scripture-box">
+                <span id="verse-text">Laden...</span>
+                <span class="reference" id="verse-ref">...</span>
+            </div>
+
+            <button class="context-btn" onclick="toggleContext()">
+                <i class="fas fa-scroll"></i> Achtergrond & Context
+            </button>
+            
+            <div id="context-display" class="context-content">
+                <span class="context-header">In die tijd...</span>
+                <span id="context-text">...</span>
+            </div>
+
+            <div class="action-box">
+                <span class="action-title">De les van vandaag:</span>
+                <span id="action-text" style="font-family: 'Crimson Text', serif; font-size: 1.1rem; line-height: 1.5;">...</span>
+            </div>
+
+            <label style="font-size:0.75rem; font-weight:700; color:var(--primary-light); display:block; margin-bottom:8px; text-transform: uppercase; letter-spacing: 1px;">Mijn notities:</label>
+            <textarea id="user-notes" placeholder="Wat leer jij vandaag van de Meester?"></textarea>
+            <button class="btn-primary" id="save-btn" onclick="completeDay()">Opslaan</button>
+
+            <div id="night-section" class="night-thought">
+                <h3 style="margin:0 0 10px 0; font-size:0.9rem; color: #D4AC0D; text-transform: uppercase; letter-spacing: 1px;">🌙 Voor de nacht</h3>
+                <p id="night-text" style="margin:0; line-height: 1.6; font-family: 'Crimson Text', serif; font-size: 1.15rem; font-style: italic;">...</p>
+            </div>
+
+            <div class="nav-buttons">
+                <button class="nav-btn" id="prev-btn" onclick="changeDay(-1)">← Vorige</button>
+                <button class="nav-btn" onclick="printJournal()">🖨️ Mijn Logboek</button>
+                <button class="nav-btn" id="next-btn" onclick="changeDay(1)">Volgende →</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="printable-journal">
+        <div style="text-align:center; margin-bottom:50px; border-bottom: 2px solid #333; padding-bottom: 20px;">
+            <h1 style="color:#000; margin-bottom: 5px;">31 Dagen meewandelen met Jezus</h1>
+            <p style="font-style: italic;">Mijn persoonlijke reisverslag.</p>
+        </div>
+        <div id="print-content"></div>
+    </div>
+
+    <script>
+        const journeyConfig = {
+            storageKey: "jezus_wandeling_journal",
+            days: [
+                // WEEK 1: KENNISMAKING
+                { 
+                    theme: "De Uitnodiging", 
+                    verse: "Kom achter Mij aan, en Ik zal vissers van mensen van u maken.", 
+                    ref: "Mattheüs 4:19", 
+                    context: "In de tijd van Jezus kozen rabbijnen hun beste studenten uit. Als je niet slim genoeg was, ging je het familiebedrijf in (zoals vissen). Dat Jezus vissers roept, betekent dat Hij gelooft in mensen die door de religieuze elite zijn afgeschreven.",
+                    action: "Jezus vraagt niet om je CV, maar om je beschikbaarheid. Zeg vandaag in gebed simpelweg: 'Hier ben ik', zonder voorwaarden.", 
+                    night: "Je hoeft nog niets te 'kunnen'. Volgen is genoeg." 
+                },
+                { 
+                    theme: "Een Nieuw Perspectief", 
+                    verse: "Zalig zijn de armen van geest, want van hen is het Koninkrijk der hemelen.", 
+                    ref: "Mattheüs 5:3", 
+                    context: "De Joden verwachtten een Messias die de Romeinen met geweld zou verdrijven en Israël rijk zou maken. Jezus begint Zijn eerste preek met het tegenovergestelde: geluk (zaligheid) vind je niet in macht, maar in afhankelijkheid.",
+                    action: "In de wereld telt wat je hebt, bij Jezus telt wat je mist. Erken vandaag één zwakte en dank God dat Hij juist daar in kan werken.", 
+                    night: "Geluk zit niet in spullen of status, maar in Zijn nabijheid." 
+                },
+                { 
+                    theme: "De Kunst van het Dienen", 
+                    verse: "Hij goot water in het wasbekken en begon de voeten van de discipelen te wassen.", 
+                    ref: "Johannes 13:5", 
+                    context: "Voeten wassen was het werk van de laagste slaaf. De wegen waren stoffig en vies. Dat de Meester dit doet, was een schokkende doorbreking van de sociale orde.",
+                    action: "Grootheid zit in kleine gebaren. Doe vandaag iets attents voor iemand zonder dat ze erom vragen (en zonder dat je applaus verwacht).", 
+                    night: "Wie bukt, staat het dichtst bij de grond, maar ook het dichtst bij het hart van God." 
+                },
+                { 
+                    theme: "Eerst Zitten, Dan Rennen", 
+                    verse: "Maria heeft het goede deel uitgekozen.", 
+                    ref: "Lukas 10:42", 
+                    context: "Vrouwen werden in die cultuur geacht te dienen, niet om te leren aan de voeten van een rabbi. Jezus doorbreekt dit taboe: Hij geeft Maria het recht om leerling te zijn, boven haar huishoudelijke plichten.",
+                    action: "Voordat je aan je takenlijst begint: zit 5 minuten stil. Doe niets. Luister alleen.", 
+                    night: "Productiviteit begint met rust. Je bent geliefd om wie je bent, niet om wat je doet." 
+                },
+                { 
+                    theme: "Vooruit Kijken", 
+                    verse: "Niemand die zijn hand aan de ploeg slaat en kijkt naar wat achter hem ligt, is geschikt.", 
+                    ref: "Lukas 9:62", 
+                    context: "Ploegen met ossen vereiste totale concentratie. Als je omkeek, trok de os de ploeg scheef. Discipelschap vereist focus: je kunt niet twee richtingen tegelijk op gaan.",
+                    action: "Is er een fout uit het verleden die je dwarszit? Schrijf het op, verfrommel het en gooi het weg. Kijk vooruit.", 
+                    night: "De voorruit is groter dan de achteruitkijkspiegel. Gods genade ligt voor je." 
+                },
+                { 
+                    theme: "Het Hart Achter de Daad", 
+                    verse: "Let op dat u uw gerechtigheid niet doet voor de ogen van de mensen.", 
+                    ref: "Mattheüs 6:1", 
+                    context: "Vroomheid was in die tijd soms een theatershow. Mensen lieten luidruchtig weten dat ze aalmoezen gaven. Jezus noemt hen 'hypocrieten' (acteurs). Hij wil geen toneelspel, maar echtheid.",
+                    action: "Doe vandaag iets goeds in het geheim. Laat niemand het weten, alleen God.", 
+                    night: "De Vader die in het verborgene ziet, die glimlacht nu naar je." 
+                },
+                { 
+                    theme: "De Adempauze", 
+                    verse: "De sabbat is gemaakt ter wille van de mens.", 
+                    ref: "Markus 2:27", 
+                    context: "De religieuze leiders hadden van de Sabbat een last gemaakt. Jezus brengt het terug naar de oorsprong: het is geen last, maar een gedenkdag van de Schepping. Een heiligdom in de tijd om God te ontmoeten.",
+                    action: "De Sabbat is een 'date' met God. Plan vandaag hoe je komende sabbat (of rustdag) speciaal maakt voor Hem.", 
+                    night: "God rustte na Zijn scheppingswerk. Jij mag delen in die rust. Je bent veilig in de handen van je Schepper." 
+                },
+
+                // WEEK 2: DE PRAKTIJK
+                { 
+                    theme: "Iedereen Telt Mee", 
+                    verse: "Dochter, uw geloof heeft u behouden.", 
+                    ref: "Markus 5:34", 
+                    context: "Deze vrouw was 'onrein' en sociaal dood. Dat Jezus haar 'Dochter' noemt en niet boos is over de aanraking, herstelt niet alleen haar lichaam, maar ook haar waardigheid.",
+                    action: "Wie wordt er in jouw omgeving vaak over het hoofd gezien? Geef diegene aandacht.", 
+                    night: "Voor God ben je nooit ruis. Hij hoort jouw stem boven alles uit." 
+                },
+                { 
+                    theme: "Verrassende Ontmoetingen", 
+                    verse: "Zacheüs, haast u en kom naar beneden, want heden moet Ik in uw huis verblijven.", 
+                    ref: "Lukas 19:5", 
+                    context: "Tollenaars werden gezien als landverraders en dieven. Dat een rabbi bij zo iemand ging eten, was een maatschappelijk schandaal. Jezus verkiest mensen boven reputatie.",
+                    action: "Sta open voor iemand die 'anders' is. Oordeel niet, maar wees nieuwsgierig.", 
+                    night: "Soms zit de grootste zegen in de meest onverwachte gast." 
+                },
+                { 
+                    theme: "Eerlijke Spiegels", 
+                    verse: "Ga weg achter Mij, satan!", 
+                    ref: "Mattheüs 16:23", 
+                    context: "Petrus bedoelde het goed: hij wilde Jezus beschermen tegen lijden. Maar soms is 'menselijk medelijden' een verleiding om Gods plan te ontlopen. Jezus is hard op de inhoud, maar houdt de relatie met Petrus in stand.",
+                    action: "Vraag iemand die je vertrouwt: 'Waarin kan ik groeien?' en luister zonder verdediging.", 
+                    night: "Correctie is pijnlijk, maar het is snoeien om te groeien." 
+                },
+                { 
+                    theme: "Zonder Oordeel", 
+                    verse: "Ook Ik veroordeel u niet. Ga heen en zondig niet meer.", 
+                    ref: "Johannes 8:11", 
+                    context: "De wet schreef steniging voor. De aanklagers gebruikten deze vrouw als een pion. Jezus draait het om: Hij kijkt naar het hart van de rechters ('wie zonder zonde is').",
+                    action: "Betrap jezelf op veroordelende gedachten. Vervang elk oordeel direct door een zegenwens.", 
+                    night: "Genade is sterker dan regels. Slaap in de zekerheid dat je niet veroordeeld wordt." 
+                },
+                { 
+                    theme: "De Lat Ligt Hoog", 
+                    verse: "Heb uw vijanden lief.", 
+                    ref: "Mattheüs 5:44", 
+                    context: "In een bezet land was vijandshat normaal. Jezus predikt een radicaal ander koninkrijk: overwin het kwade door het goede. Dit was politiek en religieus explosief.",
+                    action: "Bid vandaag voor iemand aan wie je een hekel hebt. Zegen die persoon.", 
+                    night: "Liefde is geen gevoel, het is een keuze. Vandaag heb je gekozen als een koningskind." 
+                },
+                { 
+                    theme: "Tijd voor Tederheid", 
+                    verse: "Laat de kinderen tot Mij komen en verhinder hen niet.", 
+                    ref: "Markus 10:14", 
+                    context: "Kinderen hadden geen status. De discipelen vonden ze lastig. Jezus zet de wereld op zijn kop: het Koninkrijk is juist voor hen (en voor wie zoals zij durft te zijn).",
+                    action: "Maak ruimte voor speelsheid. Wees niet te 'belangrijk' voor iets kleins.", 
+                    night: "Je mag klein zijn bij God. Hij tilt je op." 
+                },
+                { 
+                    theme: "Samen Sterk", 
+                    verse: "Ik ben in uw midden als Iemand die dient.", 
+                    ref: "Lukas 22:27", 
+                    context: "Bij Griekse en Romeinse leiders ging het om macht en titel. Jezus introduceert 'dienend leiderschap'. De leider is niet de top van de piramide, maar de basis die de anderen draagt.",
+                    action: "Probeer vandaag in een groep de ander te laten schitteren in plaats van jezelf.", 
+                    night: "Wie anderen optilt, stijgt zelf ook." 
+                },
+
+                // WEEK 3: VERDIEPING
+                { 
+                    theme: "Rust in de Chaos", 
+                    verse: "Zwijg, wees stil!", 
+                    ref: "Markus 4:39", 
+                    context: "Het meer van Galilea staat bekend om plotselinge stormen. Dat Jezus slaapt, toont Zijn menselijkheid (moe) én Zijn goddelijke vertrouwen.",
+                    action: "Stormt het in je leven? Kijk naar Jezus die slaapt. Vertrouw op Zijn aanwezigheid.", 
+                    night: "De wind en zee luisteren naar Hem. Jouw zorgen mogen ook gaan liggen." 
+                },
+                { 
+                    theme: "Genoeg is Genoeg", 
+                    verse: "Hier is een jongetje dat vijf gerstebroden en twee vissen heeft.", 
+                    ref: "Johannes 6:9", 
+                    context: "Het was een simpel lunchpakketje. Jezus kijkt niet naar de hoeveelheid, maar naar de bereidheid om het weg te geven.",
+                    action: "Denk je dat je te weinig hebt? Breng wat je wél hebt naar Jezus.", 
+                    night: "Jouw 'weinig' in Zijn handen is altijd meer dan genoeg." 
+                },
+                { 
+                    theme: "De Sprong Wagen", 
+                    verse: "Kom!", 
+                    ref: "Mattheüs 14:29", 
+                    context: "De zee stond in de Joodse symboliek voor chaos. Op water lopen was een teken van goddelijke macht. Dat Petrus dit ook mag, laat zien dat Jezus zijn macht deelt met wie gelooft.",
+                    action: "Zet één klein stapje uit je comfortzone vandaag.", 
+                    night: "Beter natte voeten en Jezus' hand vasthouden, dan droog en alleen in de boot." 
+                },
+                { 
+                    theme: "Spreken met de Vader", 
+                    verse: "Heer, leer ons bidden.", 
+                    ref: "Lukas 11:1", 
+                    context: "Veel gebeden waren standaardformules. Jezus leert ze God 'Abba' (Vader/Pappa) te noemen. Bidden is geen speech voor de koning, maar een gesprek aan de keukentafel.",
+                    action: "Bid het 'Onze Vader', maar stop na elke zin om na te denken.", 
+                    night: "Bidden is thuiskomen bij je Vader." 
+                },
+                { 
+                    theme: "De Aanhouder Wint", 
+                    verse: "Zal God dan geen recht doen aan Zijn uitverkorenen?", 
+                    ref: "Lukas 18:7", 
+                    context: "Weduwen waren kwetsbaar. De onrechtvaardige rechter luistert alleen om van het gezeur af te zijn. Hoeveel te meer zal een liefhebbende Vader luisteren?",
+                    action: "Bid je al lang voor iets? Geef niet op. Bid vandaag opnieuw.", 
+                    night: "Gods vertraging is geen weigering. Hij werkt, ook in de stilte." 
+                },
+                { 
+                    theme: "De Kracht van Dankbaarheid", 
+                    verse: "Zijn er geen tien gereinigd? Waar zijn de negen anderen?", 
+                    ref: "Lukas 17:17", 
+                    context: "Melaatsen leefden in isolatie. Dat slechts één (een vreemdeling) terugkomt, toont hoe snel we wonderen normaal gaan vinden.",
+                    action: "Schrijf 5 dingen op waar je dankbaar voor bent. Dankbaarheid geneest de ziel.", 
+                    night: "Tel je zegeningen in plaats van schaapjes." 
+                },
+                { 
+                    theme: "Als God Wacht", 
+                    verse: "Heer, als U hier geweest was, zou mijn broer niet gestorven zijn.", 
+                    ref: "Johannes 11:21", 
+                    context: "Jezus noemde de dood een 'slaap'. Hij wachtte bewust vier dagen. Waar men toen geloofde dat de hoop na drie dagen definitief vervlogen was, bewijst Jezus hier dat Hij de Opstanding en het Leven is.",
+                    action: "Vertel God je teleurstelling. Hij kan er tegen.", 
+                    night: "Hij is de Opstanding. Zelfs als alles dood lijkt, heeft Hij het laatste woord." 
+                },
+
+                // WEEK 4: DE MEESTERPROEF
+                { 
+                    theme: "Zuiverheid van Hart", 
+                    verse: "Mijn huis zal een huis van gebed genoemd worden.", 
+                    ref: "Mattheüs 21:13", 
+                    context: "Het tempelplein was een marktplaats geworden, waardoor niet-Joden geen plek meer hadden om te bidden. Jezus' woede komt voort uit liefde voor de mensen die buitengesloten werden.",
+                    action: "Wat 'vervuilt' jouw rust? Ruim één ding op dat je afleidt van God.", 
+                    night: "Een zuiver hart ziet God." 
+                },
+                { 
+                    theme: "Verbonden Blijven", 
+                    verse: "Ik ben de Wijnstok, u de ranken.", 
+                    ref: "Johannes 15:5", 
+                    context: "Een rank hoeft niet te persen of te trekken om druiven te maken; hij moet alleen vastzitten. Vrucht is het natuurlijke gevolg van verbondenheid.",
+                    action: "Probeer vandaag niet te 'werken' voor God, maar gewoon met Hem te 'zijn'.", 
+                    night: "De sapstroom van de Wijnstok voedt jou terwijl je slaapt." 
+                },
+                { 
+                    theme: "Niet Mijn Wil", 
+                    verse: "Vader, niet mijn wil, maar de Uwe geschiede.", 
+                    ref: "Lukas 22:42", 
+                    context: "Gethsémané betekent 'Olijfpers'. Zoals olijven onder enorme druk olie geven, zo werd Jezus hier geperst. Overgave is geen passief iets, het is de zwaarste strijd die er is.",
+                    action: "Is er iets wat je krampachtig vasthoudt? Open je handen en zeg: 'Uw wil'.", 
+                    night: "In Zijn wil is onze vrede." 
+                },
+                { 
+                    theme: "Vallen en Opstaan", 
+                    verse: "Ik heb voor u gebeden dat uw geloof niet ophoudt.", 
+                    ref: "Lukas 22:32", 
+                    context: "Satan wilde de discipelen door elkaar schudden. Jezus voorkomt de val niet, maar zorgt dat Petrus na de val kan opstaan en anderen kan helpen. Falen is onderdeel van de training.",
+                    action: "Heb je gefaald? Ren niet weg van God, maar naar Hem toe.", 
+                    night: "Vallen is menselijk. Opstaan is goddelijk." 
+                },
+                { 
+                    theme: "Samen Dragen", 
+                    verse: "Zij legden het kruis op hem om het achter Jezus aan te dragen.", 
+                    ref: "Lukas 23:26", 
+                    context: "Simon kwam toevallig uit het veld. Soms kruist lijden toevallig je pad; de vraag is of je het vloekend draagt of als een dienst.",
+                    action: "Wie draagt er nu een zware last? Stuur een bemoediging.", 
+                    night: "Wat gij voor de minste van deze doet, doet gij voor Hem." 
+                },
+                { 
+                    theme: "De Stilte Verdragen", 
+                    verse: "God, mijn God, waarom hebt U mij verlaten?", 
+                    ref: "Mattheüs 27:46", 
+                    context: "Jezus ervaart de totale godverlatenheid die de zonde veroorzaakt, zodat wij dat nooit hoeven mee te maken. Het is het dieptepunt van Zijn lijden.",
+                    action: "Voel je je alleen? Weet dat Jezus die eenzaamheid ten diepste kent.", 
+                    night: "Het werd donker bij Hem, zodat het licht kan blijven bij jou." 
+                },
+                { 
+                    theme: "Een Nieuw Begin", 
+                    verse: "Maria!", 
+                    ref: "Johannes 20:16", 
+                    context: "Maria herkent Hem niet aan zijn uiterlijk, maar aan zijn stem. De Goede Herder roept zijn schapen bij naam. God begint opnieuw.",
+                    action: "Luister... hoor je Hem? Hij leeft en Hij zoekt jou.", 
+                    night: "De dood is verslonden. Het leven heeft gewonnen." 
+                },
+
+                // SLOT
+                { 
+                    theme: "Terugkijken", 
+                    verse: "Brandde ons hart niet in ons?", 
+                    ref: "Lukas 24:32", 
+                    context: "De Emmaüsgangers herkenden Hem pas bij het breken van het brood. Soms begrijp je God pas als je terugkijkt op je pad.",
+                    action: "Op welk moment raakte God jouw hart deze maand? Schrijf dat moment op.", 
+                    night: "Bewaar deze parels. Ze zijn je brandstof voor de toekomst." 
+                },
+                { 
+                    theme: "Het Stokje Doorgeven", 
+                    verse: "Ga dan heen...", 
+                    ref: "Mattheüs 28:19", 
+                    context: "Een rabbi leidde leerlingen op om uiteindelijk zelf anderen te leiden. Jezus zegt: 'Nu is het jullie beurt'. Discipelschap is een doorgeefluik.",
+                    action: "Deel vandaag één inzicht uit deze reis met iemand anders.", 
+                    night: "Je bent nu geen toeschouwer meer, maar een getuige." 
+                },
+                { 
+                    theme: "De Helper", 
+                    verse: "Ik zal u een andere Trooster geven.", 
+                    ref: "Johannes 14:16", 
+                    context: "Het woord 'Trooster' betekent 'iemand die erbij geroepen wordt'. Jezus gaat naar de hemel, maar laat ons niet als wezen achter. Hij stuurt Zijn Geest, en belooft terug te komen om ons te halen.",
+                    action: "Vraag de Heilige Geest om je vandaag te leiden in alles.", 
+                    night: "Je gaat niet alleen. Hij woont in je, totdat we Hem weer zien van aangezicht tot aangezicht." 
+                }
+            ]
+        };
+
+        let currentDay = 1;
+
+        window.onload = function() {
+            loadDay(1);
+        };
+
+        // Functie om context te tonen/verbergen
+        function toggleContext() {
+            const display = document.getElementById('context-display');
+            if (display.style.display === "block") {
+                display.style.display = "none";
+            } else {
+                display.style.display = "block";
+            }
+        }
+
+        function loadDay(dayIndex) {
+            currentDay = dayIndex;
+            const data = journeyConfig.days[dayIndex - 1];
+            
+            document.getElementById('day-display').innerText = `DAG ${dayIndex}`;
+            document.getElementById('theme-title').innerText = data.theme;
+            document.getElementById('verse-text').innerText = `"${data.verse}"`;
+            document.getElementById('verse-ref').innerText = `- ${data.ref}`;
+            document.getElementById('action-text').innerText = data.action;
+            document.getElementById('night-text').innerText = data.night;
+            
+            // Context vullen
+            document.getElementById('context-text').innerText = data.context;
+            // Context weer verbergen bij nieuwe dag
+            document.getElementById('context-display').style.display = "none";
+
+            const savedNote = localStorage.getItem(`${journeyConfig.storageKey}_day_${dayIndex}`);
+            document.getElementById('user-notes').value = savedNote ? savedNote : "";
+            
+            const nightSec = document.getElementById('night-section');
+            if(savedNote && savedNote.length > 2) {
+                nightSec.style.display = 'block';
+            } else {
+                nightSec.style.display = 'none';
+            }
+
+            document.getElementById('prev-btn').disabled = (dayIndex === 1);
+            document.getElementById('next-btn').disabled = (dayIndex === journeyConfig.days.length);
+        }
+
+        function completeDay() {
+            const noteText = document.getElementById('user-notes').value;
+            if(noteText.trim() === "") {
+                if(!confirm("Je notitie is leeg. Wil je toch doorgaan?")) return;
+            }
+            
+            localStorage.setItem(`${journeyConfig.storageKey}_day_${currentDay}`, noteText);
+            
+            const nightSec = document.getElementById('night-section');
+            nightSec.style.display = 'block';
+            nightSec.scrollIntoView({behavior: "smooth"});
+            
+            const btn = document.getElementById('save-btn');
+            const oldText = btn.innerText;
+            btn.innerText = "✓ Opgeslagen";
+            btn.style.background = "#556B2F"; 
+            
+            setTimeout(() => {
+                btn.innerText = oldText;
+                btn.style.background = "var(--btn-gradient)";
+            }, 2000);
+        }
+
+        function changeDay(offset) {
+            const newDay = currentDay + offset;
+            if(newDay >= 1 && newDay <= journeyConfig.days.length) {
+                loadDay(newDay);
+            }
+        }
+
+        function printJournal() {
+            const container = document.getElementById('print-content');
+            container.innerHTML = ""; 
+
+            journeyConfig.days.forEach((day, index) => {
+                const dayNum = index + 1;
+                const savedNote = localStorage.getItem(`${journeyConfig.storageKey}_day_${dayNum}`) || "(Nog geen notitie gemaakt)";
+                
+                const entry = document.createElement('div');
+                entry.className = 'print-entry';
+                entry.innerHTML = `
+                    <div class="print-header">Dag ${dayNum}: ${day.theme}</div>
+                    <div style="font-style:italic; margin-bottom:5px; color:#555;">"${day.verse}"</div>
+                    <div style="margin-bottom:15px; font-size:0.85rem; color:#777;">${day.ref}</div>
+                    
+                    <div style="margin-bottom:10px; font-size:0.9em; color:#444;"><strong>Context:</strong> ${day.context}</div>
+                    <div style="margin-bottom:10px;"><strong>De Les:</strong> ${day.action}</div>
+                    
+                    <div style="background:#f4f4f4; padding:15px; border-left:4px solid #ccc; font-family:'Crimson Text', serif;">
+                        <strong>Mijn reflectie:</strong><br>${savedNote}
+                    </div>
+                `;
+                container.appendChild(entry);
+            });
+            window.print();
+        }
+    </script>
+</body>
+</html>
