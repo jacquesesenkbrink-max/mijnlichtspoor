@@ -1,0 +1,853 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gebeden Bibliotheek - Mijn Lichtspoor</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Lato:wght@300;400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <style>
+        :root {
+            --bg-color: #fdfaf6;
+            --text-main: #4a4a4a;
+            --accent-warm: #e67e22; 
+            --accent-soft: #fadbd8;
+            --card-bg: #ffffff;
+            --glass-overlay: rgba(255, 255, 255, 0.96);
+        }
+
+        body {
+            margin: 0;
+            font-family: 'Lato', sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            line-height: 1.6;
+        }
+
+        h1, h2, h3 {
+            font-family: 'Playfair Display', serif;
+            color: #2c3e50;
+        }
+
+        header {
+            text-align: center;
+            padding: 60px 20px 40px;
+            background: linear-gradient(to bottom, #fff, var(--bg-color));
+        }
+
+        .header-title { font-size: 2.5rem; margin-bottom: 10px; color: var(--accent-warm); }
+        .header-sub { color: #7f8c8d; font-style: italic; margin-bottom: 30px; }
+
+        .home-link {
+            text-decoration: none; color: #7f8c8d; font-size: 0.9rem;
+            border: 1px solid #ccc; padding: 5px 15px; border-radius: 20px; transition: 0.3s;
+        }
+        .home-link:hover { background: var(--accent-warm); color: white; border-color: var(--accent-warm); }
+
+        /* Filter Knoppen */
+        .filter-container {
+            max-width: 1000px; /* Iets breder voor meer knoppen */
+            margin: 0 auto 50px;
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 10px;
+            padding: 0 15px;
+        }
+
+        .filter-btn {
+            background: white; border: 1px solid #e0e0e0;
+            padding: 8px 18px; border-radius: 30px; cursor: pointer;
+            font-family: 'Lato', sans-serif; font-size: 0.9rem; color: #555;
+            transition: all 0.3s ease; box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+            display: flex; align-items: center; gap: 8px;
+        }
+        .filter-btn:hover { transform: translateY(-2px); box-shadow: 0 5px 10px rgba(0,0,0,0.1); }
+        .filter-btn.active { background-color: var(--accent-warm); color: white; border-color: var(--accent-warm); }
+
+        /* Grid */
+        .prayers-grid {
+            display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 30px; max-width: 1200px; margin: 0 auto; padding: 20px;
+        }
+
+        .prayer-card {
+            background: var(--card-bg); border-radius: 12px; padding: 30px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.05); transition: all 0.3s ease;
+            cursor: pointer; border-top: 4px solid transparent; position: relative;
+            animation: fadeIn 0.5s ease-out;
+        }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+
+        .prayer-card:hover { transform: translateY(-5px); box-shadow: 0 15px 35px rgba(0,0,0,0.1); border-top-color: var(--accent-warm); }
+
+        .card-category { font-size: 0.75rem; text-transform: uppercase; letter-spacing: 1px; color: #999; margin-bottom: 10px; display: block; font-weight: bold; }
+        .card-title { font-size: 1.4rem; margin: 0 0 15px; line-height: 1.3; }
+        .card-preview { color: #666; font-size: 0.95rem; display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; }
+        .read-more { margin-top: 20px; display: inline-block; color: var(--accent-warm); font-weight: bold; font-size: 0.9rem; }
+
+        /* Modal */
+        .modal-overlay {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.4); backdrop-filter: blur(5px);
+            z-index: 1000; display: none; justify-content: center; align-items: center; padding: 20px;
+        }
+        .modal-content {
+            background: var(--glass-overlay); width: 100%; max-width: 600px;
+            padding: 50px; border-radius: 15px; box-shadow: 0 25px 50px rgba(0,0,0,0.2);
+            position: relative; max-height: 90vh; overflow-y: auto;
+            border-top: 5px solid var(--accent-warm);
+        }
+        .close-btn {
+            position: absolute; top: 20px; right: 20px; background: none; border: none;
+            font-size: 1.5rem; color: #999; cursor: pointer; transition: 0.3s;
+        }
+        .close-btn:hover { color: var(--accent-warm); transform: rotate(90deg); }
+        
+        .full-prayer-text { font-family: 'Playfair Display', serif; font-size: 1.2rem; line-height: 1.8; color: #333; white-space: pre-wrap; }
+        .verse-box { background: #fff8f0; border-left: 3px solid var(--accent-warm); padding: 15px 25px; margin-top: 30px; font-style: italic; color: #555; }
+
+        @media (max-width: 600px) {
+            .header-title { font-size: 2rem; }
+            .modal-content { padding: 30px 20px; }
+            .filter-btn { flex-grow: 1; justify-content: center; }
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <a href="index.html" class="home-link">← Terug naar Home</a>
+    <h1 class="header-title">Woorden voor je Hart</h1>
+    <div class="header-sub">Vind een gebed dat past bij hoe je je vandaag voelt</div>
+    
+    <div class="filter-container">
+        <button class="filter-btn active" onclick="filterPrayers('all')">Alles</button>
+        <button class="filter-btn" onclick="filterPrayers('angst')"><i class="fas fa-cloud"></i> Angst & Zorgen</button>
+        <button class="filter-btn" onclick="filterPrayers('verdriet')"><i class="fas fa-heart-broken"></i> Verdriet</button>
+        <button class="filter-btn" onclick="filterPrayers('blijdschap')"><i class="fas fa-sun"></i> Blijdschap</button>
+        <button class="filter-btn" onclick="filterPrayers('rust')"><i class="fas fa-dove"></i> Rust</button>
+        <button class="filter-btn" onclick="filterPrayers('kracht')"><i class="fas fa-mountain"></i> Kracht</button>
+        <button class="filter-btn" onclick="filterPrayers('verandering')"><i class="fas fa-random"></i> Verandering</button>
+        <button class="filter-btn" onclick="filterPrayers('schuld')"><i class="fas fa-hands-wash"></i> Schuld & Vergeving</button>
+        <button class="filter-btn" onclick="filterPrayers('identiteit')"><i class="fas fa-fingerprint"></i> Wie ben ik?</button>
+    </div>
+</header>
+
+<main class="prayers-grid" id="prayers-container"></main>
+
+<div class="modal-overlay" id="prayer-modal" onclick="closeModal(event)">
+    <div class="modal-content">
+        <button class="close-btn" onclick="closeModal(null)">×</button>
+        <span class="card-category" id="modal-cat">...</span>
+        <h2 id="modal-title">...</h2>
+        <div class="full-prayer-text" id="modal-text">...</div>
+        <div class="verse-box" id="modal-verse">...</div>
+    </div>
+</div>
+
+<script>
+ const prayers = [
+        // ============================================================
+        // CATEGORIE: ANGST & ZORGEN (5 Gebeden)
+        // ============================================================
+        {
+            category: "angst", catDisplay: "Angst & Zorgen",
+            title: "Als de golven te hoog zijn",
+            preview: "Heer, mijn gedachten gaan alle kanten op en ik zie door de bomen het bos niet meer...",
+            content: `Lieve Vader,
+
+Mijn gedachten gaan alle kanten op. Ik voel een knoop in mijn maag en zie even niet hoe het verder moet. De golven lijken te hoog en mijn bootje te klein.
+
+Wilt U mij eraan herinneren dat U ook in de storm aanwezig bent? U slaapt niet, U sluimert niet. Spreek Uw vrede uit over mijn onrustige hart.
+
+Ik geef deze specifieke zorg nu aan U over. Ik leg het in Uw handen, want ik kan het zelf niet dragen.
+
+Amen.`,
+            verse: "Werp al uw zorgen op Hem, want Hij zorgt voor u. (1 Petrus 5:7)"
+        },
+        {
+            category: "angst", catDisplay: "Angst & Zorgen",
+            title: "In de slapeloze nacht",
+            preview: "Het is donker en stil, maar in mijn hoofd stormt het. Ik kan de slaap niet vatten...",
+            content: `Heer,
+
+De wereld slaapt, maar ik lig wakker. Mijn gedachten blijven maar malen in cirkeltjes. Zorgen over morgen, spijt over gisteren.
+
+U zegt dat U Uw geliefden rust geeft in de slaap. Wilt U mijn gedachten tot bedaren brengen? Ik kies er nu voor om te stoppen met piekeren. Ik kan de wereld niet redden vannacht, en dat hoeft ook niet, want U bent wakker.
+
+Ik ga liggen en slapen in vrede, want U alleen doet mij veilig wonen.
+
+Amen.`,
+            verse: "In vrede zal ik gaan liggen en weldra slapen, want U alleen, HEERE, doet mij veilig wonen. (Psalm 4:9)"
+        },
+        {
+            category: "angst", catDisplay: "Angst & Zorgen",
+            title: "Bang voor de toekomst",
+            preview: "Ik weet niet welke weg ik moet gaan. De onzekerheid verlamt me...",
+            content: `Trouwe Gids,
+
+Ik sta op een kruispunt en ik zie de weg niet. De mist van de toekomst maakt me bang. Wat als ik de verkeerde keuze maak? Wat als het misgaat?
+
+U hebt beloofd dat Uw Woord een lamp voor mijn voet is. Niet een schijnwerper voor de hele route, maar een lampje voor de volgende stap.
+
+Geef mij het vertrouwen om die ene kleine stap te zetten, wetende dat U mijn hand vasthoudt. Ik hoef de toekomst niet te kennen, zolang ik U maar ken.
+
+Amen.`,
+            verse: "Mijn aangezicht zal meegaan en Ik zal u rust geven. (Exodus 33:14)"
+        },
+        {
+            category: "angst", catDisplay: "Angst & Zorgen",
+            title: "Angst voor mensen",
+            preview: "Ik maak me zo druk om wat anderen van mij vinden. Ik voel me klein...",
+            content: `Heer,
+
+Ik merk dat ik me laat leiden door angst voor wat mensen denken. Ik wil het goed doen, ik ben bang voor kritiek of afwijzing. Het maakt me onvrij.
+
+Help mij te beseffen dat U de enige bent die oordeelt, en U kijkt met ogen van liefde. Als U voor mij bent, wie zal dan tegen mij zijn?
+
+Maak mij vrij van mensenbehagen. Laat mij leven voor Uw glimlach alleen.
+
+Amen.`,
+            verse: "De HEERE is bij mij, ik ben niet bevreesd. Wat kan een mens mij doen? (Psalm 118:6)"
+        },
+        {
+            category: "angst", catDisplay: "Angst & Zorgen",
+            title: "Plotselinge paniek",
+            preview: "Mijn hart gaat te keer, ik krijg geen lucht. Heer, breng me terug...",
+            content: `Vader,
+
+Help! Ik voel paniek opkomen. Mijn adem zit hoog, mijn hart bonst. Ik raak de controle kwijt.
+
+Ik spreek Uw Naam uit over deze angst: Jezus.
+U bent de Vredevorst. Ik adem Uw rust in... en ik adem mijn angst uit.
+
+Zet mijn voeten weer op vaste grond. U bent mijn Rots, hier en nu. Ik ben veilig bij U.
+
+Amen.`,
+            verse: "Toen mijn gedachten binnenin mij zich vermenigvuldigden, verkwikten Uw vertroostingen mijn ziel. (Psalm 94:19)"
+        },
+
+        // ============================================================
+        // CATEGORIE: VERDRIET & VERLIES (5 Gebeden)
+        // ============================================================
+        {
+            category: "verdriet", catDisplay: "Verdriet & Verlies",
+            title: "Tranen in een kruik",
+            preview: "God, het doet zo'n pijn. Soms weet ik niet waar ik het zoeken moet van gemis...",
+            content: `Trouwe God,
+
+Het doet pijn. Vandaag voelt het verlies zwaar en de stilte luid. Ik mis het zo erg. Dank U dat ik mij bij U niet groot hoef te houden.
+
+Dank U dat U zegt dat U dichtbij bent bij mensen met een gebroken hart. Wilt U die belofte vandaag voor mij waarmaken? Houd mij vast, want zelf heb ik de kracht niet.
+
+Ik weet dat U mijn tranen ziet en bewaart. Wees mijn Trooster.
+
+Amen.`,
+            verse: "De HEERE is nabij de gebrokenen van hart. (Psalm 34:19)"
+        },
+{
+            category: "verdriet", catDisplay: "Verdriet & Verlies",
+            title: "De lege plek",
+            preview: "Alles in huis herinnert me aan vroeger. De leegte is tastbaar...",
+            content: `Heer,
+
+Ik zie de lege stoel. Ik hoor de stilte in huis. De herinneringen zijn mooi, maar ze doen vandaag ook pijn. Ik voel me alleen en achtergebleven.
+
+U bent de Vader der wezen en de Beschermer van weduwen. Wilt U deze leegte vullen met Uw aanwezigheid?
+
+Ik houd mij vast aan Uw belofte dat U het Licht bent, ook in dit donkere dal. Ik geloof dat de liefde sterker is dan de dood. Help mij om de dag door te komen, uur voor uur.
+
+Amen.`,
+            verse: "Wendt U tot mij en wees mij genadig, want ik ben eenzaam en ellendig. (Psalm 25:16)"
+        },
+        {
+            category: "verdriet", catDisplay: "Verdriet & Verlies",
+            title: "Waarom, Heer?",
+            preview: "Ik begrijp het niet. Ik ben boos en teleurgesteld. Waarom moest dit gebeuren?",
+            content: `God,
+
+Ik ga niet doen alsof het goed gaat. Ik ben boos. Ik begrijp niet waarom U dit toeliet. Het voelt oneerlijk en zinloos.
+
+Dank U dat ik bij U mag klagen, net als David in de Psalmen. U bent groot genoeg voor mijn vragen en mijn woede. U wijst mij niet af om mijn eerlijkheid.
+
+Ik heb geen antwoorden, maar ik heb U nodig. Houd mij vast, ook als ik schop en sla. Laat Uw licht uiteindelijk weer schijnen over mijn ziel.
+
+Amen.`,
+            verse: "Hoelang nog, HEERE? Zult U mij voor altijd vergeten? (Psalm 13:2)"
+        },
+        {
+            category: "verdriet", catDisplay: "Verdriet & Verlies",
+            title: "Vermoeid door verdriet",
+            preview: "Rouwen is werken, Heer. Ik ben zo moe. Geef mij kracht voor vandaag...",
+            content: `Lieve Vader,
+
+Ik wist niet dat verdriet zo lichamelijk kon zijn. Ik ben op. Mijn ledematen voelen zwaar en ik heb nergens zin in.
+
+U bent de Man van Smarten, U weet wat lijden is. Ik kom bij U om op adem te komen. Ik hoef vandaag niets te presteren.
+
+Mag ik even schuilen onder Uw vleugels? Gewoon stil zijn en nieuwe kracht ontvangen om weer op te staan?
+
+Amen.`,
+            verse: "Kom naar Mij toe, allen die vermoeid en belast zijn, en Ik zal u rust geven. (Mattheüs 11:28)"
+        },
+{
+            category: "verdriet", catDisplay: "Verdriet & Verlies",
+            title: "Wachten op de morgen",
+            preview: "Ik huil en ik mis, maar ik wacht op de bazuin. De dood heeft niet het laatste woord...",
+            content: `Levensgever,
+
+Mijn tranen vloeien en het gemis is groot. De dood voelt als een vijand, en dat is het ook. Maar ik dank U dat de dood verslagen is.
+
+Ik troost mij met de gedachte dat mijn geliefde nu rust in U, veilig in een slaap zonder pijn of zorgen. Ik zie uit naar die grote Opstandingsmorgen, wanneer de bazuin zal klinken en U zult roepen.
+
+Wat een dag zal dat zijn! Help mij om vol te houden tot U komt op de wolken.
+
+Amen.`,
+            verse: "Want de Heere Zelf zal... neerdalen... en de doden in Christus zullen eerst opstaan. (1 Thessalonicenzen 4:16)"
+        },
+
+        // ============================================================
+        // CATEGORIE: RUST & STILTE (5 Gebeden)
+        // ============================================================
+        {
+            category: "rust", catDisplay: "Rust & Stilte",
+            title: "Stil worden voor U",
+            preview: "De wereld raast maar door, Heer. Help mij om de pauzeknop in te drukken...",
+            content: `Vader in de hemel,
+
+De wereld om mij heen is druk en veeleisend. En eerlijk gezegd is het in mijn eigen hoofd vaak net zo druk. Maar nu kies ik ervoor om stil te zijn.
+
+Ik zet de ruis uit. Ik richt mijn oog op U. U bent mijn Rots, mijn Veilige Vesting. Bij U hoef ik niet te presteren. Bij U mag ik gewoon 'zijn'.
+
+Vul mij met Uw heilige stilte.
+
+Amen.`,
+            verse: "Mijn ziel is stil voor God; van Hem is mijn heil. (Psalm 62:2)"
+        },
+        {
+            category: "rust", catDisplay: "Rust & Stilte",
+            title: "De dag loslaten (Avond)",
+            preview: "Het is avond. Ik leg mijn werk en mijn zorgen neer aan Uw voeten...",
+            content: `Heer,
+
+De dag is voorbij. Wat gedaan is, is gedaan. Wat niet gelukt is, laat ik nu los. Ik leg mijn werk, mijn gesprekken en mijn onrust in Uw handen.
+
+Ik doe mijn "werkkleren" uit en trek Uw mantel van genade aan. Bij U ben ik geen werknemer, ouder of verzorger. Ik ben Uw kind.
+
+Geef mij een rustige nacht, om morgen weer fris op te staan.
+
+Amen.`,
+            verse: "Het is tevergeefs dat u vroeg opstaat, laat opblijft... Hij geeft het Zijn beminden in de slaap. (Psalm 127:2)"
+        },
+        {
+            category: "rust", catDisplay: "Rust & Stilte",
+            title: "Rust in de natuur",
+            preview: "Ik zie Uw schepping en ik word stil. Dank U voor de vogels, de wind, de lucht...",
+            content: `Schepper,
+
+Ik kijk naar buiten en zie Uw handtekening. De bomen die ruisen, de vogels die niet zaaien of maaien en toch gevoed worden.
+
+Als U zo zorgt voor de mussen en de lelies, hoeveel te meer zorgt U dan voor mij? De natuur haast zich niet en toch komt alles af.
+
+Leer mij het ritme van Uw schepping. Leer mij te vertragen en te ademen. U bent groot, en dat geeft mij rust.
+
+Amen.`,
+            verse: "De hemel vertelt Gods eer, het gewelf verkondigt het werk van Zijn handen. (Psalm 19:2)"
+        },
+{
+            category: "rust", catDisplay: "Rust & Stilte",
+            title: "Sabbat: Rust in de Schepper",
+            preview: "De week is voorbij. Ik keer terug naar mijn Schepper om te rusten in Zijn voltooide werk...",
+            content: `Heer van de Sabbat,
+
+Zes dagen heb ik gewerkt en gedaan wat ik kon. Nu legt U de tijd stil. Dank U voor dit heiligdom in de tijd.
+
+Ik rust vandaag, niet alleen omdat ik moe ben, maar omdat U de Schepper bent. U maakte de wereld en zei: "Het is goed." Ik hoef niets toe te voegen aan Uw werk.
+
+Ik vier Uw scheppingskracht en Uw verlossing. Maak mij op deze dag opnieuw naar Uw beeld.
+
+Amen.`,
+            verse: "Want in zes dagen heeft de HEERE de hemel en de aarde gemaakt... en Hij rustte op de zevende dag. (Exodus 20:11)"
+        },        {
+            category: "rust", catDisplay: "Rust & Stilte",
+            title: "Ruimte in mijn hoofd",
+            preview: "Mijn hoofd zit zo vol. Er is geen ruimte meer. Heer, maak mij leeg...",
+            content: `Heer,
+
+Het is chaos in mijn hoofd. Zoveel prikkels, zoveel informatie, zoveel stemmen. Ik hoor mijn eigen gedachten nauwelijks meer, laat staan Uw stem.
+
+Ik sluit mijn ogen en sluit de wereld buiten.
+*Stilte.*
+
+Heer, maak schoon schip in mijn denken. Veeg de nutteloze zorgen weg. Schep ruimte voor Uw vrede, die alle verstand te boven gaat.
+
+Amen.`,
+            verse: "En de vrede van God... zal uw harten en uw gedachten bewaken in Christus Jezus. (Filippenzen 4:7)"
+        },
+
+        // ============================================================
+        // CATEGORIE: BLIJDSCHAP & DANKBAARHEID (5 Gebeden)
+        // ============================================================
+        {
+            category: "blijdschap", catDisplay: "Blijdschap & Dankbaarheid",
+            title: "Dank U voor het licht",
+            preview: "Vandaag wil ik U alleen maar danken, Heer. Voor de zon, voor de adem in mijn longen...",
+            content: `Grote God,
+
+Vandaag wil ik niets vragen, maar alleen maar "Dank U wel" zeggen. Wat een cadeau is deze dag.
+
+Dank U voor de kleine dingen die ik zo vaak over het hoofd zie: voor de zon die opkwam, voor adem in mijn longen, voor een dak boven mijn hoofd. Uw goedheid is overal, als ik maar kijk.
+
+Laat mijn blijdschap vandaag aanstekelijk zijn voor de mensen om mij heen.
+
+Amen.`,
+            verse: "Dit is de dag die de HEERE gemaakt heeft; laten wij ons verheugen. (Psalm 118:24)"
+        },
+        {
+            category: "blijdschap", catDisplay: "Blijdschap & Dankbaarheid",
+            title: "Dansen van vreugde",
+            preview: "Soms voel ik me zo blij dat ik wel wil dansen. Heer, ik prijs U...",
+            content: `Heer,
+
+Mijn hart maakt een sprongetje. Ik voel me licht en blij. Dank U dat geloven niet alleen maar ernstig hoeft te zijn, maar dat U ook de God bent van het feest.
+
+Net als David wil ik voor U dansen en U prijzen met alles wat in mij is. Niet omdat alles perfect is, maar omdat U goed bent.
+
+Ik prijs Uw Naam! U bent mijn Vreugde.
+
+Amen.`,
+            verse: "David huppelde uit alle macht voor het aangezicht van de HEER. (2 Samuel 6:14)"
+        },
+        {
+            category: "blijdschap", catDisplay: "Blijdschap & Dankbaarheid",
+            title: "Vreugde in eenvoud",
+            preview: "Ik geniet van een kop koffie, een gesprek, een bloem. Dank U voor het gewone...",
+            content: `Schepper van al het mooie,
+
+Dank U voor het gewone geluk. Voor de smaak van eten, voor een warm bed, voor de lach van een vriend.
+
+Help mij om het geluk niet te zoeken in grote, verre dingen, maar het te vinden in wat U vandaag voor mijn voeten legt.
+
+Ik dank U dat U zorgt voor de mussen en de lelies, en dat U mij nog veel meer waardeert dan hen.
+
+Amen.`,
+            verse: "Geniet van het goede bij al zijn zwoegen... dat is een gave van God. (Prediker 3:13)"
+        },
+        {
+            category: "blijdschap", catDisplay: "Blijdschap & Dankbaarheid",
+            title: "Juichen in de morgen",
+            preview: "De nacht is voorbij, het licht is terug. Dank U voor nieuwe genade...",
+            content: `Heer,
+
+De nacht is voorbij. Het donker is weg. Dank U dat Uw trouw elke morgen nieuw is.
+
+Wat er gisteren ook gebeurd is, vandaag is een schone lei. Ik begin deze dag met een glimlach, omdat ik weet dat U met mij meegaat.
+
+Vul mijn mond vandaag met een loflied, zelfs als het even tegenzit.
+
+Amen.`,
+            verse: "'s Avonds vernacht het geween, maar 's morgens is er gejuich. (Psalm 30:6)"
+        },
+        {
+            category: "blijdschap", catDisplay: "Blijdschap & Dankbaarheid",
+            title: "Blijdschap delen",
+            preview: "Ik heb zoveel gekregen. Heer, help mij om uit te delen...",
+            content: `Gever van alle goeds,
+
+Mijn beker stroomt over. U hebt mij gezegend en ik ben dankbaar. Maar ik wil die zegen niet voor mezelf houden.
+
+Maak mij vandaag een uitdeler van blijdschap. Laat mij iemand bemoedigen, iemand groeten of iemand helpen. Laat Uw licht door mij heen schijnen naar anderen.
+
+Dank U dat ik mag geven, omdat U mij eerst gegeven hebt.
+
+Amen.`,
+            verse: "U bent het licht van de wereld. (Mattheüs 5:14)"
+        },
+
+        // ============================================================
+        // CATEGORIE: KRACHT & MOED (5 Gebeden)
+        // ============================================================
+        {
+            category: "kracht", catDisplay: "Kracht & Moed",
+            title: "Voor een moeilijke taak",
+            preview: "Ik zie ertegenop, Heer. Ik voel me niet capabel genoeg. Geef mij Uw kracht...",
+            content: `Heer,
+
+U weet wat er voor mij ligt. Ik zie ertegenop. Ik twijfel of ik het wel kan, en of ik wel wijs of sterk genoeg ben.
+
+Maar U zegt: "Ik ben met je". Ik hoef dit niet op eigen kracht te doen. Wilt U door mij heen werken? Wilt U mijn mond de juiste woorden geven en mijn handen de vaardigheid?
+
+Ik stap uit in vertrouwen, niet op mijn eigen kunnen, maar op Uw belofte dat U meegaat.
+
+Amen.`,
+            verse: "Wees sterk en moedig... want de HEERE, uw God, is met u. (Jozua 1:9)"
+        },
+        {
+            category: "kracht", catDisplay: "Kracht & Moed",
+            title: "Reuzen verslaan",
+            preview: "Er staat een reus op mijn pad. Een probleem dat te groot voelt...",
+            content: `God van David,
+
+Er staat een reus voor me. Een probleem, een angst of een taak die veel te groot lijkt voor mij. Ik voel me klein.
+
+Maar ik kom niet in mijn eigen naam. Ik kom in de Naam van de HEERE. De strijd is niet van mij, maar van U.
+
+Geef mij het geloof om die ene steen weg te slingeren, in het vertrouwen dat U de reus zult vellen.
+
+Amen.`,
+            verse: "De strijd is van de HEERE. (1 Samuël 17:47)"
+        },
+        {
+            category: "kracht", catDisplay: "Kracht & Moed",
+            title: "Kracht in zwakheid",
+            preview: "Ik ben moe en ik kan niet meer. Heer, neem U het over...",
+            content: `Lieve Vader,
+
+Ik ben aan het einde van mijn latijn. Ik heb geprobeerd sterk te zijn, maar het lukt niet meer. Ik ben zwak.
+
+Dank U dat U zegt: "Mijn kracht wordt in zwakheid volbracht." Juist nu ik het niet meer kan, is er ruimte voor Uw kracht.
+
+Ik stop met vechten. Ik leun op U. Draag mij erdoorheen.
+
+Amen.`,
+            verse: "Mijn genade is voor u genoeg, want Mijn kracht wordt in zwakheid volbracht. (2 Korintiërs 12:9)"
+        },
+        {
+            category: "kracht", catDisplay: "Kracht & Moed",
+            title: "Dapper zijn",
+            preview: "Ik voel me soms laf of verlegen. Geef mij een geest van kracht...",
+            content: `Heer,
+
+Soms kruip ik het liefst weg. Ik durf mijn mond niet open te doen of stappen te zetten. Ik voel me onzeker.
+
+Maar U hebt mij geen geest van lafhartigheid gegeven. U hebt Uw eigen Geest in mij gelegd: een Geest van kracht, liefde en bezonnenheid.
+
+Help mij om vandaag één dapper ding te doen. Ik sta rechtop, want U staat achter mij.
+
+Amen.`,
+            verse: "God heeft ons niet een geest van lafhartigheid gegeven, maar van kracht. (2 Timotheüs 1:7)"
+        },
+        {
+            category: "kracht", catDisplay: "Kracht & Moed",
+            title: "Volharden",
+            preview: "Ik wil opgeven. De weg is zo lang. Heer, help mij om door te zetten...",
+            content: `Heer Jezus,
+
+Ik wil stoppen. Ik ben het wachten en het strijden moe. Het duurt zo lang.
+
+Geef mij de kracht om nog één stap te zetten. En daarna nog één. Leer mij dat het niet gaat om snelheid, maar om trouw.
+
+Vernieuw mijn kracht, zodat ik kan blijven lopen zonder uitgeput te raken. Ik houd mijn oog op de finish gericht.
+
+Amen.`,
+            verse: "Wie de HEERE verwachten, zullen hun kracht vernieuwen. (Jesaja 40:31)"
+        },
+
+        // ============================================================
+        // CATEGORIE: VERANDERING & TOEKOMST (5 Gebeden)
+        // ============================================================
+        {
+            category: "verandering", catDisplay: "Verandering & Toekomst",
+            title: "Als alles verandert",
+            preview: "De wereld om mij heen verandert zo snel. Ik zoek houvast...",
+            content: `Heer,
+
+Alles lijkt te verschuiven. Mijn omgeving, mijn lichaam, de kerk, de wereld. Soms maakt het me duizelig en onzeker.
+
+Dank U dat er Eén is die nooit verandert. U bent de Rots die blijft liggen, hoe hoog de golven ook komen. U bent gisteren en heden Dezelfde.
+
+Ik anker mijn hart in Uw trouw. Omdat U blijft, durf ik mee te bewegen met de tijd.
+
+Amen.`,
+            verse: "Ik, de HEERE, ben niet veranderd. (Maleachi 3:6)"
+        },
+        {
+            category: "verandering", catDisplay: "Verandering & Toekomst",
+            title: "Nieuwe dingen omarmen",
+            preview: "U doet iets nieuws, Heer. Help mij om niet in het verleden te blijven hangen...",
+            content: `Schepper,
+
+Ik kijk vaak achterom. Naar hoe goed het vroeger was. Maar U zegt: "Zie, Ik maak iets nieuws."
+
+Help mij om het nieuwe te zien dat U aan het doen bent. In mijn leven, of in de levens van anderen. Maak mijn blik open en nieuwsgierig.
+
+Ik wil niet vastzitten in 'vroeger', ik wil wandelen in Uw 'nu'.
+
+Amen.`,
+            verse: "Denk niet aan de dingen van vroeger... Zie, Ik maak iets nieuws. (Jesaja 43:18-19)"
+        },
+        {
+            category: "verandering", catDisplay: "Verandering & Toekomst",
+            title: "Seizoenen van het leven",
+            preview: "Het voelt als herfst in mijn leven. Help mij de schoonheid te zien...",
+            content: `Heer van de tijd,
+
+Voor alles is een tijd. Een tijd om te zaaien en een tijd om te oogsten. Soms heb ik moeite met het seizoen waarin ik nu zit. Ik wil terug naar de lente, of ik wil haasten naar de zomer.
+
+Leer mij om tevreden te zijn in *dit* seizoen. Of het nu winter of zomer is in mijn ziel, U bent erbij.
+
+Laat mij ook nu vrucht dragen, op een manier die past bij dit moment.
+
+Amen.`,
+            verse: "Voor alles is een tijd... Hij heeft alles op zijn tijd mooi gemaakt. (Prediker 3:1,11)"
+        },
+        {
+            category: "verandering", catDisplay: "Verandering & Toekomst",
+            title: "De Pottenbakker",
+            preview: "U bent mij aan het vormen. Dat proces doet soms pijn...",
+            content: `Vader,
+
+Ik ben de klei en U bent de Pottenbakker. U bent bezig mij te vormen. Soms voelt Uw hand stevig en doet het veranderingsproces pijn. Ik word gekneed en gevormd.
+
+Maar ik vertrouw Uw handen. U maakt geen fouten. U bent bezig om het beeld van Jezus in mij zichtbaar te maken.
+
+Ik geef mij over aan Uw draaischijf. Maak mij zoals U mij bedoeld hebt.
+
+Amen.`,
+            verse: "Zoals de klei in de hand van de pottenbakker, zo bent u in Mijn hand. (Jeremia 18:6)"
+        },
+        {
+            category: "verandering", catDisplay: "Verandering & Toekomst",
+            title: "Wachten op de grote verandering",
+            preview: "Ik verlang naar de dag dat alles nieuw wordt. Heer, kom spoedig...",
+            content: `Heer Jezus,
+
+Ik zie uit naar de grootste verandering van allemaal. De dag dat U terugkomt en alles nieuw maakt. Geen pijn meer, geen afscheid meer.
+
+Houd die hoop levend in mijn hart. Als ik naar het nieuws kijk, of naar mijn eigen zorgen, laat mij dan omhoog kijken.
+
+Ik verwacht U. Maranatha.
+
+Amen.`,
+            verse: "Zie, Ik maak alle dingen nieuw. (Openbaring 21:5)"
+        },
+    // ============================================================
+        // CATEGORIE: SCHULD & VERGEVING (5 Gebeden)
+        // ============================================================
+        {
+            category: "schuld", catDisplay: "Schuld & Vergeving",
+            title: "Een nieuw begin",
+            preview: "Heer, ik heb fouten gemaakt. Ik blijf erover piekeren. Wilt U mij wassen...",
+            content: `Genadige God,
+
+Ik kom bij U met de dingen die niet goed gingen. Ik heb spijt van mijn woorden en mijn daden. Het drukt op mij.
+
+Maar ik dank U voor de belofte van een nieuw begin. Schep in mij een rein hart, o God. Was mij witter dan sneeuw. Ik neem Uw vergeving aan, niet omdat ik het verdien, maar omdat Jezus ervoor betaald heeft.
+
+Help mij om nu ook mijzelf te vergeven en vooruit te kijken.
+
+Amen.`,
+            verse: "Schep mij een rein hart, o God, en vernieuw in mijn binnenste een standvastige geest. (Psalm 51:12)"
+        },
+        {
+            category: "schuld", catDisplay: "Schuld & Vergeving",
+            title: "Het verleden loslaten",
+            preview: "Ik blijf soms zo hangen in 'vroeger'. Help mij om de banden te verbreken...",
+            content: `Heer,
+
+Soms ben ik als de vrouw van Lot; ik blijf maar achterom kijken naar mijn fouten. Ik voel me schuldig over dingen die allang voorbij zijn.
+
+U zegt: "Zie, Ik maak iets nieuws". Help mij om mijn blik op U te richten en op de toekomst. Ik laat het verleden los. Ik knip de banden met mijn oude pijn door.
+
+Ik kies vandaag voor Uw toekomst.
+
+Amen.`,
+            verse: "Denk niet aan de dingen van vroeger... Zie, Ik maak iets nieuws. (Jesaja 43:18-19)"
+        },
+        {
+            category: "schuld", catDisplay: "Schuld & Vergeving",
+            title: "Eerlijk opbiechten",
+            preview: "Zolang ik zwijg, kwijn ik weg. Heer, ik wil eerlijk zijn...",
+            content: `Vader,
+
+Ik heb geprobeerd mijn fouten te verstoppen. Ik heb excuses gemaakt en de schijn opgehouden. Maar het maakt me moe en ongelukkig.
+
+Vandaag stop ik met verstoppertje spelen. Ik ben fout geweest. [Noem het specifiek].
+Dank U dat U mij niet veroordeelt, maar dat U mij omarmt zodra ik het eerlijk zeg.
+
+Ik ben vrij, want de waarheid maakt vrij.
+
+Amen.`,
+            verse: "Toen ik zweeg, teerden mijn beenderen weg... (maar) ik beleed U mijn zonde. (Psalm 32:3,5)"
+        },
+{
+            category: "schuld", catDisplay: "Schuld & Vergeving",
+            title: "Mijn Hogepriester",
+            preview: "Ik voel me aangeklaagd. Maar ik kijk omhoog naar het Heiligdom...",
+            content: `Rechtvaardige Rechter,
+
+Soms voel ik de aanklacht van de vijand. Hij wijst op mijn "vuile kleren" en mijn fouten. En hij heeft gelijk: ik heb gezondigd.
+
+Maar ik kijk omhoog, naar het hemels heiligdom. Daar zie ik U, Jezus. U staat voor de troon met Uw eigen bloed. U bent mijn Hogepriester die zegt: "Ik heb voor hem/haar betaald."
+
+Dank U dat U mijn naam noemt bij de Vader. Bekleed mij opnieuw met Uw mantel van gerechtigheid.
+
+Amen.`,
+            verse: "Wij hebben zo'n Hogepriester... Die gezeten is aan de rechterhand van de troon. (Hebreeën 8:1)"
+        },        {
+            category: "schuld", catDisplay: "Schuld & Vergeving",
+            title: "Vergeving voor de ander",
+            preview: "Het is moeilijk om te vergeven, Heer. De pijn zit diep. Help mij...",
+            content: `Heer,
+
+U vraagt mij om te vergeven, zoals U mij vergeven hebt. Maar ik vind dat moeilijk. De pijn zit diep en ik ben boos.
+
+Ik wil niet dat wrok mijn hart bitter maakt. Daarom kies ik er nu met mijn wil voor om [Naam] te vergeven. Ik laat het recht op wraak los. Ik leg het oordeel in Uw handen.
+
+Genees mijn hart en maak mij vrij.
+
+Amen.`,
+            verse: "Verdraag elkaar en vergeef de een de ander... zoals ook Christus u vergeven heeft. (Kolossenzen 3:13)"
+        },
+
+        // ============================================================
+        // CATEGORIE: IDENTITEIT & WIE BEN IK (5 Gebeden)
+        // ============================================================
+        {
+            category: "identiteit", catDisplay: "Wie ben ik?",
+            title: "Ik ben waardevol",
+            preview: "Soms voel ik me zo klein of onbelangrijk. Maar U zegt dat ik een meesterwerk ben...",
+            content: `Schepper van mijn leven,
+
+Soms voel ik me onzeker. Ben ik wel goed genoeg? Doe ik er wel toe? De wereld meet mij aan prestaties en uiterlijk.
+
+Maar U kijkt naar het hart. Dank U dat ik wonderlijk gemaakt ben. Dank U dat U mij kende nog voor ik geboren was.
+
+Help mij om naar mezelf te kijken door Uw ogen: als een geliefd kind, gewild en kostbaar. Niet om wat ik doe, maar om wie ik ben in U.
+
+Amen.`,
+            verse: "Ik loof U, omdat ik ontzagwekkend wonderlijk gemaakt ben. (Psalm 139:14)"
+        },
+        {
+            category: "identiteit", catDisplay: "Wie ben ik?",
+            title: "Genade voor imperfectie",
+            preview: "Het lukt me maar niet om perfect te zijn. Ik ben een aarden kruik...",
+            content: `Heer,
+
+Ik probeer het zo goed te doen, maar ik ben niet perfect. Ik struikel, ik ben ongeduldig, ik faal.
+
+Dank U dat Uw kracht juist in mijn zwakheid volbracht wordt. Ik hoef geen superheld te zijn. Ik mag een 'aarden kruik' zijn met barstjes, zodat Uw licht er doorheen kan schijnen.
+
+Ik omarm mijn imperfectie vandaag, en ik rust in Uw perfectie.
+
+Amen.`,
+            verse: "Mijn genade is voor u genoeg, want Mijn kracht wordt in zwakheid volbracht. (2 Korintiërs 12:9)"
+        },
+        {
+            category: "identiteit", catDisplay: "Wie ben ik?",
+            title: "Kind van de Koning",
+            preview: "Ik vergeet soms wie ik ben. Herinner mij aan mijn status...",
+            content: `Abba, Vader,
+
+Wat een wonderlijke liefde, dat wij kinderen van God genoemd worden. En dat zijn we ook!
+Soms voel ik me een wees of een bedelaar, zoekend naar goedkeuring van mensen.
+
+Herinner mij er vandaag aan dat ik van adel ben. Ik hoor bij Uw gezin. Ik heb toegang tot de troonzaal. Ik mag leven met opgeheven hoofd, want ik ben van U.
+
+Amen.`,
+            verse: "Zie, hoe groot is de liefde die de Vader ons gegeven heeft: dat wij kinderen van God worden genoemd. (1 Johannes 3:1)"
+        },
+        {
+            category: "identiteit", catDisplay: "Wie ben ik?",
+            title: "Licht en Zout",
+            preview: "Ik voel me vaak nutteloos. Maar U noemt mij het licht van de wereld...",
+            content: `Heer Jezus,
+
+Soms denk ik: wat kan ik nu betekenen? Ik ben maar één mens.
+Maar U zegt: "Jij bent het licht van de wereld. Jij bent het zout van de aarde."
+
+Dank U dat mijn kleine leven invloed heeft. Help mij om vandaag smaakmaker te zijn in een flauwe wereld. Help mij om te stralen op de plek waar U mij gezet heeft.
+
+Ik ben hier met een doel.
+
+Amen.`,
+            verse: "U bent het zout van de aarde... U bent het licht van de wereld. (Mattheüs 5:13,14)"
+        },
+        {
+            category: "identiteit", catDisplay: "Wie ben ik?",
+            title: "Veilig in Uw hand",
+            preview: "Wie ben ik? Ik ben van U. Niemand kan mij uit Uw hand roven...",
+            content: `Goede Herder,
+
+Als ik alles kwijtraak, wat blijft er dan over? Mijn identiteit ligt niet in mijn baan, mijn gezondheid of mijn familie.
+
+Mijn diepste identiteit is dat ik Uw schaap ben. U hebt mij geroepen bij mijn naam. U hebt mij in Uw handpalmen gegraveerd.
+
+Wat er ook gebeurt vandaag, niets kan mij scheiden van Uw liefde. Ik ben veilig.
+
+Amen.`,
+            verse: "Ik ken mijn schapen... en niemand zal ze uit Mijn hand roven. (Johannes 10:27,28)"
+        }
+    ];
+
+    
+
+    const container = document.getElementById('prayers-container');
+    const modal = document.getElementById('prayer-modal');
+
+    function filterPrayers(category) {
+        document.querySelectorAll('.filter-btn').forEach(btn => btn.classList.remove('active'));
+        event.target.classList.add('active');
+        
+        container.innerHTML = '';
+        const filtered = category === 'all' ? prayers : prayers.filter(p => p.category === category);
+
+        if(filtered.length === 0) {
+            container.innerHTML = '<p style="grid-column: 1/-1; text-align:center; color:#999; margin-top:40px;">Nog geen gebeden in deze categorie.</p>';
+            return;
+        }
+
+        filtered.forEach(prayer => {
+            const card = document.createElement('article');
+            card.className = 'prayer-card';
+            card.onclick = () => openModal(prayer);
+            card.innerHTML = `
+                <span class="card-category">${prayer.catDisplay}</span>
+                <h3 class="card-title">${prayer.title}</h3>
+                <p class="card-preview">${prayer.preview}</p>
+                <span class="read-more">Lees gebed &rarr;</span>
+            `;
+            container.appendChild(card);
+        });
+    }
+
+    function openModal(prayer) {
+        document.getElementById('modal-cat').innerText = prayer.catDisplay;
+        document.getElementById('modal-title').innerText = prayer.title;
+        document.getElementById('modal-text').innerText = prayer.content;
+        document.getElementById('modal-verse').innerText = prayer.verse;
+        modal.style.display = 'flex';
+        document.body.style.overflow = 'hidden';
+    }
+
+    function closeModal(e) {
+        if (e === null || e.target === modal) {
+            modal.style.display = 'none';
+            document.body.style.overflow = 'auto';
+        }
+    }
+
+    // Init: alles laden
+    window.onload = () => {
+        container.innerHTML = '';
+        prayers.forEach(prayer => {
+            const card = document.createElement('article');
+            card.className = 'prayer-card';
+            card.onclick = () => openModal(prayer);
+            card.innerHTML = `
+                <span class="card-category">${prayer.catDisplay}</span>
+                <h3 class="card-title">${prayer.title}</h3>
+                <p class="card-preview">${prayer.preview}</p>
+                <span class="read-more">Lees gebed &rarr;</span>
+            `;
+            container.appendChild(card);
+        });
+    };
+</script>
+
+</body>
+</html>
